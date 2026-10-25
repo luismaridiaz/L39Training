@@ -24,3 +24,4 @@ Fuentes: especificaciones públicas del L-39C (no el manual de vuelo original).
 - NO encontrado en fuentes públicas: límites de tren/flaps (190/170 kt), velocidades de aproximación y toma (120/105 kt), parámetros de arranque y reencendido. Siguen siendo estimaciones didácticas: verifícalas con el manual.
 - Corregido: el arranque en caliente ahora daña el motor tras 3 s por encima de 780 °C (en la primera versión no lo hacía).
 - Vista de cabina propia (colores y marcos de cada modelo).
+- Panel de mandos y escenario ~1/3 más bajo; instrumentos redondos ocupan el ancho del móvil; (Arrow/L-39) tren como palanca vertical.

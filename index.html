@@ -313,7 +313,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   box-shadow:inset 0 0 16px rgba(181,212,106,.15); pointer-events:none}
 #ellipsePad::before{content:''; position:absolute; left:50%; top:10%; bottom:10%; width:1px; background:rgba(255,255,255,.08)}
 #ellipsePad::after{content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:rgba(255,255,255,.08)}
-#ellipseYoke{position:absolute; left:50%; top:50%; height:84%; aspect-ratio:80/110; margin-left:-23%; transform:translate(0,-50%); transform-origin:50% 88%; will-change:transform}
+#ellipseYoke{position:absolute; left:50%; top:50%; height:84%; aspect-ratio:80/110; transform:translate(-50%,-50%); transform-origin:50% 88%; will-change:transform}
 #ellipseYoke svg{width:100%; height:100%; overflow:visible; filter:drop-shadow(0 2px 4px rgba(0,0,0,.7))}
 .yokeArea.ell #ellipsePad{display:block}
 .yokeArea.ell #stickRing,.yokeArea.ell #yokeVisual{display:none}
@@ -385,6 +385,42 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 #gaugePanel{border:1px solid #4a5a4b; border-bottom:2px solid #d9a21b}
 .card{background:linear-gradient(180deg,#131914,#0d120e)}
 .card h4{border-left:3px solid #d9a21b; padding-left:6px}
+
+/* ---------- v3: panel compacto, vista exterior más grande ---------- */
+#panel{max-height:30vh; overflow-y:auto; overflow-x:hidden; padding:6px 8px 8px; -webkit-overflow-scrolling:touch}
+.grid{overflow:visible; flex:0 0 auto}
+#ctrlOverlay{gap:5px; margin-bottom:5px}
+#ctrlOverlay .ctrlBlock{padding:4px 5px}
+#ctrlOverlay .yokeArea, #ctrlOverlay .yokeArea.stick{height:56px}
+#ctrlOverlay .yokeArea.stick #stickRing{--ring:46px}
+#ctrlOverlay #stickKnob{width:22px; height:22px; margin:-11px 0 0 -11px}
+#ctrlOverlay #yokeVisual svg{width:80px; height:41px}
+#ctrlOverlay .pedalArea{height:28px; margin-top:3px !important}
+#ctrlOverlay .pedal{width:22px; height:18px; bottom:5px}
+#ctrlOverlay .pedal .strip:nth-child(1){top:3px !important}
+#ctrlOverlay .pedal .strip:nth-child(2){top:8px !important}
+#ctrlOverlay .pedal .strip:nth-child(3){top:13px !important}
+#ctrlOverlay .row{margin-top:3px !important}
+#ctrlOverlay .row button{padding:3px 4px; font-size:8px}
+#ctrlOverlay .lever{height:66px}
+#ctrlOverlay .levers{gap:7px}
+#ctrlOverlay .leverWrap{gap:2px}
+#ctrlOverlay .leverWrap .val{font-size:8px}
+.lever-gear .lever-knob{bottom:auto; top:5px; border-radius:6px; width:20px; height:20px; margin-left:-10px; background:radial-gradient(circle at 35% 30%,#dfe3e8,#6b7078)}
+.lever-gear.down .lever-knob{top:auto; bottom:5px; background:radial-gradient(circle at 35% 30%,#a8f0b8,#2c9966)}
+#ctrlOverlay #gearLights{gap:2px}
+#ctrlOverlay .glt{width:9px; height:9px}
+#ctrlOverlay #btnAuto{padding:1px 4px; font-size:7px; min-width:0; flex:0 0 auto}
+.gauge, .gauge canvas{width:var(--gs,60px) !important}
+.gauge canvas{height:var(--gs,60px) !important}
+@media(max-height:500px){
+  #panel{max-height:34vh}
+  #ctrlOverlay .yokeArea, #ctrlOverlay .yokeArea.stick{height:48px}
+  #ctrlOverlay .pedalArea{height:24px}
+  #ctrlOverlay .pedal{height:16px; bottom:4px; width:20px}
+  #ctrlOverlay .lever{height:50px}
+  #ctrlOverlay .row button{padding:2px 4px}
+}
 </style>
 </head>
 <body>
@@ -395,14 +431,14 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
     <canvas id="hudCanvas"></canvas>
 
     <div id="gaugePanel">
-      <div class="gauge"><canvas id="gIAS" width="200" height="200"></canvas><span>IAS kt</span></div>
-      <div class="gauge"><canvas id="gATT" width="200" height="200"></canvas><span>ACTITUD</span></div>
-      <div class="gauge"><canvas id="gALT" width="200" height="200"></canvas><span>ALT ft</span></div>
-      <div class="gauge"><canvas id="gTC"  width="200" height="200"></canvas><span>G. VIRAJE</span></div>
-      <div class="gauge"><canvas id="gHDG" width="200" height="200"></canvas><span>RUMBO</span></div>
-      <div class="gauge"><canvas id="gVSI" width="200" height="200"></canvas><span>V/S fpm</span></div>
-      <div class="gauge"><canvas id="gRPM" width="200" height="200"></canvas><span>RPM %</span></div>
-      <div class="gauge"><canvas id="gEGT" width="200" height="200"></canvas><span>EGT °C</span></div>
+      <div class="gauge"><canvas id="gIAS" width="300" height="300"></canvas><span>IAS kt</span></div>
+      <div class="gauge"><canvas id="gATT" width="300" height="300"></canvas><span>ACTITUD</span></div>
+      <div class="gauge"><canvas id="gALT" width="300" height="300"></canvas><span>ALT ft</span></div>
+      <div class="gauge"><canvas id="gTC"  width="300" height="300"></canvas><span>G. VIRAJE</span></div>
+      <div class="gauge"><canvas id="gHDG" width="300" height="300"></canvas><span>RUMBO</span></div>
+      <div class="gauge"><canvas id="gVSI" width="300" height="300"></canvas><span>V/S fpm</span></div>
+      <div class="gauge"><canvas id="gRPM" width="300" height="300"></canvas><span>RPM %</span></div>
+      <div class="gauge"><canvas id="gEGT" width="300" height="300"></canvas><span>EGT °C</span></div>
     </div>
 
     <div id="mapBox">
@@ -515,13 +551,15 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
             <div class="lever lever-flap" id="leverFlap"><div class="lever-fill"></div><div class="lever-knob"></div></div>
             <label>FLAPS</label><span class="val" id="valFlap">0°</span>
           </div>
-        </div>
-        <div class="gearRow">
-          <button id="btnGear">TREN ▼ ABAJO</button>
-          <div id="gearLights" title="3 verdes = abajo y bloqueado · roja = en tránsito / no seguro">
-            <i class="glt" id="glN"></i><i class="glt" id="glL"></i><i class="glt" id="glR"></i><i class="glt red" id="glU"></i>
+          <div class="leverWrap">
+            <div class="lever lever-gear" id="leverGear"><div class="lever-knob"></div></div>
+            <label>TREN</label>
+            <div id="gearLights" title="3 verdes = abajo y bloqueado · roja = en tránsito / no seguro">
+              <i class="glt" id="glN"></i><i class="glt" id="glL"></i><i class="glt" id="glR"></i><i class="glt red" id="glU"></i>
+            </div>
           </div>
         </div>
+        <button id="btnGear" style="display:none"></button>
       </div>
 
     </div>
@@ -2142,7 +2180,7 @@ function setEllipse(clientX, clientY){
 function drawEllipse(nx, ny){
   const r = $('ellipsePad').getBoundingClientRect();
   $('ellipseYoke').style.transform =
-    `translate(${(nx*r.width*0.3).toFixed(1)}px, calc(-50% + ${(ny*r.height*0.12).toFixed(1)}px)) rotate(${(nx*28).toFixed(1)}deg) scaleY(${(1 - ny*0.12).toFixed(3)})`;
+    `translate(calc(-50% + ${(nx*r.width*0.3).toFixed(1)}px), calc(-50% + ${(ny*r.height*0.12).toFixed(1)}px)) rotate(${(nx*28).toFixed(1)}deg) scaleY(${(1 - ny*0.12).toFixed(3)})`;
 }
 function applyStickStyle(){
   yokeArea.classList.toggle('ell', !!Settings.d.ellipse);
@@ -2622,7 +2660,18 @@ function loop(now){
 /* ==========================================================================
    REDIMENSIONADO
    ========================================================================== */
+function sizeGauges(){
+  const gp = document.getElementById('gaugePanel'), st = document.getElementById('stage'); if(!gp || !st) return;
+  const n = gp.querySelectorAll('.gauge').length || 8, W = st.clientWidth, H = st.clientHeight;
+  const gap = W < 520 ? 2 : 4, pad = W < 520 ? 4 : 6;
+  let g = Math.floor((W - 10 - 2*pad - gap*(n-1)) / n);
+  g = Math.min(g, Math.floor(H*0.30));
+  g = Math.max(38, Math.min(g, 120));
+  document.documentElement.style.setProperty('--gs', g + 'px');
+  gp.style.gap = gap + 'px'; gp.style.padding = pad + 'px';
+}
 function resizeAll(){
+  sizeGauges();
   updateStickGeom();
   const wrap = $('cockpitWrap');
   const w = Math.max(1, wrap.clientWidth);
@@ -3323,6 +3372,7 @@ function sysUpdateUI(st){
   const gp = st.gearPos, gc = st.gearCmd > 0.5;
   $('btnGear').textContent = gc ? 'TREN ▼ ABAJO' : 'TREN ▲ ARRIBA';
   $('btnGear').classList.toggle('on', gc);
+  $('leverGear').classList.toggle('down', gc);
   const down = gp >= 0.999;
   ['glN','glL','glR'].forEach(id=> $(id).classList.toggle('on', down));
   const unsafe = (gp > 0.001 && gp < 0.999) || (gc && gp < 0.999) || (!gc && gp > 0.001);
@@ -3995,6 +4045,7 @@ function boot(){
   $('sysEmerg').onclick= ()=>{ if(ac.gearPos < 1){ ac.sys.gearEmerg = true; ac.controls.gear = 1; Coach.show('Extensión de emergencia: el tren sale con aire comprimido (~9 s)','good'); } };
   $('sysFill').onclick = ()=>{ ac.fuel = FUEL_MAX; Coach.show('Depósitos llenos (824 kg de queroseno)','good'); };
   $('btnGear').onclick = ()=> toggleGear();
+  $('leverGear').addEventListener('pointerdown', e=>{ e.preventDefault(); toggleGear(); });
   const st0 = $('sysStart');
   st0.style.touchAction = 'manipulation';
   st0.addEventListener('click', ()=>{

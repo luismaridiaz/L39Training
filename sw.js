@@ -1,4 +1,4 @@
-const VERSION = 'l39-v2-2';
+const VERSION = 'l39-v2-3';
 const CORE = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png',
   'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'];
 self.addEventListener('install', e=>{
