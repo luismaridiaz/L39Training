@@ -25,3 +25,13 @@ Fuentes: especificaciones públicas del L-39C (no el manual de vuelo original).
 - Corregido: el arranque en caliente ahora daña el motor tras 3 s por encima de 780 °C (en la primera versión no lo hacía).
 - Vista de cabina propia (colores y marcos de cada modelo).
 - Panel de mandos y escenario ~1/3 más bajo; instrumentos redondos ocupan el ancho del móvil; (Arrow/L-39) tren como palanca vertical.
+
+
+## Terreno procedural (l39-v3)
+Paisaje: **Alta montaña**. Valle glaciar con río y lago, laderas de pino, roca estratificada, canchales y nieve sobre ~1250 m, pueblos de montaña, cabañas y carretera de valle. Cimas de >2000 m a los lados; el eje del valle queda libre para las lecciones.
+- Relieve real en la física: el suelo, el efecto suelo y el choque leen la altura del terreno. La altitud del altímetro sigue siendo sobre el nivel del aeródromo (MSL); `aglFt` (altura sobre el suelo) está en el estado. Choque si la velocidad de cierre contra el terreno supera 6 m/s o la pendiente es >35° a más de 12 m/s.
+- El aeródromo y su entorno son llanos (rampa suave), así que despegue, aterrizaje y lecciones no cambian.
+- Detalle por shader (campos, caminos, bosque, agua, roca/nieve) + árboles, casas, iglesias... instanciados en trozos de 400 m alrededor del avión.
+- Ajustes → «Relieve»: completo / ligero (menos objetos) / no (suelo plano anterior).
+- Si el shader falla, cae a colores por vértice; si todo el terreno falla, queda el suelo plano antiguo.
+- Procedural: no es un lugar real. La versión anterior se mantiene aparte, sin cambios.

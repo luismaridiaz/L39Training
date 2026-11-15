@@ -43,12 +43,18 @@ body{
 }
 .gauge{position:relative; text-align:center; width:77.5px}
 .gauge canvas{width:77.5px; height:77.5px; display:block; border-radius:50%}
+.gauge span b{display:block; margin-top:2px; font:700 9px/1 var(--mono); letter-spacing:.2px; color:#e6eefc; white-space:nowrap}
 .gauge span{
   display:block; margin-top:1px; font:700 8px/1 var(--mono);
   letter-spacing:.6px; color:#8f9a88;
 }
 
 /* ---------- MAPA ---------- */
+#btnViewFloat{position:absolute; right:78px; top:200px; z-index:9; min-width:46px; height:28px; padding:0 8px; border-radius:14px;
+  font:800 10px var(--mono); letter-spacing:.8px; color:#e6eefc; background:rgba(8,13,22,.62); border:1px solid rgba(160,200,255,.45);
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); touch-action:manipulation}
+#btnViewFloat:active{background:rgba(60,120,200,.55)}
+#cockpitWrap{touch-action:manipulation}
 #mapBox{
   position:absolute; right:8px; top:8px; width:264px; height:186px;
   border-radius:10px; overflow:hidden; border:1px solid #38443a;
@@ -175,6 +181,14 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   letter-spacing:1px; opacity:0; transition:opacity .18s; pointer-events:none; z-index:8;
 }
 #alert.show{opacity:1; animation:pulse .7s infinite alternate}
+/* Accidente */
+#crash{position:absolute; inset:0; display:none; z-index:30; pointer-events:none; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  background:radial-gradient(ellipse at center, rgba(120,0,0,.15) 0%, rgba(40,0,0,.75) 100%); animation:crashIn .9s ease-out}
+#crash.show{display:flex}
+#crash h2{margin:0; font:900 38px/1 var(--mono); letter-spacing:6px; color:#ff4a3a; text-shadow:0 0 18px rgba(255,60,40,.8)}
+#crash p{margin:8px 14px 14px; font:700 12px/1.4 var(--mono); color:#ffd2c8; letter-spacing:.5px}
+#crash button{pointer-events:auto; padding:9px 18px; font:800 12px var(--mono); letter-spacing:1px; border-radius:8px; border:1px solid #ff6b5a; background:rgba(255,80,60,.18); color:#ffd9d2}
+@keyframes crashIn{0%{background:#fff; opacity:1}12%{background:#ffb066}100%{opacity:1}}
 @keyframes pulse{from{box-shadow:0 0 0 rgba(255,92,92,0)}to{box-shadow:0 0 18px rgba(255,92,92,.6)}}
 
 .help{font:11px/1.5 var(--mono); color:var(--ink2)}
@@ -338,6 +352,32 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 }
 #radioBox .rMsg{font:700 11px/1.4 var(--mono); color:var(--accent2); margin-bottom:6px}
 #radioBox button{display:block; width:100%; text-align:left; margin-top:4px; padding:7px 8px; font:600 10px/1.3 system-ui,sans-serif}
+.spec{display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font:11px/1.35 system-ui,sans-serif; color:#c5d3e8}
+.spec dt{color:var(--ink2); font-family:var(--mono); font-size:10px}
+.spec dd{margin:0}
+.fl{list-style:none; font:11px/1.4 system-ui,sans-serif; color:#c5d3e8}
+.fl li{padding:3px 0 3px 12px; position:relative}
+.fl li:before{content:"›"; position:absolute; left:0; color:var(--accent)}
+#aircraftInfo .sub{font:11px/1.35 system-ui,sans-serif; color:var(--ink2); margin:-4px 0 6px}
+#aircraftInfo p{font:11px/1.4 system-ui,sans-serif; color:#c5d3e8}
+#aircraftInfo .cover{margin:-12px -14px 8px; padding:10px 14px 6px; border-radius:12px 12px 0 0; background:linear-gradient(180deg,#1a3a5e 0%,#2d5f8f 55%,#6c9cc4 100%); text-align:center}
+#aircraftInfo #infoCv{display:none; width:100%; height:170px; touch-action:none; cursor:grab}
+#aircraftInfo .hint3d{font:9px var(--mono); color:#a9c4e2; letter-spacing:.5px; margin-top:-4px}
+#aircraftInfo .cover svg{width:100%; max-width:320px; height:auto; display:block; margin:0 auto}
+#aircraftInfo .cover h3{margin:2px 0 0; color:#fff; font-size:14px; letter-spacing:.5px}
+#aircraftInfo .cover .sub{color:#cfe2f5; margin:2px 0 0}
+#aircraftInfo .brief{font:12px/1.45 system-ui,sans-serif; color:#d6e2f3; margin:10px 0 8px}
+#aircraftInfo .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px}
+#aircraftInfo .stats div{background:#0e1a2c; border:1px solid #22344f; border-radius:8px; padding:6px 4px; text-align:center}
+#aircraftInfo .stats b{display:block; font:800 12px var(--mono); color:var(--accent)}
+#aircraftInfo .stats span{font:9px var(--mono); color:var(--ink2); letter-spacing:.4px}
+#aircraftInfo details{border-top:1px solid #1b2a41}
+#aircraftInfo summary{cursor:pointer; list-style:none; padding:9px 2px; font:800 10px var(--mono); letter-spacing:.8px; color:var(--accent2); display:flex; justify-content:space-between}
+#aircraftInfo summary::-webkit-details-marker{display:none}
+#aircraftInfo summary:after{content:"+"; color:var(--accent); font-size:13px; line-height:10px}
+#aircraftInfo details[open] summary:after{content:"–"}
+#aircraftInfo details > div{padding:0 2px 8px}
+#aircraftInfo .startBtn{width:100%; padding:11px; margin-top:12px; font:800 13px var(--mono); letter-spacing:1px; border-radius:8px; border:1px solid var(--accent); background:rgba(80,160,255,.18); color:var(--accent)}
 .modal{
   display:none; position:fixed; inset:0; z-index:40; align-items:center; justify-content:center;
   background:rgba(4,8,14,.78); padding:10px;
@@ -429,16 +469,17 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   <div id="cockpitWrap">
     <canvas id="glCanvas"></canvas>
     <canvas id="hudCanvas"></canvas>
+    <button id="btnViewFloat" title="Cambiar vista (doble toque en la escena, o tecla C)">EXT</button>
 
     <div id="gaugePanel">
-      <div class="gauge"><canvas id="gIAS" width="300" height="300"></canvas><span>IAS kt</span></div>
-      <div class="gauge"><canvas id="gATT" width="300" height="300"></canvas><span>ACTITUD</span></div>
-      <div class="gauge"><canvas id="gALT" width="300" height="300"></canvas><span>ALT ft</span></div>
-      <div class="gauge"><canvas id="gTC"  width="300" height="300"></canvas><span>G. VIRAJE</span></div>
-      <div class="gauge"><canvas id="gHDG" width="300" height="300"></canvas><span>RUMBO</span></div>
-      <div class="gauge"><canvas id="gVSI" width="300" height="300"></canvas><span>V/S fpm</span></div>
-      <div class="gauge"><canvas id="gRPM" width="300" height="300"></canvas><span>RPM %</span></div>
-      <div class="gauge"><canvas id="gEGT" width="300" height="300"></canvas><span>EGT °C</span></div>
+      <div class="gauge"><canvas id="gIAS" width="300" height="300"></canvas><span>IAS kt<b id="vgIAS"></b></span></div>
+      <div class="gauge"><canvas id="gATT" width="300" height="300"></canvas><span>ACTITUD<b id="vgATT"></b></span></div>
+      <div class="gauge"><canvas id="gALT" width="300" height="300"></canvas><span>ALT ft<b id="vgALT"></b></span></div>
+      <div class="gauge"><canvas id="gTC"  width="300" height="300"></canvas><span>G. VIRAJE<b id="vgTC"></b></span></div>
+      <div class="gauge"><canvas id="gHDG" width="300" height="300"></canvas><span>RUMBO<b id="vgHDG"></b></span></div>
+      <div class="gauge"><canvas id="gVSI" width="300" height="300"></canvas><span>V/S fpm<b id="vgVSI"></b></span></div>
+      <div class="gauge"><canvas id="gRPM" width="300" height="300"></canvas><span>RPM %<b id="vgRPM"></b></span></div>
+      <div class="gauge"><canvas id="gEGT" width="300" height="300"></canvas><span>EGT °C<b id="vgEGT"></b></span></div>
     </div>
 
     <div id="mapBox">
@@ -448,6 +489,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
     <button id="mapToggle">MAPA</button>
 
     <div id="alert">⚠ PÉRDIDA · STALL</div>
+    <div id="crash"><h2>CRASH</h2><p id="crashTxt"></p><button onclick="Crash.retry()">Reintentar</button></div>
 
     <div id="pauseTag">PAUSA</div>
 
@@ -484,6 +526,27 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   </div>
 </div>
 
+<div class="modal" id="aircraftInfo"><div class="mCard">
+  <div class="cover"><canvas id="infoCv"></canvas><svg id="infoSvg" viewBox="0 0 340 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aero L-39">
+<g fill="none" stroke-linejoin="round" stroke-linecap="round">
+<path d="M8,60 L30,52 L120,50 C160,50 190,48 215,44 C250,44 285,52 330,66 C285,76 240,78 215,78 L120,76 L30,70 L8,66 Z" fill="#dfe7f2" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M30,52 L22,12 L46,12 L66,52 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M36,54 L88,54 L84,59 L34,58 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.4"/>
+<path d="M214,45 C226,30 244,32 250,45 Z" fill="#6fa9d8" stroke="#4a6d8c" stroke-width="1.2"/>
+<path d="M170,48 C180,36 196,36 204,48 Z" fill="#6fa9d8" stroke="#4a6d8c" stroke-width="1.2"/>
+<path d="M140,76 L188,76 L186,70" fill="#aebdd1" stroke="#7f90ad" stroke-width="1.2"/>
+<path d="M110,60 L112,70" stroke="#aab7c9" stroke-width="2.5"/>
+<ellipse cx="14" cy="63" rx="5" ry="3.6" fill="#ff9a3c" opacity=".85"/>
+<path d="M132,66 L206,64 L206,70 L132,72 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.5"/>
+<path d="M228,77 L231,99" stroke="#5c6a80" stroke-width="3"/><circle cx="231" cy="104" r="7" fill="#2c3a4c" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M142,76 L144,99" stroke="#5c6a80" stroke-width="3"/><circle cx="144" cy="104" r="8" fill="#2c3a4c" stroke="#7f90ad" stroke-width="1.6"/>
+</g></svg><div class="hint3d">Arrastra para girar el avión</div><h3>Aero L-39 Albatros</h3><div class="sub">Entrenador a reacción checoslovaco</div></div>
+  <div class="brief"><b>Entrenador a reacción.</b> Para dar el salto de hélice a reactor; hoy también vuelo deportivo y de coleccionista.</div>
+  <div class="stats"><div><b>2 en tándem</b><span>PLAZAS</span></div><div><b>16,9 kN</b><span>TURBOFÁN</span></div><div><b>≈ 490 kt</b><span>VEL. MÁX.</span></div><div><b>≈ 4 600 kg</b><span>PESO MÁX.</span></div><div><b>≈ 36 000 ft</b><span>TECHO</span></div><div><b>Retráctil</b><span>TREN</span></div></div>
+  <details><summary>ESTRUCTURA</summary><div><ul class="fl"><li><b>Monoplano de ala recta</b> baja-media, totalmente metálico, con <b>depósitos de punta de ala</b> (tip tanks).</li><li>Fuselaje semimonocasco de aleación; <b>cabina presurizada en tándem</b> con dosel de burbuja y <b>asientos eyectables</b> (instructor detrás, ligeramente elevado).</li><li>Flaps de ranura en dos posiciones (25° y 44°) y <b>frenos aerodinámicos</b> (aerofrenos) en el fuselaje.</li><li>Límites estructurales de entrenador acrobático: aproximadamente +8 g / −4 g.</li></ul></div></details><details><summary>TREN, MANDOS Y SISTEMAS</summary><div><ul class="fl"><li><b>Tren triciclo retráctil</b> accionado por sistema neumático/hidráulico; palanca en cabina, luces de posición y tren de emergencia neumático.</li><li>Mandos mecánicos con mando de gases tipo reactor; compensadores eléctricos.</li><li>Sistema de arranque del turbofán con control de EGT: un «hot start» (temperatura excesiva) puede dañar el motor.</li><li>Frenos de ruedas neumáticos; combustible interno y en depósitos de punta.</li></ul></div></details><details><summary>MOTOR</summary><div><dl class="spec"><dt>Motor</dt><dd>Ivchenko AI-25TL, <b>turbofán</b> axial de dos ejes</dd><dt>Empuje estático</dt><dd>16,9 kN (≈ 1 720 kgf)</dd><dt>Mandos de motor</dt><dd>Palanca de gases (% rpm del compresor), arranque, EGT, presión de aceite</dd><dt>Combustible interno</dt><dd>≈ 820 kg en el simulador (depósitos de punta aparte)</dd></dl></div></details><details><summary>DIMENSIONES Y PESOS</summary><div><dl class="spec"><dt>Envergadura</dt><dd>9,46 m (con depósitos de punta)</dd><dt>Longitud / altura</dt><dd>12,13 m / 4,77 m</dd><dt>Superficie alar</dt><dd>18,18 m²</dd><dt>Peso máx. al despegue</dt><dd>≈ 4 500–4 700 kg</dd><dt>Peso vacío</dt><dd>≈ 3 450 kg</dd></dl></div></details><details><summary>VELOCIDADES (KT, IAS)</summary><div><dl class="spec"><dt>Pérdida Vs0 / Vs1</dt><dd>84 / 97 (flaps 44° / limpio)</dd><dt>Rotación Vr</dt><dd>100</dd><dt>Mejor planeo</dt><dd>160 (≈ 11 : 1)</dd><dt>Aproximación final</dt><dd>120; toma ≈ 105</dd><dt>Flaps máx. Vfe</dt><dd>170</dd><dt>Tren Vle / Vlo</dt><dd>190</dd><dt>Nunca exceder Vne / Mmo</dt><dd>437 kt / Mach 0,80</dd></dl></div></details><details><summary>PRESTACIONES</summary><div><dl class="spec"><dt>Velocidad máx.</dt><dd>≈ 490 kt (910 km/h) a 5 000 m; ≈ 400 kt a nivel del mar</dd><dt>Régimen de ascenso</dt><dd>≈ 4 100 ft/min</dd><dt>Techo de servicio</dt><dd>≈ 36 000 ft (11 000 m)</dd><dt>Carrera de despegue</dt><dd>≈ 500 m</dd><dt>Alcance interno</dt><dd>≈ 1 100 km (aprox.)</dd><dt>Factor de carga</dt><dd>+8 g / −4 g</dd></dl></div></details><details><summary>EN EL SIMULADOR</summary><div><p>Referencia de 4 200 kg. Inercias, geometría del tren, momentos y curva de empuje del turbofán son estimaciones (no vienen en el manual de vuelo). Las cifras de prestaciones de arriba son valores públicos aproximados.</p></div></details>
+  <label class="setRow chk" style="margin-top:10px"><input type="checkbox" id="infoNo"> <span>No mostrar al iniciar</span></label>
+  <button class="startBtn" onclick="Info.close()">EMPEZAR A VOLAR</button>
+</div></div>
 <div class="modal" id="checklist"><div class="mCard">
   <h3>LISTAS DE COMPROBACIÓN</h3>
   <div id="ckTabs"></div><ul id="ckList"></ul>
@@ -609,6 +672,10 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
           <button id="litDusk">Ocaso</button>
           <button id="litNight">Noche</button>
         </div>
+        <div class="row">
+          <button id="btnTerrain" class="on">Relieve: completo</button>
+          <button id="btnInfo">Ficha del avión</button>
+        </div>
       </div>
 
       <div class="card">
@@ -715,6 +782,887 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   </div>
 </div>
 
+<script>
+/* ===== TERRENO PROCEDURAL ===== */
+/* ==========================================================================
+   TERRENO PROCEDURAL — núcleo de datos (sin THREE)
+   Coordenadas: e = este (z sim = X three), n = norte (x sim = -Z three), h = altura (m) sobre el datum.
+   Las mismas funciones se usan para dibujar el relieve, colocar objetos y para la física (suelo).
+   ========================================================================== */
+const TerrainCore = (function(){
+'use strict';
+const fract = x => x - Math.floor(x);
+const clamp = (x,a,b)=> x<a?a:(x>b?b:x);
+const mix = (a,b,t)=> a+(b-a)*t;
+function sstep(a,b,x){ const t = clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); }
+
+/* --- ruido (misma fórmula que en GLSL: hash sin senos, valor bilineal) --- */
+function h21(x,y){
+  let a = fract(x*0.1031), b = fract(y*0.1031), c = a;
+  const d = a*(b+33.33) + b*(c+33.33) + c*(a+33.33);
+  a += d; b += d; c += d;
+  return fract((a+b)*c);
+}
+function vn(x,y){
+  const ix = Math.floor(x), iy = Math.floor(y), fx = x-ix, fy = y-iy;
+  const ux = fx*fx*(3-2*fx), uy = fy*fy*(3-2*fy);
+  const a = h21(ix,iy), b = h21(ix+1,iy), c = h21(ix,iy+1), d = h21(ix+1,iy+1);
+  return a + (b-a)*ux + (c-a)*uy + (a-b-c+d)*ux*uy;
+}
+function fbm(x,y,o){
+  let s=0, a=0.5, nn=0;
+  for(let i=0;i<o;i++){
+    s += a*vn(x,y); nn += a;
+    const nx = 1.6*x + 1.2*y + 17.1, ny = -1.2*x + 1.6*y + 9.7;
+    x = nx; y = ny; a *= 0.5;
+  }
+  return s/nn;
+}
+function ridge(x,y,o){
+  let s=0, a=0.5, nn=0;
+  for(let i=0;i<o;i++){
+    let r = 1 - Math.abs(2*vn(x,y)-1); r *= r;
+    s += a*r; nn += a;
+    const nx = 1.6*x + 1.2*y + 17.1, ny = -1.2*x + 1.6*y + 9.7;
+    x = nx; y = ny; a *= 0.5;
+  }
+  return s/nn;
+}
+
+/* distancia (m) a la curva de nivel 0.5 de un fbm (ríos, caminos). */
+function contactDist(e,n,scale,seedX,seedY,oct,level){
+  const x = e/scale + seedX, y = n/scale + seedY;
+  const f0 = fbm(x,y,oct), eps = 0.02;
+  const fx = (fbm(x+eps,y,oct)-f0)/(eps*scale), fy = (fbm(x,y+eps,oct)-f0)/(eps*scale);
+  const g = Math.max(1e-5, Math.hypot(fx,fy));
+  return Math.min(3000, Math.abs(f0-(level==null?0.5:level))/g);
+}
+
+/* --- pueblos: rejilla de celdas con un núcleo posible por celda --- */
+function makeTowns(cs, prob, rMin, rMax, seed, valid){
+  const cache = new Map();
+  function cell(ci,cj){
+    const key = ci*100003 + cj;
+    let t = cache.get(key);
+    if(t !== undefined) return t;
+    t = null;
+    if(h21(ci+seed,cj+seed*0.37) < prob){
+      const e = (ci + 0.2 + 0.6*h21(ci+seed+4.1,cj+9.3))*cs, n = (cj + 0.2 + 0.6*h21(ci+seed+8.7,cj+2.2))*cs;
+      const R = rMin + (rMax-rMin)*h21(ci+seed+1.9,cj+6.6);
+      if(valid(e,n,R)) t = { e, n, R, ang:h21(ci+seed+3.3,cj+1.1)*Math.PI, id:key };
+    }
+    cache.set(key, t);
+    return t;
+  }
+  /* valor urbano 0..1 en un punto */
+  function urban(e,n){
+    const ci = Math.floor(e/cs), cj = Math.floor(n/cs);
+    let best = 0;
+    for(let j=-1;j<=1;j++) for(let i=-1;i<=1;i++){
+      const t = cell(ci+i,cj+j); if(!t) continue;
+      const d = Math.hypot(e-t.e, n-t.n);
+      const R = t.R*(0.8 + 0.4*vn(e/170+t.id*0.01, n/170));
+      const v = 1 - d/R; if(v > best) best = v;
+    }
+    return best;
+  }
+  function inRect(e0,n0,e1,n1){
+    const out = [];
+    const ci0 = Math.floor((e0-300)/cs), ci1 = Math.floor((e1+300)/cs), cj0 = Math.floor((n0-300)/cs), cj1 = Math.floor((n1+300)/cs);
+    for(let cj=cj0;cj<=cj1;cj++) for(let ci=ci0;ci<=ci1;ci++){ const t = cell(ci,cj); if(t) out.push(t); }
+    return out;
+  }
+  return { cell, urban, inRect, cs };
+}
+
+/* ==========================================================================
+   BIOMAS
+   ========================================================================== */
+function flatMask(e,n,r0,r1,ax){ return sstep(r0,r1,Math.hypot(e,n*(ax||1))); }
+
+/* ---- C172: valle atlántico verde (costa al oeste, prados, setos, ríos, bosques mixtos) ---- */
+function biomeC172(){
+  const SX = 0.0;
+  const B = { id:'c172', name:'Valle atlántico',
+    sky:{ day:0xa9c8e6, dusk:0xd8a070, night:0x0a1020 },
+    fog:{ N:1500, F:15000 }, wl:-4, waterColor:0x2d5f78, hemiGround:0x4f7a3a, sunColor:0xfff0d8,
+    flat:[2600,7000], roadHalf:3.2, airGrass:[0.40,0.63,0.24] };
+  const warp = (e,n)=> [ e + 520*(vn(e/2600+11.3,n/2600+4.7)-0.5), n + 520*(vn(e/2600+3.1,n/2600+19.9)-0.5) ];
+  B.riverD = (e,n)=> contactDist(e,n,7600,5.3,2.1,3,0.5);
+  B.riverHalf = (n)=> 9 + 10*vn(n/1300+4.4,2.5);
+  B.height = function(e,n){
+    const f = flatMask(e,n,B.flat[0],B.flat[1],0.9);
+    if(f <= 0) return 0;
+    const [wx,wn] = warp(e,n);
+    const land = sstep(-9800,-7000, wx + 650*(vn(n/3300+1.5,5.5)-0.5));
+    const hills = Math.pow(fbm(wx/5200+2.0,wn/5200+7.0,4),1.35)*215;
+    const det = (fbm(wx/720+5.5,wn/720+1.7,3)-0.5)*40 + (fbm(wx/170,wn/170,2)-0.5)*7;
+    let b = hills + det + 8;
+    const rd = B.riverD(e,n);
+    b -= 26*(1-sstep(0,300,rd)) + 3*(1-sstep(0,B.riverHalf(n)+6,rd));
+    b = -18*(1-land) + b*land;
+    return b*f;
+  };
+  B.forest = function(e,n,h,rsd){
+    let v = fbm(e/850+31.7,n/850+8.3,3) - 0.545;
+    v += 0.18*sstep(15,120,h);
+    v -= 0.30*(1-sstep(0,110,rsd));
+    v -= 0.6*(1-sstep(2400,4300,Math.hypot(e,n)));
+    return v;
+  };
+  B.conifer = (e,n)=> fbm(e/420+51.3,n/420+17.9,2);
+  B.river = function(e,n){ return B.riverD(e,n) - B.riverHalf(n); };
+  B.road = function(e,n){
+    const r = Math.hypot(e,n);
+    if(r < 1500) return 3000;
+    const d1 = contactDist(e,n,1500,71.0,13.0,3,0.5);
+    const d2 = contactDist(e,n,2400,13.7,81.2,3,0.46);
+    return Math.min(d1,d2) - 0.5;
+  };
+  B.towns = makeTowns(2300,0.7,110,230,3.7,(e,n,R)=>{
+    if(Math.hypot(e,n) < 1900) return false;
+    const h = B.height(e,n); if(h < 4 || h > 150) return false;
+    return B.river(e,n) > 30;
+  });
+  B.urban = (e,n)=> B.towns.urban(e,n);
+  B.aux = (e,n,h)=> fbm(e/560+9.1,n/560+4.2,2);          // matices de pradera/cultivo
+  B.farms = { cs:420, prob:0.24 };
+  return B;
+}
+
+/* ---- Arrow: campiña de cereal, páramos, embalse, sierra lejana ---- */
+function biomeArrow(){
+  const B = { id:'arrow', name:'Campiña de cereal',
+    sky:{ day:0xc3d6e8, dusk:0xe0a470, night:0x0a1020 },
+    fog:{ N:2500, F:28000 }, wl:-12, waterColor:0x35606e, hemiGround:0x8a7a4a, sunColor:0xfff3da,
+    flat:[3400,9000], roadHalf:4.2, airGrass:[0.55,0.58,0.30] };
+  const ca = Math.cos(0.31), sa = Math.sin(0.31);
+  B.riverD = (e,n)=> contactDist(e,n,5600,12.3,6.1,3,0.5);
+  B.height = function(e,n){
+    const f = flatMask(e,n,B.flat[0],B.flat[1],1.0);
+    if(f <= 0) return 0;
+    const swell = (fbm(e/7000+3.3,n/7000+8.1,3)-0.5)*44;
+    const m = fbm(e/9500+14.2,n/9500+2.9,3);
+    const pl = sstep(0.57,0.62,m);
+    let b = swell + pl*(64 + 16*(fbm(e/1800,n/1800,2)-0.5)) + (fbm(e/260,n/260,2)-0.5)*3.5;
+    const ld = Math.hypot(e-10500,n-12500)/(2900*(0.78+0.55*vn(e/1100+2,n/1100+4)));
+    b -= 46*(1-sstep(0.5,1.05,ld));
+    b -= 7*(1-sstep(0,140,B.riverD(e,n)));
+    const s = sstep(25000,40000, e + 3500*(vn(n/9000+2.2,1.7)-0.5));
+    b += s*(260 + 1000*ridge(e/6500+9,n/6500+3,4));
+    return b*f;
+  };
+  B.forest = function(e,n,h,rsd){
+    let v = fbm(e/1250+7.7,n/1250+19.4,3) - 0.655;
+    v += 0.34*(1-sstep(0,110,Math.max(0,rsd)));
+    v -= 0.6*(1-sstep(3000,5200,Math.hypot(e,n)));
+    return v;
+  };
+  B.conifer = (e,n)=> 1.0;
+  B.river = (e,n)=> B.riverD(e,n) - 14;
+  B.road = function(e,n){
+    const r = Math.hypot(e,n);
+    if(r < 1900) return 3000;
+    const u = e*ca - n*sa, v = e*sa + n*ca, S = 1750;
+    let best = 3000;
+    for(const [c,o] of [[u,0],[v,1]]){
+      const k0 = Math.floor(c/S);
+      for(let k=k0-1;k<=k0+2;k++){
+        if(h21(k+o*17.3,o*5.1+1.7) < 0.40) continue;
+        const pos = k*S + 320*(h21(k+o*3.3,o+9.1)-0.5);
+        best = Math.min(best, Math.abs(c-pos));
+      }
+    }
+    // carretera nacional en diagonal
+    const dn = Math.abs((e+6500)*0.9 - (n+9000)*0.43)/Math.hypot(0.9,0.43);
+    best = Math.min(best, dn - 2.5);
+    return best - 0.5;
+  };
+  B.grove = (e,n)=> fbm(e/950+3.9,n/950+22.6,2) - 0.62;
+  B.towns = makeTowns(4300,0.72,180,360,5.1,(e,n,R)=>{
+    if(Math.hypot(e,n) < 2800) return false;
+    const h = B.height(e,n); if(h < -4 || h > 70) return false;
+    return B.river(e,n) > 20;
+  });
+  B.urban = (e,n)=> B.towns.urban(e,n);
+  B.aux = (e,n,h)=> fbm(e/800+1.3,n/800+6.6,2);
+  B.farms = { cs:900, prob:0.30 };
+  B.turbines = { cs:1300, prob:0.55 };
+  return B;
+}
+
+/* ---- L-39: alta montaña, valle glaciar, lago, nieve ---- */
+function biomeL39(){
+  const B = { id:'l39', name:'Alta montaña',
+    sky:{ day:0x8fbae8, dusk:0xd09a78, night:0x080e1c },
+    fog:{ N:3500, F:42000 }, wl:-9, waterColor:0x1f6f86, hemiGround:0x5a6a52, sunColor:0xfff8ec,
+    flat:[2800,5600], roadHalf:4.0, airGrass:[0.44,0.56,0.30] };
+  const axis = n => 1700*Math.sin(n/14500+1.3) + 650*Math.sin(n/5400+0.4);
+  const halfW = n => 2700 + 900*vn(n/9000+3.2,1.1);
+  B.axis = axis;
+  B.floor = n => 0.012*Math.max(0,Math.abs(n)-9000);
+  B.riverCenter = n => axis(n) + 140*Math.sin(n/900+1.1) + 60*Math.sin(n/330);
+  B.riverHalf = n => 13 + 14*vn(n/800+1.7,0.6);
+  B.height = function(e,n){
+    const f = flatMask(e,n,B.flat[0],B.flat[1],0.8);
+    const ax = axis(n);
+    const d = Math.abs(e-ax);
+    let t = sstep(halfW(n), halfW(n)+6200, d);
+    t = Math.pow(t,1.25);
+    const M = 2100*(0.30*fbm(e/7200+4.4,n/7200+13.1,4) + 0.70*ridge(e/3900+1.7,n/3900+9.9,5));
+    let h = B.floor(n) + 6*(fbm(e/600,n/600,3)-0.5) + t*(M+120);
+    // fondo del valle: río encajado y lago
+    const rd = Math.abs(e-B.riverCenter(n));
+    h -= 14*(1-sstep(0,260,rd))*(1-t);
+    const ld = Math.hypot((e-ax-120)/1100,(n-9600)/2300);
+    h -= 46*(1-sstep(0.35,1.0,ld));
+    return h*f + (1-f)*0;
+  };
+  B.forest = function(e,n,h,rsd){
+    let v = fbm(e/760+2.2,n/760+41.1,3) - 0.40;
+    v -= 0.55*sstep(850,1350,h);
+    v -= 0.4*(1-sstep(0,70,Math.max(0,rsd)))*0.5;
+    v -= 0.6*(1-sstep(3800,6200,Math.hypot(e,n)));
+    return v;
+  };
+  B.conifer = (e,n)=> 1.0;
+  B.river = (e,n)=> Math.abs(e-B.riverCenter(n)) - B.riverHalf(n);
+  B.road = function(e,n){
+    const r = Math.hypot(e,n);
+    if(r < 1600) return 3000;
+    const c = axis(n) + 330 + 55*Math.sin(n/520+0.7);
+    let d = Math.abs(e-c);
+    const c2 = axis(n) - 520 + 40*Math.sin(n/700);
+    // ramal a la otra orilla que se aleja en una carretera forestal
+    d = Math.min(d, Math.abs(e-c2)+ 900*(1-h21(Math.floor(n/3300),4.4)));
+    return d - 0.5;
+  };
+  B.towns = makeTowns(5200,0.75,120,260,9.3,(e,n,R)=>{
+    if(Math.hypot(e,n) < 2600) return false;
+    const h = B.height(e,n); if(h > 700 || h < -2) return false;
+    return Math.abs(B.river(e,n)) > 25;
+  });
+  B.urban = (e,n)=> B.towns.urban(e,n);
+  B.aux = (e,n,h)=> fbm(e/500+6.1,n/500+2.9,2);
+  B.farms = { cs:520, prob:0.10 };
+  return B;
+}
+
+const BIOMES = { c172:biomeC172, arrow:biomeArrow, l39:biomeL39 };
+
+/* ==========================================================================
+   MALLA DE RELIEVE (clipmap): niveles anidados con celdas de 12·2^k metros
+   ========================================================================== */
+const NCELL = 96, NV = NCELL+1, LEVELS = 8, CELL0 = 12;
+const HOLE = 6;            // semilado (en celdas) del hueco de cada nivel > 0
+
+function levelIndices(k){
+  const idx = [];
+  const lo = NCELL/2 - HOLE, hi = NCELL/2 + HOLE;
+  for(let j=0;j<NCELL;j++) for(let i=0;i<NCELL;i++){
+    if(k > 0 && i >= lo && i < hi && j >= lo && j < hi) continue;
+    const a = j*NV+i, b = a+1, c = a+NV, d = c+1;
+    idx.push(a,b,c, b,d,c);
+  }
+  return new Uint16Array(idx);
+}
+
+function makeLevelBuffers(){
+  return {
+    pos: new Float32Array(NV*NV*3), nor: new Float32Array(NV*NV*3), col: new Float32Array(NV*NV*3),
+    aL: new Float32Array(NV*NV*4), aM: new Float32Array(NV*NV*4)
+  };
+}
+
+/* color aproximado en CPU (reserva si el shader falla) */
+function cpuColor(B, h, slope, L, M, out, o){
+  let r,g,b;
+  const id = B.id;
+  if(id === 'c172'){ const t = M[0]; r = 0.30+0.18*t; g = 0.50+0.12*t; b = 0.20+0.05*t; }
+  else if(id === 'arrow'){ const t = M[0]; r = 0.62+0.14*t; g = 0.55+0.10*t; b = 0.32+0.04*t; }
+  else { const t = M[0]; r = 0.40+0.08*t; g = 0.50+0.06*t; b = 0.28; }
+  if(L[0] > 0.0){ const k = Math.min(1,L[0]/0.06); const fr = id==='l39'?0.07:0.12, fg = id==='l39'?0.19:0.26, fb = id==='l39'?0.10:0.11; r = mix(r,fr,k); g = mix(g,fg,k); b = mix(b,fb,k); }
+  if(L[2] > 0.15){ r = mix(r,0.62,0.7); g = mix(g,0.58,0.7); b = mix(b,0.52,0.7); }
+  if(L[3] < B.roadHalf){ r = 0.28; g = 0.28; b = 0.30; }
+  if(L[1] < 0){ r = 0.18; g = 0.38; b = 0.48; }
+  if(id === 'l39'){
+    const rock = sstep(0.18,0.40,slope), snow = sstep(1250,1450,h)*(1-0.6*rock);
+    r = mix(r,0.46,rock); g = mix(g,0.44,rock); b = mix(b,0.41,rock);
+    r = mix(r,0.94,snow); g = mix(g,0.96,snow); b = mix(b,0.99,snow);
+  }
+  if(h < B.wl+0.5){ r = 0.76; g = 0.70; b = 0.52; }
+  out[o] = r; out[o+1] = g; out[o+2] = b;
+}
+
+/* rellena los buffers de un nivel centrado en (ce,cn) */
+function* fillLevelGen(B, k, ce, cn, buf, scratch){
+  const c = CELL0*Math.pow(2,k), P = NV+2;
+  const hg = scratch.hg;                      // (NV+2)^2 alturas con borde
+  const e0 = ce - (NCELL/2)*c, n0 = cn - (NCELL/2)*c;
+  for(let j=0;j<P;j++){ for(let i=0;i<P;i++) hg[j*P+i] = B.height(e0+(i-1)*c, n0+(j-1)*c); if((j&15)===15) yield; }
+  const lower = 0.6*k;  // los niveles gruesos se bajan un poco bajo los finos
+  const L = [0,0,0,0], M = [0,0,0,0], col = scratch.col;
+  for(let j=0;j<NV;j++){ if((j&7)===7) yield;
+   for(let i=0;i<NV;i++){
+    const e = e0 + i*c, n = n0 + j*c;
+    const hp = hg[(j+1)*P+(i+1)];
+    const dhde = (hg[(j+1)*P+(i+2)] - hg[(j+1)*P+i])/(2*c);
+    const dhdn = (hg[(j+2)*P+(i+1)] - hg[j*P+(i+1)])/(2*c);
+    const il = Math.hypot(dhde,1,dhdn), v = j*NV+i;
+    buf.pos[v*3] = e; buf.pos[v*3+1] = hp - lower; buf.pos[v*3+2] = -n;
+    buf.nor[v*3] = -dhde/il; buf.nor[v*3+1] = 1/il; buf.nor[v*3+2] = dhdn/il;
+    const rsd = B.river(e,n);
+    L[0] = B.forest(e,n,hp,rsd); L[1] = rsd; L[2] = B.urban(e,n); L[3] = B.road(e,n);
+    M[0] = B.aux(e,n,hp); M[1] = B.grove ? B.grove(e,n) : 0; M[2] = B.conifer(e,n); M[3] = 0;
+    buf.aL[v*4] = L[0]; buf.aL[v*4+1] = clamp(L[1],-60,600); buf.aL[v*4+2] = L[2]; buf.aL[v*4+3] = clamp(L[3],-5,800);
+    buf.aM[v*4] = M[0]; buf.aM[v*4+1] = M[1]; buf.aM[v*4+2] = M[2]; buf.aM[v*4+3] = 0;
+    cpuColor(B, hp, 1-1/il, L, M, buf.col, v*3);
+   }
+  }
+}
+function fillLevel(B,k,ce,cn,buf,scratch){ const g = fillLevelGen(B,k,ce,cn,buf,scratch); while(!g.next().done); }
+
+/* ==========================================================================
+   OBJETOS (árboles, casas...): se generan por trozos de 400 m, deterministas
+   ========================================================================== */
+const CH = 400;
+function* chunkObjectsGen(B, ci, cj){
+  const out = { treeA:[], treeB:[], pine:[], house:[], church:[], farm:[], olive:[], turbine:[], silo:[], solar:[], hut:[] };
+  const e0 = ci*CH, n0 = cj*CH;
+  const seed = ci*7.13 + cj*3.71;
+  const R0 = Math.hypot(e0+CH/2, n0+CH/2);
+  if(R0 < 1200 && B.id !== 'x') { /* zona de aeropuerto: sin vegetación densa */ }
+  const sp = 13;                          // separación de la rejilla de árboles (m)
+  const NN = Math.round(CH/sp);
+  for(let j=0;j<NN;j++){ yield;
+   for(let i=0;i<NN;i++){
+    const e = e0 + (i + h21(i+seed,j*1.3))*sp, n = n0 + (j + h21(j+seed*1.7,i*2.1))*sp;
+    const h = B.height(e,n);
+    if(h < B.wl+1.5) continue;
+    const rsd = B.river(e,n);
+    if(rsd < 3) continue;
+    if(B.road(e,n) < 6) continue;
+    if(B.urban(e,n) > 0.2) continue;
+    const fv = B.forest(e,n,h,rsd);
+    if(fv > 0.012){
+      const dens = Math.min(1, 0.55 + fv*6);
+      if(h21(e*0.37,n*0.41) > dens) continue;
+      const s = 0.75 + 0.75*h21(e*1.7,n*0.9);
+      const rec = [e,h,n,s,h21(e*2.3,n*1.1)*6.283, h21(e*0.7,n*3.1)];
+      if(B.id==='l39') out.pine.push(rec);
+      else if(B.id==='arrow') out.pine.push(rec);
+      else if(B.conifer(e,n) > 0.56) out.pine.push(rec); else if(h21(e*0.11,n*0.17) < 0.5) out.treeA.push(rec); else out.treeB.push(rec);
+    } else if(B.id==='arrow' && B.grove){
+      const gv = B.grove(e,n);
+      if(gv > 0 && h < 40){            // olivar en hileras
+        const re = Math.round(e/7)*7, rn = Math.round(n/7)*7;
+        if(Math.abs(e-re) < 1.0 && Math.abs(n-rn) < 1.0) out.olive.push([re,B.height(re,rn),rn,0.8+0.4*h21(re*0.7,rn*0.9),0,h21(re*3.1,rn*1.3)]);
+      }
+    }
+   }
+  }
+  // olivos: rejilla regular 7 m (sustituye al muestreo anterior en zonas de olivar)
+  if(B.id==='arrow'){
+    out.olive.length = 0;
+    for(let rn=Math.ceil(n0/8)*8; rn<n0+CH; rn+=8){ yield; for(let re=Math.ceil(e0/8)*8; re<e0+CH; re+=8){
+      if(B.grove(re,rn) < 0.02) continue;
+      const h = B.height(re,rn); if(h < 0 || h > 40) continue;
+      if(B.river(re,rn) < 4 || B.road(re,rn) < 6 || B.urban(re,rn) > 0.15) continue;
+      if(B.forest(re,rn,h,50) > 0.0) continue;
+      out.olive.push([re+0.8*(h21(re,rn)-0.5),h,rn+0.8*(h21(rn,re)-0.5),0.75+0.5*h21(re*0.7,rn*0.9),0,h21(re*3.1,rn*1.3)]);
+    }
+    }
+  }
+  yield;
+  // pueblos
+  const towns = B.towns.inRect(e0,n0,e0+CH,n0+CH);
+  for(const t of towns){
+    const ca = Math.cos(t.ang), sa = Math.sin(t.ang), step = (B.id==='l39')?24:20;
+    const span = Math.ceil(t.R*1.25/step);
+    let nh = 0;
+    for(let b=-span;b<=span;b++) for(let a=-span;a<=span;a++){
+      const le = a*step + (h21(a+t.id*0.01,b*1.7)-0.5)*7, ln = b*step + (h21(b+t.id*0.02,a*2.3)-0.5)*7;
+      if(a%4===0 || b%4===0) continue;             // calles
+      const e = t.e + le*ca - ln*sa, n = t.n + le*sa + ln*ca;
+      if(e<e0||e>=e0+CH||n<n0||n>=n0+CH) continue;
+      const u = B.urban(e,n);
+      if(u < 0.22 || h21(a*1.3+t.id,b*0.7) > 0.78) continue;
+      const h = B.height(e,n);
+      if(B.river(e,n) < 6) continue;
+      const w = 7 + 6*h21(a*0.77+t.id,b*1.13), d = 6+5*h21(a*1.9,b*0.53+t.id), hh = 3.2 + 2.6*h21(a*0.3,b*0.9+t.id);
+      out.house.push([e,h,n,t.ang+(h21(a,b)<0.5?0:1.5708),w,hh,d,h21(a*2.1,b*0.4+t.id)]);
+      nh++;
+    }
+    // iglesia / silo en el centro
+    if(t.e>=e0&&t.e<e0+CH&&t.n>=n0&&t.n<n0+CH){
+      const h = B.height(t.e,t.n);
+      if(B.id==='c172' || B.id==='l39') out.church.push([t.e,h,t.n,t.ang,1,1,1,0]);
+      else { out.silo.push([t.e+30,B.height(t.e+30,t.n),t.n,0,1,1,1,0]); out.church.push([t.e,h,t.n,t.ang,1,1,1,0]); }
+    }
+  }
+  // caseríos aislados
+  const fm = B.farms;
+  if(fm){
+    const FC = fm.cs, fi0 = Math.floor(e0/FC), fi1 = Math.floor((e0+CH-1)/FC), fj0 = Math.floor(n0/FC), fj1 = Math.floor((n0+CH-1)/FC);
+    for(let fj=fj0;fj<=fj1;fj++) for(let fi=fi0;fi<=fi1;fi++){
+      if(h21(fi*1.7+0.3,fj*2.9+5.5) > fm.prob) continue;
+      const e = (fi+0.15+0.7*h21(fi+2.2,fj+8.1))*FC, n = (fj+0.15+0.7*h21(fi+6.6,fj+3.4))*FC;
+      if(e<e0||e>=e0+CH||n<n0||n>=n0+CH) continue;
+      if(Math.hypot(e,n) < 1700) continue;
+      const h = B.height(e,n);
+      if(h < B.wl+3 || B.river(e,n) < 25 || B.urban(e,n) > 0.1 || B.forest(e,n,h,60) > 0.05) continue;
+      if(B.id==='l39' && (h > 900)) continue;
+      const ang = h21(fi,fj)*6.283;
+      if(B.id==='arrow'){
+        out.house.push([e,h,n,ang,12,4.2,8,0.3]);
+        out.house.push([e+16,B.height(e+16,n+4),n+4,ang,18,5,9,0.7]);       // nave
+        out.silo.push([e-13,B.height(e-13,n-9),n-9,0,1,1,1,0]);
+      } else {
+        out.house.push([e,h,n,ang,10,4.2,7.5,h21(fi+4,fj)]);
+        out.house.push([e+13,B.height(e+13,n+5),n+5,ang+1.57,7,3,6,h21(fi+9,fj)]);
+        if(B.id==='l39') out.hut.push([e-9,B.height(e-9,n-6),n-6,ang,1,1,1,0]);
+      }
+    }
+  }
+  // aerogeneradores (Arrow)
+  if(B.turbines){
+    const TC = B.turbines.cs, ti0 = Math.floor(e0/TC), ti1 = Math.floor((e0+CH-1)/TC), tj0 = Math.floor(n0/TC), tj1 = Math.floor((n0+CH-1)/TC);
+    for(let tj=tj0;tj<=tj1;tj++) for(let ti=ti0;ti<=ti1;ti++){
+      const e = (ti+0.2+0.6*h21(ti+1.1,tj+4.4))*TC, n = (tj+0.2+0.6*h21(ti+7.1,tj+2.4))*TC;
+      if(e<e0||e>=e0+CH||n<n0||n>=n0+CH) continue;
+      if(Math.hypot(e,n) < 3200) continue;
+      const h = B.height(e,n);
+      if(h < 50 || h > 85) continue;                      // sobre los páramos
+      if(h21(ti*0.9+2.2,tj*1.3+0.7) > 0.45) continue;
+      out.turbine.push([e,h,n,h21(ti,tj)*6.28,1,1,1,0]);
+    }
+  }
+  return out;
+}
+function chunkObjects(B,ci,cj){ const g = chunkObjectsGen(B,ci,cj); let r; while(!(r=g.next()).done); return r.value; }
+
+return { fbm, vn, h21, ridge, sstep, clamp, BIOMES, NCELL, NV, LEVELS, CELL0, HOLE, CH,
+         levelIndices, makeLevelBuffers, fillLevel, fillLevelGen, chunkObjects, chunkObjectsGen, contactDist };
+})();
+if(typeof module !== 'undefined') module.exports = TerrainCore;
+
+/* ==========================================================================
+   TERRENO — pegamento con THREE r128 (clipmap + shader de detalle + objetos instanciados)
+   Uso:  const TR = TerrainGL.init(THREE, scene, camera, 'c172', {quality:1});
+         TR.update(camera.position, dt);   // cada frame
+         window.TERRAIN_H = TR.heightAt;   // (e,n) -> metros
+   ========================================================================== */
+const TerrainGL = (function(){
+'use strict';
+const C = TerrainCore;
+
+const GLSL_COMMON = `
+float th21(vec2 p){ vec3 p3=fract(vec3(p.xyx)*0.1031); p3+=dot(p3,p3.yzx+33.33); return fract((p3.x+p3.y)*p3.z); }
+float tvn(vec2 p){ vec2 i=floor(p),f=p-i; vec2 u=f*f*(3.0-2.0*f);
+  float a=th21(i),b=th21(i+vec2(1.0,0.0)),c=th21(i+vec2(0.0,1.0)),d=th21(i+vec2(1.0,1.0));
+  return a+(b-a)*u.x+(c-a)*u.y+(a-b-c+d)*u.x*u.y; }
+float tfbm(vec2 p){ float s=0.0,a=0.5,n=0.0; for(int i=0;i<4;i++){ s+=a*tvn(p); n+=a; p=mat2(1.6,-1.2,1.2,1.6)*p+vec2(17.1,9.7); a*=0.5; } return s/n; }
+`;
+
+/* cuerpo GLSL por bioma: define  vec3 terrainColor(vec3 base)  usando vW (mundo), vL, vM, vNn, vDist */
+const GLSL_BIOME = {
+c172: `
+vec3 terrainColor(vec3 base){
+  float e=vW.x, n=-vW.z, h=vW.y;
+  float fade=1.0-smoothstep(2500.0,14000.0,vDist); float fine=1.0-smoothstep(250.0,2200.0,vDist);
+  vec2 wq=vec2(e,n)+70.0*vec2(tfbm(vec2(e,n)/130.0),tfbm(vec2(e,n)/130.0+9.0)); float cell=th21(floor(wq/vec2(170.0,230.0)));
+  float cell2=th21(floor(wq/vec2(70.0,90.0))+7.0);
+  vec3 grassA=vec3(0.30,0.52,0.19), grassB=vec3(0.45,0.62,0.22), hay=vec3(0.62,0.60,0.28), crop=vec3(0.36,0.46,0.17);
+  vec3 g=mix(grassA,grassB,tfbm(vec2(e,n)/60.0+vM.x*3.0));
+  g=mix(g,hay,step(0.78,cell)*0.7); g=mix(g,crop,step(0.9,cell2)*0.6);
+  // franjas de siega
+  float stripe=0.5+0.5*sin((e*0.8+n*0.6)*0.35);
+  g*=1.0+0.06*fade*(stripe-0.5)*step(0.55,cell);
+  g*=0.92+0.16*mix(0.5,tfbm(vec2(e,n)/6.0),fine);
+  // setos en los bordes de las parcelas
+  vec2 q=fract(wq/vec2(170.0,230.0)); vec2 dq=min(q,1.0-q)*vec2(170.0,230.0);
+  float hedge=(1.0-smoothstep(1.2,3.2,min(dq.x,dq.y)))*(1.0-smoothstep(1200.0,6000.0,vDist))*step(0.35,th21(floor(wq/vec2(170.0,230.0))+3.3));
+  g=mix(g,vec3(0.12,0.27,0.10),hedge*0.85);
+  // bosque
+  float fo=smoothstep(0.0,0.05,vL.x);
+  vec3 fc=mix(vec3(0.10,0.25,0.11),vec3(0.14,0.30,0.12),tfbm(vec2(e,n)/9.0));
+  fc=mix(fc,vec3(0.07,0.19,0.10),step(0.56,vM.z)*0.7);
+  g=mix(g,fc*(1.0+(th21(floor(vec2(e,n)/4.0))-0.5)*0.6*fine),fo);
+  // roca y ladera
+  float slope=1.0-vNn.y;
+  g=mix(g,vec3(0.45,0.43,0.38),smoothstep(0.22,0.42,slope)*0.9);
+  // pueblo
+  float u=smoothstep(0.12,0.3,vL.z);
+  vec3 uc=mix(vec3(0.60,0.50,0.44),mix(vec3(0.58,0.55,0.50),vec3(0.66,0.40,0.30),step(0.55,th21(floor(vec2(e,n)/16.0)))),fine);
+  g=mix(g,uc,u*0.85);
+  // carretera con linea discontinua
+  float rd=vL.w;
+  float road=1.0-smoothstep(2.6,3.6,rd);
+  vec3 rc=vec3(0.27,0.27,0.29)*(0.9+0.2*tvn(vec2(e,n)*0.5));
+  float dash=step(0.5,fract((e+n)*0.04))*(1.0-smoothstep(0.1,0.35,rd));
+  g=mix(g,rc+vec3(0.5,0.45,0.15)*dash*0.5,road*step(rd,60.0));
+  // arena en la costa y agua
+  float sand=1.0-smoothstep(-4.8,-1.6,h);
+  g=mix(g,vec3(0.78,0.72,0.55),sand*0.9);
+  float rv=1.0-smoothstep(-4.0,5.0,vL.y);
+  g=mix(g,vec3(0.14,0.33,0.42),rv);
+  return g*0.92;
+}`,
+arrow: `
+vec3 terrainColor(vec3 base){
+  float e=vW.x, n=-vW.z, h=vW.y;
+  float fade=1.0-smoothstep(3500.0,20000.0,vDist); float fine=1.0-smoothstep(250.0,2200.0,vDist);
+  float ca=cos(0.31), sa=sin(0.31);
+  vec2 f=vec2(e*ca-n*sa, e*sa+n*ca);
+  vec2 cs=vec2(280.0,420.0)*(0.7+0.9*th21(floor(f/vec2(1700.0))));
+  vec2 id=floor(f/cs); float r1=th21(id), r2=th21(id+11.7), r3=th21(id+4.2);
+  vec3 stubble=vec3(0.55,0.50,0.32), wheat=vec3(0.60,0.52,0.28), plough=vec3(0.40,0.30,0.22), green=vec3(0.33,0.44,0.20), fallow=vec3(0.48,0.43,0.30), sunfl=vec3(0.52,0.45,0.16);
+  vec3 c = r1<0.25?stubble: r1<0.45?wheat: r1<0.62?plough: r1<0.78?green: r1<0.9?fallow:sunfl;
+  c*=0.9+0.2*r2;
+  c*=0.88+0.24*tfbm(vec2(e,n)/150.0+r2*5.0);
+  { vec2 fq=fract(f/cs); vec2 fd=min(fq,1.0-fq)*cs; c*=1.0-0.18*(1.0-smoothstep(0.6,2.5,min(fd.x,fd.y)))*(1.0-smoothstep(500.0,2500.0,vDist)); }
+  // surcos
+  float fur=0.5+0.5*sin(dot(f,r3<0.5?vec2(1.0,0.0):vec2(0.0,1.0))*(2.0+r2*1.2)+r2*9.0);
+  c*=1.0+(1.0-smoothstep(150.0,900.0,vDist))*0.10*(fur-0.5)*(r1<0.62?1.0:0.4);
+  c*=0.93+0.14*mix(0.5,tfbm(vec2(e,n)/8.0),fine);
+  // pivotes de riego
+  vec2 pc=floor(vec2(e,n)/760.0); float hasP=step(0.78,th21(pc+2.0));
+  vec2 po=(pc+0.5+0.25*vec2(th21(pc+1.0)-0.5,th21(pc+5.0)-0.5))*760.0;
+  float pd=length(vec2(e,n)-po);
+  float ring=(1.0-smoothstep(205.0,215.0,pd))*hasP;
+  float pat=0.5+0.5*sin(atan(n-po.y,e-po.x)*18.0);
+  c=mix(c,mix(vec3(0.29,0.43,0.17),vec3(0.35,0.49,0.20),pat),ring*0.9);
+  // paramo y monte
+  float hi=smoothstep(40.0,70.0,h);
+  c=mix(c,mix(vec3(0.66,0.60,0.40),vec3(0.52,0.50,0.34),tfbm(vec2(e,n)/55.0)),hi*0.8);
+  // bosque de pino/encina
+  float fo=smoothstep(0.0,0.05,vL.x);
+  vec3 fc=mix(vec3(0.20,0.28,0.12),vec3(0.28,0.33,0.15),tfbm(vec2(e,n)/10.0));
+  c=mix(c,fc*(1.0+(th21(floor(vec2(e,n)/5.0))-0.5)*0.6*fine),fo);
+  // olivar
+  float gv=smoothstep(0.0,0.05,vM.y)*step(h,40.0)*(1.0-fo);
+  vec2 oq=abs(fract(vec2(e,n)/8.0)-0.5)*8.0;
+  float olf=1.0-smoothstep(300.0,1600.0,vDist);
+  vec3 olc=mix(vec3(0.50,0.47,0.29),mix(vec3(0.62,0.52,0.32),vec3(0.28,0.36,0.17),1.0-smoothstep(1.4,2.2,length(oq))),olf);
+  c=mix(c,olc,gv*0.8);
+  // ladera/roca/sierra
+  float slope=1.0-vNn.y;
+  c=mix(c,vec3(0.52,0.47,0.40),smoothstep(0.2,0.45,slope)*0.9);
+  float snow=smoothstep(1050.0,1180.0,h)*(1.0-smoothstep(0.35,0.7,slope));
+  c=mix(c,vec3(0.93,0.94,0.96),snow);
+  // pueblo
+  float u=smoothstep(0.12,0.3,vL.z);
+  vec3 uc=mix(vec3(0.62,0.55,0.47),mix(vec3(0.66,0.60,0.52),vec3(0.64,0.38,0.28),step(0.6,th21(floor(vec2(e,n)/18.0)))),fine);
+  c=mix(c,uc,u*0.85);
+  // caminos y carreteras
+  float rd=vL.w;
+  float rw=1.0-smoothstep(3.4,4.6,rd);
+  c=mix(c,vec3(0.40,0.38,0.35)*(0.92+0.15*tvn(vec2(e,n)*0.4)),rw*step(rd,60.0));
+  // rio / embalse
+  float rv=1.0-smoothstep(-4.0,5.0,vL.y);
+  float bank=1.0-smoothstep(0.0,14.0,vL.y);
+  c=mix(c,vec3(0.45,0.50,0.30),bank*0.5);
+  c=mix(c,vec3(0.17,0.36,0.40),rv);
+  float shore=1.0-smoothstep(-12.0,-6.0,h); c=mix(c,vec3(0.72,0.66,0.48),shore*0.7*(1.0-rv));
+  return c*0.78;
+}`,
+l39: `
+vec3 terrainColor(vec3 base){
+  float e=vW.x, n=-vW.z, h=vW.y;
+  float fade=1.0-smoothstep(3500.0,26000.0,vDist); float fine=1.0-smoothstep(250.0,2200.0,vDist);
+  float slope=1.0-vNn.y;
+  // prado alpino
+  vec3 g=mix(vec3(0.30,0.46,0.20),vec3(0.46,0.55,0.26),tfbm(vec2(e,n)/45.0+vM.x*4.0));
+  vec2 wq=vec2(e,n)+60.0*vec2(tfbm(vec2(e,n)/110.0),tfbm(vec2(e,n)/110.0+5.0)); float cell=th21(floor(wq/vec2(110.0,160.0)));
+  g=mix(g,vec3(0.56,0.54,0.30),step(0.8,cell)*0.4);
+  g*=0.9+0.2*mix(0.5,tfbm(vec2(e,n)/5.0),fine);
+  // pradera alta: mas pardo con la altura
+  g=mix(g,vec3(0.45,0.46,0.28),smoothstep(700.0,1200.0,h));
+  // bosque de coniferas
+  float fo=smoothstep(0.0,0.05,vL.x);
+  vec3 fc=mix(vec3(0.06,0.17,0.09),vec3(0.09,0.22,0.11),tfbm(vec2(e,n)/7.0));
+  g=mix(g,fc*(1.0+(th21(floor(vec2(e,n)/4.0))-0.5)*0.8*fine),fo);
+  // roca: estratos horizontales + canchales
+  float rock=smoothstep(0.17,0.40,slope);
+  float strat=0.5+0.5*sin(h*0.18+tfbm(vec2(e,n)/180.0)*6.0);
+  vec3 rc=mix(vec3(0.40,0.38,0.36),vec3(0.55,0.51,0.46),strat*0.6+0.4*tfbm(vec2(e,n)/14.0));
+  float scree=smoothstep(0.10,0.22,slope)*(1.0-rock)*smoothstep(900.0,1300.0,h);
+  g=mix(g,vec3(0.50,0.48,0.45),scree*0.7);
+  g=mix(g,rc,rock);
+  // nieve y glaciar
+  float line=1250.0+180.0*(tfbm(vec2(e,n)/700.0)-0.5);
+  float snow=smoothstep(line,line+160.0,h)*(1.0-0.75*smoothstep(0.38,0.7,slope));
+  vec3 sc=mix(vec3(0.92,0.94,0.97),vec3(0.80,0.86,0.95),tfbm(vec2(e,n)/30.0));
+  g=mix(g,sc,snow);
+  // pueblo
+  float u=smoothstep(0.12,0.3,vL.z);
+  vec3 uc=mix(vec3(0.58,0.46,0.36),mix(vec3(0.62,0.52,0.40),vec3(0.50,0.28,0.22),step(0.5,th21(floor(vec2(e,n)/18.0)))),fine);
+  g=mix(g,uc,u*0.85);
+  // carretera de montana
+  float rd=vL.w;
+  g=mix(g,vec3(0.30,0.30,0.31),(1.0-smoothstep(3.0,4.2,rd))*step(rd,60.0));
+  // rio glaciar y lago
+  float rv=1.0-smoothstep(-4.0,5.0,vL.y);
+  float bank=1.0-smoothstep(0.0,18.0,abs(vL.y));
+  g=mix(g,vec3(0.55,0.54,0.50),bank*0.5*(1.0-fo));
+  g=mix(g,mix(vec3(0.20,0.62,0.66),vec3(0.12,0.40,0.52),smoothstep(0.0,25.0,vL.y)),rv);
+  float shore=1.0-smoothstep(-9.0,-4.0,h); g=mix(g,vec3(0.62,0.58,0.48),shore*0.7*(1.0-rv));
+  return g*0.88;
+}`
+};
+
+function makeMaterial(THREE, B, fallback){
+  const mat = new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide });
+  mat.polygonOffset = true; mat.polygonOffsetFactor = 1; mat.polygonOffsetUnits = 1;
+  if(fallback) return mat;
+  mat.onBeforeCompile = function(sh){
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', `#include <common>
+attribute vec4 aL; attribute vec4 aM;
+varying vec3 vW; varying vec4 vL; varying vec4 vM; varying vec3 vNn; varying float vDist;`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
+vec4 twp = modelMatrix*vec4(position,1.0);
+vW = twp.xyz; vL = aL; vM = aM; vNn = normalize(mat3(modelMatrix)*normal); vDist = length(twp.xyz-cameraPosition);`);
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', `#include <common>
+varying vec3 vW; varying vec4 vL; varying vec4 vM; varying vec3 vNn; varying float vDist;
+${GLSL_COMMON}
+${GLSL_BIOME[B.id]}`)
+      .replace('#include <color_fragment>', `diffuseColor.rgb = terrainColor(diffuseColor.rgb);`);
+  };
+  mat.customProgramCacheKey = ()=> 'terrain-'+B.id;
+  return mat;
+}
+
+function init(THREE, scene, camera, id, opts){
+  opts = opts || {};
+  const B = C.BIOMES[id]();
+  const NV = C.NV, LV = C.LEVELS;
+  const root = new THREE.Group(); root.name = 'terrain'; scene.add(root);
+  const st = { B, root, levels:[], mats:[], fallback:false, chunks:new Map(), ready:false, tri:0 };
+  const scratch = { hg:new Float32Array((NV+2)*(NV+2)) };
+  let mat = makeMaterial(THREE,B,false);
+  st.mats.push(mat);
+
+  for(let k=0;k<LV;k++){
+    const buf = C.makeLevelBuffers();
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(buf.pos,3));
+    g.setAttribute('normal', new THREE.BufferAttribute(buf.nor,3));
+    g.setAttribute('color', new THREE.BufferAttribute(buf.col,3));
+    g.setAttribute('aL', new THREE.BufferAttribute(buf.aL,4));
+    g.setAttribute('aM', new THREE.BufferAttribute(buf.aM,4));
+    g.setIndex(new THREE.BufferAttribute(C.levelIndices(k),1));
+    const mk = makeMaterial(THREE,B,false); mk.polygonOffsetFactor = 1 + k*1.5; mk.polygonOffsetUnits = 1 + k*2;
+    st.mats.push(mk);
+    const m = new THREE.Mesh(g, mk);
+    m.frustumCulled = false; m.renderOrder = -10;
+    root.add(m);
+    st.levels.push({ k, cell:C.CELL0*Math.pow(2,k), ce:1e12, cn:1e12, buf, geo:g, mesh:m, dirty:false });
+    st.tri += g.index.count/3;
+  }
+
+  // agua
+  const wmat = new THREE.MeshLambertMaterial({ color:B.waterColor, transparent:true, opacity:0.82 });
+  const water = new THREE.Mesh(new THREE.PlaneGeometry(1,1), wmat);
+  water.rotation.x = -Math.PI/2; water.scale.set(240000,240000,1); water.position.y = B.wl; water.renderOrder = -9;
+  root.add(water); st.water = water;
+
+  const O = buildObjects(THREE, B, root);
+  st.O = O;
+
+  /* ---------- planificador: todo el trabajo pesado va en rodajas de ~5 ms ---------- */
+  const now = ()=> (typeof performance!=='undefined' ? performance.now() : Date.now());
+  const jobs = [];
+  let fillDirty = true, lastFillE = 1e12, lastFillN = 1e12;
+  function levelJob(L, ce, cn){
+    L.pending = true;
+    const stage = C.makeLevelBuffers();
+    jobs.push({ gen: C.fillLevelGen(B, L.k, ce, cn, stage, scratch), prio: L.k,
+      done: ()=>{
+        const b = L.buf;
+        b.pos.set(stage.pos); b.nor.set(stage.nor); b.col.set(stage.col); b.aL.set(stage.aL); b.aM.set(stage.aM);
+        L.ce = ce; L.cn = cn; L.pending = false;
+        const A = L.geo.attributes; A.position.needsUpdate = A.normal.needsUpdate = A.color.needsUpdate = A.aL.needsUpdate = A.aM.needsUpdate = true;
+      } });
+  }
+  function checkLevels(p){
+    const e = p.x, n = -p.z;
+    for(const L of st.levels){
+      if(L.pending) continue;
+      const hop = L.cell*8, ce = Math.round(e/hop)*hop, cn = Math.round(n/hop)*hop;
+      if(L.ce === 1e12 || Math.hypot(e-L.ce, n-L.cn) > hop*0.9) levelJob(L, ce, cn);
+    }
+  }
+  const R = opts.objR || 6;
+  function checkChunks(p){
+    const ci = Math.floor(p.x/C.CH), cj = Math.floor(-p.z/C.CH);
+    const want = new Set();
+    for(let j=cj-R;j<=cj+R;j++) for(let i=ci-R;i<=ci+R;i++){
+      if(Math.hypot(i-ci,j-cj) > R+0.4) continue;
+      const key = i+','+j; want.add(key);
+      if(!st.chunks.has(key) && !st.queued.has(key)){
+        st.queued.add(key);
+        jobs.push({ gen: C.chunkObjectsGen(B,i,j), prio: 20 + Math.hypot(i-ci,j-cj),
+          done: (val)=>{ st.queued.delete(key); st.chunks.set(key,val); fillDirty = true; } });
+      }
+    }
+    for(const key of Array.from(st.chunks.keys())) if(!want.has(key)){ st.chunks.delete(key); fillDirty = true; }
+  }
+  st.queued = new Set();
+  function pump(budget){
+    const t0 = now();
+    while(jobs.length){
+      let bi = 0; for(let i=1;i<jobs.length;i++) if(jobs[i].prio < jobs[bi].prio) bi = i;
+      const j = jobs[bi];
+      for(;;){
+        const r = j.gen.next();
+        if(r.done){ j.done(r.value); jobs.splice(bi,1); break; }
+        if(now()-t0 > budget) return;
+      }
+      if(now()-t0 > budget) return;
+    }
+  }
+  st.update = function(pos, dt){
+    if(!st.ready) return;
+    const L0 = st.levels[0];
+    if(L0.ce !== 1e12 && Math.hypot(pos.x-L0.ce, -pos.z-L0.cn) > 2500){      // salto grande (cambio de escena): reconstruir de golpe
+      jobs.length = 0; st.queued.clear(); st.chunks.clear();
+      for(const L of st.levels){ L.pending = false; L.ce = 1e12; }
+      st.init(pos); return;
+    }
+    checkLevels(pos); checkChunks(pos);
+    pump(opts.budget || 5);
+    if(fillDirty || Math.hypot(pos.x-lastFillE, -pos.z-lastFillN) > 120){
+      O.fill(st.chunks, pos); fillDirty = false; lastFillE = pos.x; lastFillN = -pos.z;
+    }
+    water.position.x = Math.round(pos.x/1000)*1000; water.position.z = Math.round(pos.z/1000)*1000;
+  };
+  st.init = function(pos){
+    checkLevels(pos); checkChunks(pos);
+    // arranque: los 4 niveles finos y los trozos cercanos, de golpe; el resto, progresivo
+    for(let guard=0; guard<400 && jobs.some(j=>j.prio<4 || (j.prio>=20 && j.prio<22.5)); guard++){
+      const bi = jobs.findIndex(j=>j.prio<4 || (j.prio>=20 && j.prio<22.5)); const j = jobs[bi];
+      let r; while(!(r=j.gen.next()).done); j.done(r.value); jobs.splice(bi,1);
+    }
+    O.fill(st.chunks, pos); fillDirty = false; lastFillE = pos.x; lastFillN = -pos.z;
+    st.ready = true;
+  };
+  st.heightAt = function(e,n){ return B.height(e,n); };
+  st.setFallback = function(){
+    if(st.fallback) return; st.fallback = true;
+    for(const L of st.levels){ const m2 = makeMaterial(THREE,B,true); m2.polygonOffsetFactor = 1 + L.k*1.5; m2.polygonOffsetUnits = 1 + L.k*2; L.mesh.material = m2; st.mats.push(m2); }
+  };
+  st.setVisible = function(v){ root.visible = v; };
+  st.setLite = function(b){ O.LITE.on = !!b; fillDirty = true; };
+  return st;
+}
+
+/* --------------------------------------------------------------------------
+   Objetos: árboles (2 LOD), casas, iglesias, silos, aerogeneradores, cabañas
+   -------------------------------------------------------------------------- */
+function buildObjects(THREE, B, root){
+  const MAXI = { treeA:2200, treeB:2200, pine:3500, house:2000, church:40, olive:2500, turbine:60, silo:80, hut:40, farm:1, solar:1 };
+  const LITE = { on:false };
+  const col = new THREE.Color(), M4 = new THREE.Matrix4(), Q = new THREE.Quaternion(), V = new THREE.Vector3(), S = new THREE.Vector3(), Y = new THREE.Vector3(0,1,0);
+  const meshes = {};
+  function merge(parts){      // parts: [{geo, color:[r,g,b], y:offset}]
+    const pos = [], nor = [], colr = [], idx = []; let off = 0;
+    for(const p of parts){
+      const g = p.geo.index ? p.geo : p.geo; const pa = g.attributes.position, na = g.attributes.normal;
+      for(let i=0;i<pa.count;i++){ pos.push(pa.getX(i), pa.getY(i)+(p.y||0), pa.getZ(i)); nor.push(na.getX(i),na.getY(i),na.getZ(i)); colr.push(p.color[0],p.color[1],p.color[2]); }
+      if(g.index) for(let i=0;i<g.index.count;i++) idx.push(g.index.getX(i)+off);
+      else for(let i=0;i<pa.count;i++) idx.push(i+off);
+      off += pa.count;
+    }
+    const G = new THREE.BufferGeometry();
+    G.setAttribute('position', new THREE.Float32BufferAttribute(pos,3));
+    G.setAttribute('normal', new THREE.Float32BufferAttribute(nor,3));
+    G.setAttribute('color', new THREE.Float32BufferAttribute(colr,3));
+    G.setIndex(idx);
+    return G;
+  }
+  const cone = (r,h,s)=> new THREE.ConeGeometry(r,h,s||6);
+  const cyl = (r0,r1,h,s)=> new THREE.CylinderGeometry(r0,r1,h,s||6);
+  const box = (w,h,d)=> new THREE.BoxGeometry(w,h,d);
+  const ico = (r)=> new THREE.IcosahedronGeometry(r,0);
+  const geos = {
+    treeA: merge([{geo:cyl(0.25,0.35,3,4),color:[0.30,0.20,0.12],y:1.5},{geo:ico(3.1),color:[1,1,1],y:6.2},{geo:ico(2.2),color:[0.9,0.95,0.9],y:8.4}]),
+    treeB: merge([{geo:cyl(0.2,0.3,2.4,4),color:[0.32,0.22,0.13],y:1.2},{geo:ico(2.6),color:[1,1,1],y:5.0},{geo:ico(1.8),color:[0.9,0.95,0.9],y:6.6}]),
+    pine:  merge([{geo:cyl(0.2,0.3,2.2,4),color:[0.28,0.18,0.10],y:1.1},{geo:cone(2.4,5,7),color:[1,1,1],y:4.6},{geo:cone(1.8,4.2,7),color:[0.95,1,0.95],y:7.4},{geo:cone(1.1,3.2,7),color:[0.9,1,0.9],y:10.0}]),
+    olive: merge([{geo:cyl(0.12,0.2,1.4,5),color:[0.35,0.28,0.2],y:0.7},{geo:ico(1.5),color:[1,1,1],y:2.1}]),
+    house: merge([{geo:box(1,1,1),color:[1,1,1],y:0.5},{geo:(function(){const g=cone(0.78,0.5,4);g.rotateY(Math.PI/4);return g;})(),color:[0.62,0.28,0.18],y:1.25}]),
+    church:merge([{geo:box(9,7,18),color:[0.82,0.78,0.70],y:3.5},{geo:cone(6.5,3,4),color:[0.55,0.25,0.18],y:8.5},{geo:box(4,18,4),color:[0.80,0.76,0.68],y:9,},{geo:cone(3.2,6,4),color:[0.45,0.22,0.16],y:21}]),
+    silo:  merge([{geo:cyl(3.5,3.5,16,10),color:[0.80,0.80,0.78],y:8},{geo:cone(3.6,2.4,10),color:[0.55,0.55,0.58],y:17.2}]),
+    hut:   merge([{geo:box(7,3,5),color:[0.45,0.30,0.20],y:1.5},{geo:cone(5.4,2.6,4),color:[0.30,0.22,0.16],y:4.3}]),
+    turbine: merge([{geo:cyl(1.4,2.2,78,8),color:[0.92,0.93,0.95],y:39},{geo:box(5,3,10),color:[0.9,0.9,0.92],y:79.5},
+       {geo:(function(){const g=box(1.2,60,0.5);g.translate(0,30,0);return g;})(),color:[0.95,0.95,0.97],y:79.5},{geo:(function(){const g=box(1.2,60,0.5);g.translate(0,30,0);g.rotateZ(2.094);return g;})(),color:[0.95,0.95,0.97],y:79.5},{geo:(function(){const g=box(1.2,60,0.5);g.translate(0,30,0);g.rotateZ(-2.094);return g;})(),color:[0.95,0.95,0.97],y:79.5}])
+  };
+  // el rotor de los aerogeneradores: pala 1 arriba, centrada en el buje
+  (function(){ const p=geos.turbine.attributes.position; /* ya construido */ })();
+  const mats = {};
+  const lam = new THREE.MeshLambertMaterial({ vertexColors:true });
+  for(const k in geos){
+    if(!MAXI[k]) continue;
+    const im = new THREE.InstancedMesh(geos[k], lam, MAXI[k]);
+    im.count = 0; im.frustumCulled = false;
+    im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    root.add(im); meshes[k] = im;
+  }
+  const palettes = {
+    c172: { treeA:[[0.20,0.40,0.14],[0.28,0.46,0.16],[0.35,0.50,0.16]], treeB:[[0.16,0.34,0.14],[0.25,0.42,0.14],[0.42,0.45,0.15]], pine:[[0.08,0.22,0.12],[0.12,0.28,0.14]], house:[[0.90,0.88,0.82],[0.85,0.80,0.70],[0.80,0.60,0.50],[0.92,0.90,0.86]] },
+    arrow:{ treeA:[[0.3,0.4,0.2]], treeB:[[0.3,0.4,0.2]], pine:[[0.22,0.32,0.14],[0.30,0.38,0.16],[0.18,0.28,0.12]], olive:[[0.42,0.48,0.30],[0.50,0.52,0.34]], house:[[0.88,0.82,0.70],[0.92,0.88,0.80],[0.80,0.66,0.52],[0.95,0.94,0.90]] },
+    l39:  { treeA:[[0.2,0.3,0.15]], treeB:[[0.2,0.3,0.15]], pine:[[0.06,0.18,0.10],[0.09,0.24,0.12],[0.05,0.15,0.09]], house:[[0.74,0.64,0.50],[0.62,0.46,0.34],[0.85,0.82,0.76]] }
+  }[B.id];
+  const MAXRF = 2600;         // alcance de objetos (m)
+  function fill(chunks, p){
+    const counts = {}, MAXR = LITE.on ? 1300 : MAXRF, capK = LITE.on ? 0.4 : 1;
+    for(const k in meshes) counts[k] = 0;
+    const E = p.x, N = -p.z;
+    const order = Array.from(chunks.entries()).map(([key,ch])=>{ const q = key.split(','); return [Math.hypot((+q[0]+0.5)*C.CH-E, (+q[1]+0.5)*C.CH-N), ch]; }).sort((a,b)=>a[0]-b[0]);
+    for(const [dist, ch] of order){
+      for(const k in meshes){
+        const arr = ch[k]; if(!arr || !arr.length) continue;
+        const im = meshes[k];
+        for(let a=0;a<arr.length;a++){
+          if(counts[k] >= MAXI[k]*capK) break;
+          const r = arr[a];
+          const dx = r[0]-E, dz = r[2]-N;
+          if(dx*dx+dz*dz > MAXR*MAXR) continue;
+          const c = counts[k]++;
+          if(k==='house'){
+            Q.setFromAxisAngle(Y, -r[3]); V.set(r[0], r[1], -r[2]); S.set(r[4], r[5], r[6]);
+          } else if(k==='church'||k==='silo'||k==='hut'||k==='turbine'){
+            Q.setFromAxisAngle(Y, -r[3]); V.set(r[0], r[1], -r[2]); const s = (k==='turbine')?1:1; S.set(s,s,s);
+          } else {
+            Q.setFromAxisAngle(Y, r[4]); V.set(r[0], r[1]-0.3, -r[2]); const s = r[3]; S.set(s, s*(0.85+0.3*r[5]), s);
+          }
+          M4.compose(V,Q,S); im.setMatrixAt(c, M4);
+          const pal = palettes[k];
+          if(pal){ const cc = pal[Math.floor(((k==='house')?(r[7]||0):(r[5]||0))*0.9999*pal.length)||0]; const j = 0.9+0.2*((((r[0]*13.7+r[2]*7.3)%1)+1)%1); col.setRGB(cc[0]*j,cc[1]*j,cc[2]*j); }
+          else col.setRGB(1,1,1);
+          im.setColorAt(c, col);
+        }
+      }
+    }
+    for(const k in meshes){ const im = meshes[k]; im.count = counts[k]; im.instanceMatrix.needsUpdate = true; if(im.instanceColor) im.instanceColor.needsUpdate = true; }
+  }
+  return { meshes, fill, LITE };
+}
+
+return { init, GLSL_BIOME, GLSL_COMMON };
+})();
+if(typeof module !== 'undefined') module.exports = TerrainGL;
+
+var TERRAIN_H=null;
+var TERR_BIOME=TerrainCore.BIOMES['l39']();
+function terrH(z,x){ return TERRAIN_H ? TERRAIN_H(z,x) : 0; }          // (z sim = este, x sim = norte)
+function terrNormal(z,x){
+  if(!TERRAIN_H) return [0,1,0];
+  const d=2, hE=(TERRAIN_H(z+d,x)-TERRAIN_H(z-d,x))/(2*d), hN=(TERRAIN_H(z,x+d)-TERRAIN_H(z,x-d))/(2*d), l=Math.hypot(hN,1,hE);
+  return [-hN/l,1/l,-hE/l];
+}
+</script>
 <script>
 'use strict';
 /* ==========================================================================
@@ -944,6 +1892,7 @@ class Aircraft {
     const m = this.mass();
 
     /* --- atmósfera y aire relativo --- */
+    const gh = terrH(this.z,this.x); this.gh = gh;
     const hAbs = Math.max(0, this.y - P.yRest);
     const rho = 1.225*Math.exp(-hAbs/8500);
 
@@ -974,7 +1923,7 @@ class Aircraft {
     /* --- tren: palanca, hidráulica, bloqueo en tierra y límites de velocidad --- */
     {
       const g0 = this.gearPos, want = c.gear > 0.5 ? 1 : 0;
-      const squat = this.y < this.contactH() + 0.03;               // amortiguadores comprimidos
+      const squat = (this.y-gh) < this.contactH() + 0.03;               // amortiguadores comprimidos
       const hyd = sy.battery && !this.gearFail && !this.gearDamaged;
       if(sy.gearEmerg && g0 < 1) this.gearPos = Math.min(1, g0 + dt/9);        // neumática de emergencia
       else if(want === 1 && g0 < 1 && hyd) this.gearPos = Math.min(1, g0 + dt/6);
@@ -988,12 +1937,12 @@ class Aircraft {
     const gp = this.gearPos;
 
     /* --- contacto con el suelo (tren o vientre como muelle-amortiguador) --- */
-    const pen = this.contactH() - this.y;
+    const pen = this.contactH() - (this.y - gh);
     const contact = pen > 0;
     const belly = gp < 0.9;
 
     /* --- efecto suelo --- */
-    const hw = Math.max(0.6, hAbs + P.wingH);
+    const hw = Math.max(0.6, Math.max(0,this.y-gh-P.yRest) + P.wingH);
     const gx = Math.pow(16*hw/P.b, 2), ge = gx/(1+gx);
 
     /* --- flaps y aerofrenos: el movimiento no es instantáneo --- */
@@ -1095,7 +2044,8 @@ class Aircraft {
       this.touchCount++;
       if(belly){ this.bellyLanding = true; this.propStrike = true; sy.engineOn = false; sy.startPhase = false; }
       if(vs < -3.5) this.hardLanding = true;
-      if(vs < -6.0 || Math.abs(this.phi) > 35*DEG) this.crashed = true;
+      { const tn=terrNormal(this.z,this.x); const cl=-(this.vel.x*tn[0]+this.vel.y*tn[1]+this.vel.z*tn[2]);
+        if(vs < -6.0 || cl > 6.0 || Math.abs(this.phi) > 35*DEG || (tn[1] < 0.82 && Math.hypot(this.vel.x,this.vel.z) > 12)) this.crashed = true; }
     }
     if(!contact && this.wasContact && !this.liftoff && this.time > 1.0 && V > 10){
       this.liftoff = { ias:iasKt, t:this.time, x:this.x, z:this.z, psi:this.psi };
@@ -1156,7 +2106,7 @@ class Aircraft {
     this.x += this.vel.x*dt;
     this.z += this.vel.z*dt;
     this.y += vy*dt;
-    if(this.y < this.contactH() - 0.8) this.y = this.contactH() - 0.8;
+    if(this.y < gh + this.contactH() - 0.8) this.y = gh + this.contactH() - 0.8;
 
     /* --- dinámica en tierra --- */
     if(contact){
@@ -1234,7 +2184,8 @@ class Aircraft {
       gearPos: this.gearPos, gearCmd: this.controls.gear, gearWarn: this.gearWarn,
       gearOver: this.gearOver, gearDamaged: this.gearDamaged, gearFail: this.gearFail,
       bellyLanding: this.bellyLanding,
-      onGround: this.y < this.contactH(),
+      onGround: (this.y-(this.gh||0)) < this.contactH(),
+      aglFt: Math.max(0,this.y-(this.gh||0)-P.yRest)*FT, terrM: this.gh||0,
       stalled: this.stalled, stallWarn: this.stallWarn, buffet: this.buffet,
       engineFail: this.engineFail, running: this.running,
       crashed: this.crashed, hard: this.hardLanding, tailStrike: this.tailStrike,
@@ -1275,16 +2226,16 @@ function feelActuate(s,t,r,tau,dt){
 /* ==========================================================================
    ESCENA 3D
    ========================================================================== */
-const SKY = { day:0x9ec9f0, dusk:0xd08048, night:0x0a1020 };
+const SKY = TERR_BIOME.sky;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(SKY.day);
-scene.fog = new THREE.Fog(SKY.day, 1200, 9000);
+scene.fog = new THREE.Fog(SKY.day, TERR_BIOME.fog.N, TERR_BIOME.fog.F);
 
-const hemi = new THREE.HemisphereLight(0xbfd8ff, 0x4a6a3a, 0.85);
+const hemi = new THREE.HemisphereLight(0xbfd8ff, TERR_BIOME.hemiGround, 0.85);
 scene.add(hemi);
 const amb = new THREE.AmbientLight(0xffffff, 0.22); scene.add(amb);
-const sun = new THREE.DirectionalLight(0xfff2d8, 1.0);
+const sun = new THREE.DirectionalLight(TERR_BIOME.sunColor, 1.0);
 sun.position.set(400, 700, 300); scene.add(sun);
 
 const glCanvas = $('glCanvas');
@@ -1295,6 +2246,39 @@ renderer.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
 const groundMat = new THREE.MeshLambertMaterial({ color:0x4d7a3d });
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(32000,32000), groundMat);
 ground.rotation.x = -Math.PI/2; scene.add(ground);
+
+/* --- terreno procedural (relieve + detalle) --- */
+let TR = null;
+const TERR_ON = ()=> Settings.d.terrain !== false;
+const TERR_LITE = ()=> Settings.d.terrain === 'lite';
+try{
+  TR = TerrainGL.init(THREE, scene, null, 'l39', {});
+}catch(err){ console.warn('terreno desactivado', err); TR = null; }
+function terrApply(){
+  const on = !!TR && TERR_ON();
+  if(TR) TR.setVisible(on);
+  ground.visible = !on;
+  if(TR) TR.setLite(TERR_LITE());
+  TERRAIN_H = on ? TR.heightAt : null;
+}
+let _terrFrames = 0, _terrErr = false;
+(function(){ const ce = console.error; console.error = function(){ try{ if(arguments[0] && String(arguments[0]).indexOf('shader')>=0) _terrErr = true; }catch(e){} return ce.apply(console, arguments); }; })();
+function terrTick(){
+  if(!TR) return;
+  const on = TERR_ON();
+  if(on !== (TERRAIN_H !== null)) terrApply();
+  if(!on) return;
+  try{
+    if(!TR.ready){ TR.init(camera.position); terrApply(); }
+    else TR.update(camera.position, 0);
+  }catch(err){ console.warn('terreno: error', err); TR.setVisible(false); ground.visible = true; TERRAIN_H = null; TR = null; return; }
+  if(++_terrFrames === 4 && !TR.fallback){
+    let bad = _terrErr;
+    try{ (renderer.info.programs||[]).forEach(pr=>{ if(pr.diagnostics && pr.diagnostics.runnable === false) bad = true; }); }catch(e){}
+    if(bad) TR.setFallback();
+  }
+}
+
 
 /* --- pista (Norte-Sur, a lo largo de Z en three) --- */
 const rwyMat = new THREE.MeshLambertMaterial({ color:0x3a3d44 });
@@ -1367,7 +2351,7 @@ function updatePapi(st){
   const dummy = new THREE.Object3D();
   let n = 0, guard = 0;
   while(n < N && guard++ < 4000){
-    const a = Math.random()*Math.PI*2, r = 260 + Math.random()*2600;
+    const a = Math.random()*Math.PI*2, r = 260 + Math.random()*2100;
     const x = Math.cos(a)*r, z = Math.sin(a)*r;
     if(Math.abs(x) < 55 && Math.abs(z) < 760) continue;
     const s = 0.7 + Math.random()*0.9;
@@ -1397,64 +2381,451 @@ function updatePapi(st){
 })();
 
 /* --- modelo externo L-39 Albatros (ala recta con depósitos de punta, tándem, tren retráctil) --- */
+/* modelos 3D detallados (datos procedurales) */
+/* ==========================================================================
+   MODELOS 3D DETALLADOS (datos puros, sin THREE)
+   Convención del modelo: morro hacia -Z, arriba +Y, ala derecha +X, origen = CG.
+   AcModels.build(id) -> { parts:[{m,g,pos,nor,col,idx}], gear:{N:[x,y,z],L:..,R:..}, prop:[x,y,z]|null }
+   m = 'body' | 'glass' | 'dark' ; g = null | 'N' | 'L' | 'R' | 'prop'
+   ========================================================================== */
+const AcModels = (function(){
+'use strict';
+const PI = Math.PI, TAU = PI*2;
+const sg = x => x < 0 ? -1 : 1;
+const clamp = (x,a,b)=> x<a?a:(x>b?b:x);
+const lerp = (a,b,t)=> a+(b-a)*t;
+const sm = t => t*t*(3-2*t);
+const hex = h => [(h>>16&255)/255, (h>>8&255)/255, (h&255)/255];
+const mulc = (c,k)=> [clamp(c[0]*k,0,1), clamp(c[1]*k,0,1), clamp(c[2]*k,0,1)];
+const mixc = (a,b,t)=> [lerp(a[0],b[0],t), lerp(a[1],b[1],t), lerp(a[2],b[2],t)];
+
+function newPart(m, g){ return { m:m||'body', g:g||null, pos:[], nor:null, col:[], idx:[], _col:null }; }
+
+/* malla paramétrica: pf(u,v)->[x,y,z] ; u en [0,1] con nu pasos (cerrada = el último se une al primero) */
+function grid(part, pf, nu, nv, closedU, colorFn){
+  const base = part.pos.length/3, W = closedU ? nu : nu+1;
+  for(let j=0;j<=nv;j++) for(let i=0;i<W;i++){
+    const p = pf(i/nu, j/nv); part.pos.push(p[0],p[1],p[2]);
+  }
+  for(let j=0;j<nv;j++) for(let i=0;i<nu;i++){
+    const i1 = closedU ? (i+1)%nu : i+1;
+    const a = base + j*W + i, b = base + j*W + i1, c = base + (j+1)*W + i, d = base + (j+1)*W + i1;
+    part.idx.push(a,c,b, b,c,d);
+  }
+  return { base, W, nv, nu };
+}
+function cap(part, ringStart, W, center, flip){
+  const ci = part.pos.length/3; part.pos.push(center[0],center[1],center[2]);
+  for(let i=0;i<W;i++){ const a = ringStart+i, b = ringStart+(i+1)%W; if(flip) part.idx.push(ci,b,a); else part.idx.push(ci,a,b); }
+}
+/* normales suaves + orientación hacia fuera + colores */
+function finish(part, outFn, colorFn, baseColor){
+  const n = part.pos.length/3, nor = new Array(n*3).fill(0), P = part.pos;
+  for(let t=0;t<part.idx.length;t+=3){
+    const a = part.idx[t]*3, b = part.idx[t+1]*3, c = part.idx[t+2]*3;
+    const ux = P[b]-P[a], uy = P[b+1]-P[a+1], uz = P[b+2]-P[a+2], vx = P[c]-P[a], vy = P[c+1]-P[a+1], vz = P[c+2]-P[a+2];
+    const nx = uy*vz-uz*vy, ny = uz*vx-ux*vz, nz = ux*vy-uy*vx;
+    for(const q of [a,b,c]){ nor[q] += nx; nor[q+1] += ny; nor[q+2] += nz; }
+  }
+  // orientación: suma de normal·(v - centro)
+  let cx=0, cy=0, cz=0; for(let i=0;i<n;i++){ cx += P[i*3]; cy += P[i*3+1]; cz += P[i*3+2]; } cx/=n; cy/=n; cz/=n;
+  let s = 0;
+  for(let i=0;i<n;i++){
+    const o = outFn ? outFn(P[i*3],P[i*3+1],P[i*3+2]) : [P[i*3]-cx, P[i*3+1]-cy, P[i*3+2]-cz];
+    s += nor[i*3]*o[0] + nor[i*3+1]*o[1] + nor[i*3+2]*o[2];
+  }
+  const f = s < 0 ? -1 : 1;
+  if(f < 0){ for(let t=0;t<part.idx.length;t+=3){ const k = part.idx[t+1]; part.idx[t+1] = part.idx[t+2]; part.idx[t+2] = k; } }
+  for(let i=0;i<n;i++){
+    let x = nor[i*3]*f, y = nor[i*3+1]*f, z = nor[i*3+2]*f; const l = Math.hypot(x,y,z) || 1;
+    nor[i*3] = x/l; nor[i*3+1] = y/l; nor[i*3+2] = z/l;
+  }
+  part.nor = nor;
+  part.col = new Array(n*3);
+  for(let i=0;i<n;i++){
+    const c = colorFn ? colorFn(P[i*3],P[i*3+1],P[i*3+2],nor[i*3],nor[i*3+1],nor[i*3+2]) : baseColor;
+    part.col[i*3] = c[0]; part.col[i*3+1] = c[1]; part.col[i*3+2] = c[2];
+  }
+  return part;
+}
+function shift(part, d){ for(let i=0;i<part.pos.length;i+=3){ part.pos[i] -= d[0]; part.pos[i+1] -= d[1]; part.pos[i+2] -= d[2]; } return part; }
+
+/* ---------- fuselaje por secciones [z, ancho, alto, cy, n] ---------- */
+function makeFuse(secs){
+  function at(z){
+    if(z <= secs[0][0]) return secs[0].slice(1);
+    if(z >= secs[secs.length-1][0]) return secs[secs.length-1].slice(1);
+    for(let i=0;i<secs.length-1;i++){
+      const a = secs[i], b = secs[i+1];
+      if(z >= a[0] && z <= b[0]){
+        const t = sm((z-a[0])/(b[0]-a[0]));
+        return [lerp(a[1],b[1],t), lerp(a[2],b[2],t), lerp(a[3],b[3],t), lerp(a[4],b[4],t)];
+      }
+    }
+  }
+  function pt(z, th, off, nOv){
+    const s = at(z), w = s[0]/2 + (off||0), h = s[1]/2 + (off||0), n = nOv || s[3];
+    const c = Math.cos(th), si = Math.sin(th);
+    return [ w*sg(c)*Math.pow(Math.abs(c), 2/n), s[2] + h*sg(si)*Math.pow(Math.abs(si), 2/n), z ];
+  }
+  return { at, pt, z0:secs[0][0], z1:secs[secs.length-1][0] };
+}
+function fuseMesh(F, zs, M, colorFn, baseColor, m){
+  const part = newPart(m||'body');
+  const g = grid(part, (u,v)=> F.pt(zs[Math.round(v*(zs.length-1))], u*TAU), M, zs.length-1, true);
+  const c0 = F.at(zs[0]), c1 = F.at(zs[zs.length-1]);
+  cap(part, g.base, M, [0,c0[2],zs[0]], false);
+  cap(part, g.base + g.W*g.nv, M, [0,c1[2],zs[zs.length-1]], true);
+  return finish(part, null, colorFn, baseColor);
+}
+/* parche sobre el fuselaje (ventanas): rango de z y de ángulo, desplazado hacia fuera */
+function fusePatch(F, z0, z1, t0, t1, nz, nt, off, m, color, nOv){
+  const part = newPart(m||'glass');
+  grid(part, (u,v)=> F.pt(lerp(z0,z1,v), lerp(t0,t1,u), off, nOv), nt, nz, false);
+  return finish(part, (x,y,z)=>{ const s = F.at(z); return [x, y-s[2], 0]; }, null, color);
+}
+
+/* ---------- superficies sustentadoras ---------- */
+function thick(xc){ return 5*(0.2969*Math.sqrt(xc) - 0.1260*xc - 0.3516*xc*xc + 0.2843*xc*xc*xc - 0.1036*xc*xc*xc*xc); }
+/* stations: [{s, chord, le, y, tc, twist}]  (s: fracción de semienvergadura con signo; y = línea media)
+   o:{half, orient:'h'|'v', K, camber, paint(s,xc,upper)->color} */
+function wingMesh(stations, o, m){
+  const K = o.K || 12, half = o.half, part = newPart(m||'body');
+  const ring = (st)=>{
+    const pts = [], pc = o.camber || 0, tw = (st.twist||0)*PI/180, ct = Math.cos(tw), stn = Math.sin(tw);
+    const mk = (xc, up)=>{
+      const t = thick(xc)*st.tc*st.chord*(up?1:-1), yc = pc*st.chord*4*xc*(1-xc);
+      let a = yc + t, b = (xc-0.25)*st.chord;          // a = espesor, b = cuerda desde el 25 %
+      const a2 = a*ct + b*stn, b2 = -a*stn + b*ct;      // torsión
+      const z = st.le + 0.25*st.chord + b2;
+      if(o.orient === 'v') return [ (st.y||0) + a2, st.s*half, z ];
+      return [ st.s*half, st.y + a2, z ];
+    };
+    for(let k=0;k<=K;k++){ const xc = (1-Math.cos(PI*k/K))/2; pts.push({ p:mk(xc,true), xc, up:true }); }
+    for(let k=K-1;k>=1;k--){ const xc = (1-Math.cos(PI*k/K))/2; pts.push({ p:mk(xc,false), xc, up:false }); }
+    return pts;
+  };
+  const rings = stations.map(ring), W = rings[0].length, meta = [];
+  const base = 0;
+  for(let j=0;j<rings.length;j++) for(let i=0;i<W;i++){ const q = rings[j][i]; part.pos.push(q.p[0],q.p[1],q.p[2]); meta.push({ s:stations[j].s, xc:q.xc, up:q.up }); }
+  for(let j=0;j<rings.length-1;j++) for(let i=0;i<W;i++){
+    const i1 = (i+1)%W, a = j*W+i, b = j*W+i1, c = (j+1)*W+i, d = (j+1)*W+i1;
+    part.idx.push(a,c,b, b,c,d);
+  }
+  const ctr = (r, flip)=>{ const ci = part.pos.length/3; let sx=0, sy=0, sz=0; for(let i=0;i<W;i++){ const p = rings[r][i].p; sx+=p[0]; sy+=p[1]; sz+=p[2]; } part.pos.push(sx/W,sy/W,sz/W); meta.push({ s:stations[r].s, xc:0.5, up:true });
+    for(let i=0;i<W;i++){ const a = r*W+i, b = r*W+(i+1)%W; if(flip) part.idx.push(ci,b,a); else part.idx.push(ci,a,b); } };
+  ctr(0,false); ctr(rings.length-1,true);
+  const paint = o.paint;
+  return finish(part, null, null, [1,1,1]) && (function(){
+    if(paint) for(let i=0;i<part.pos.length/3;i++){ const mm = meta[i], c = paint(mm.s, mm.xc, mm.up, part.pos[i*3], part.pos[i*3+1], part.pos[i*3+2]); part.col[i*3]=c[0]; part.col[i*3+1]=c[1]; part.col[i*3+2]=c[2]; }
+    return part;
+  })();
+}
+
+/* ---------- revolución, tubos ---------- */
+function lathe(profile, axis, c, M, sA, sB, colorFn, baseColor, m){
+  const part = newPart(m||'body'); sA = sA||1; sB = sB||1;
+  const g = grid(part, (u,v)=>{
+    const pr = profile[Math.round(v*(profile.length-1))], r = pr[0], a = pr[1], t = u*TAU, cc = Math.cos(t)*r*sA, ss = Math.sin(t)*r*sB;
+    if(axis === 'z') return [c[0]+cc, c[1]+ss, c[2]+a];
+    if(axis === 'x') return [c[0]+a, c[1]+cc, c[2]+ss];
+    return [c[0]+cc, c[1]+a, c[2]+ss];
+  }, M, profile.length-1, true);
+  const ends = [0, profile.length-1];
+  ends.forEach(e=>{ if(profile[e][0] < 1e-4) return;
+    const a = profile[e][1], cen = axis==='z'?[c[0],c[1],c[2]+a]: axis==='x'?[c[0]+a,c[1],c[2]]:[c[0],c[1]+a,c[2]];
+    cap(part, g.base + g.W*e, M, cen, e===0); });
+  return finish(part, (x,y,z)=>[x-c[0], y-c[1], z-c[2]], colorFn, baseColor);
+}
+function tube(p0, p1, rU, rV, ref, M, colorFn, baseColor, m, r1scale){
+  const part = newPart(m||'body');
+  const ax = [p1[0]-p0[0], p1[1]-p0[1], p1[2]-p0[2]], L = Math.hypot(...ax), a = ax.map(v=>v/L);
+  let e1 = [ref[0]-a[0]*(ref[0]*a[0]+ref[1]*a[1]+ref[2]*a[2]), ref[1]-a[1]*(ref[0]*a[0]+ref[1]*a[1]+ref[2]*a[2]), ref[2]-a[2]*(ref[0]*a[0]+ref[1]*a[1]+ref[2]*a[2])];
+  const l1 = Math.hypot(...e1); e1 = e1.map(v=>v/l1);
+  const e2 = [a[1]*e1[2]-a[2]*e1[1], a[2]*e1[0]-a[0]*e1[2], a[0]*e1[1]-a[1]*e1[0]];
+  const g = grid(part, (u,v)=>{
+    const k = (r1scale!=null) ? lerp(1,r1scale,v) : 1, t = u*TAU, c = Math.cos(t)*rU*k, s = Math.sin(t)*rV*k;
+    return [p0[0]+ax[0]*v+e1[0]*c+e2[0]*s, p0[1]+ax[1]*v+e1[1]*c+e2[1]*s, p0[2]+ax[2]*v+e1[2]*c+e2[2]*s];
+  }, 10, 1, true);
+  cap(part, g.base, 10, p0, false); cap(part, g.base+g.W, 10, p1, true);
+  const mid = [(p0[0]+p1[0])/2,(p0[1]+p1[1])/2,(p0[2]+p1[2])/2];
+  return finish(part, (x,y,z)=>{ const t = clamp(((x-p0[0])*a[0]+(y-p0[1])*a[1]+(z-p0[2])*a[2]), 0, L); return [x-(p0[0]+a[0]*t), y-(p0[1]+a[1]*t), z-(p0[2]+a[2]*t)]; }, colorFn, baseColor);
+}
+/* neumático + llanta (eje X) */
+function wheel(cx, cy, cz, r, w, parts, g){
+  const tp = [[0,-w/2],[r*0.70,-w/2],[r*0.92,-w*0.42],[r,-w*0.18],[r,w*0.18],[r*0.92,w*0.42],[r*0.70,w/2],[0,w/2]];
+  const tyre = lathe(tp, 'x', [cx,cy,cz], 18, 1, 1, null, hex(0x15181c), 'dark'); tyre.g = g; parts.push(tyre);
+  const hub = lathe([[0,-w*0.52],[r*0.52,-w*0.52],[r*0.52,w*0.52],[0,w*0.52]], 'x', [cx,cy,cz], 14, 1, 1, null, hex(0xaab2bc), 'body'); hub.g = g; parts.push(hub);
+}
+
+/* ==========================================================================
+   MODELOS
+   ========================================================================== */
+const WHITE = hex(0xf1f3f6), RED = hex(0xb92f26), NAVY = hex(0x1d3557), GREY = hex(0xaeb6c0), DARK = hex(0x23272c), GLASS = hex(0x2a4d6e), METAL = hex(0xb4bbc4);
+
+/* hélice bipala: 2 palas con torsión + buje */
+function propParts(cx, cy, cz, R, chord, tipColor, parts){
+  const blade = (sgn)=>{
+    const st = []; for(let i=0;i<=8;i++){ const s = i/8; const r = lerp(0.14, 1, s);
+      st.push({ s:sgn*r, chord: chord*(0.55+0.45*Math.sin(clamp(s*1.2,0,1.4)*PI/1.3)*(1-0.35*s)) , le:-chord*0.25, y:0, tc:0.10, twist: lerp(24, 6, s)*sgn }); }
+    st.sort((a,b)=> sgn>0 ? a.s-b.s : b.s-a.s);
+    return wingMesh(st, { half:R, orient:'v', K:6, paint:(s,xc,up)=> Math.abs(s) > 0.86 ? tipColor : hex(0x20242a) }, 'dark');
+  };
+  const b1 = blade(1), b2 = blade(-1);
+  [b1,b2].forEach(b=>{ shift(b,[0,0,0]); b.g = 'prop'; parts.push(b); });
+  const spin = lathe([[0,-0.30],[0.07,-0.22],[0.17,-0.10],[0.22,0.0],[0.23,0.16],[0.22,0.20],[0,0.20]], 'z', [0,0,0], 20, 1, 1, null, hex(0x20242a), 'dark');
+  spin.g = 'prop'; parts.push(spin);
+}
+
+/* ---------- C172 ---------- */
+function buildC172(){
+  const parts = [];
+  const F = makeFuse([
+    [-3.55, 0.70, 0.58, -0.22, 2.3], [-3.38, 0.86, 0.70, -0.20, 2.4], [-2.90, 1.02, 0.84, -0.17, 2.6], [-2.30, 1.14, 0.98, -0.12, 2.8],
+    [-1.70, 1.20, 1.16, -0.07, 3.0], [-1.10, 1.24, 1.40, -0.03, 3.2], [-0.20, 1.24, 1.46, -0.02, 3.2], [0.80, 1.20, 1.42, -0.03, 3.1],
+    [1.50, 1.04, 1.16, 0.04, 2.9], [2.30, 0.78, 0.84, 0.14, 2.6], [3.20, 0.46, 0.54, 0.30, 2.4], [3.90, 0.22, 0.30, 0.42, 2.2], [4.28, 0.06, 0.14, 0.46, 2.0]]);
+  const zs = []; for(let i=0;i<=44;i++) zs.push(lerp(F.z0,F.z1,i/44));
+  // añadir secciones densas en cabina
+  const paintFus = (x,y,z,nx,ny,nz)=>{
+    let c = WHITE;
+    const side = Math.abs(nx) > 0.55;
+    if(z < -2.35 && z > -3.6) c = mixc(WHITE, hex(0xe9ecf0), 0.5);
+    if(side && z > -2.2 && z < 4.1){      // franjas laterales
+      const ys = y - (-0.02 - 0.00*z); const f = z > 2.3 ? (4.1-z)/1.8 : 1;
+      if(ys > -0.08 && ys < 0.10) c = RED;
+      else if(ys >= 0.10 && ys < 0.16) c = NAVY;
+      else if(ys <= -0.08 && ys > -0.14) c = NAVY;
+    }
+    if(ny < -0.6) c = mulc(c, 0.86);
+    return c;
+  };
+  // zs densas (cabina)
+  const zz = [-3.55,-3.4,-3.1,-2.7,-2.3,-1.9,-1.5,-1.1,-0.7,-0.2,0.3,0.8,1.2,1.6,2.0,2.5,3.0,3.5,3.9,4.28];
+  parts.push(fuseMesh(F, zz, 44, paintFus, WHITE));
+  // entrada de aire (cara delantera oscura)
+  parts.push(lathe([[0.0,-3.545],[0.27,-3.545],[0.30,-3.50],[0,-3.50]], 'z', [0,-0.22,0], 24, 1.0, 0.82, null, DARK, 'dark'));
+  // ventanas
+  parts.push(fusePatch(F, -1.95, -1.05, 0.42, PI-0.42, 7, 20, 0.012, 'glass', GLASS, 3.2));      // parabrisas
+  parts.push(fusePatch(F,  0.70, 1.50, 0.50, PI-0.50, 6, 16, 0.012, 'glass', GLASS, 3.1));       // luneta
+  for(const s of [1,-1]){
+    const t0 = s>0 ? 0.28 : PI-1.02, t1 = s>0 ? 1.02 : PI-0.28;
+    parts.push(fusePatch(F, -1.75, 0.55, t0, t1, 10, 6, 0.010, 'glass', GLASS, 3.2));
+    // puerta: línea oscura
+  }
+  // ala alta con perfil, afinada
+  const wp = (s,xc,up)=>{ let c = WHITE; const a = Math.abs(s);
+    if(xc > 0.70 && a > 0.16 && a < 0.68) c = mulc(c, 0.93);           // alerón
+    if(xc > 0.70 && a <= 0.16) c = mulc(c, 0.96);                      // flap
+    if(a > 0.97) c = RED;                                              // puntera
+    if(xc < 0.05 && a > 0.3) c = mulc(c,0.98);
+    return c; };
+  const half = 5.5, st = [];
+  for(const s of [-1,-0.78,-0.5,-0.34,-0.16,0,0.16,0.34,0.5,0.78,1]){
+    const a = Math.abs(s), ch = a <= 0.34 ? 1.63 : lerp(1.63, 1.12, (a-0.34)/0.66);
+    st.push({ s, chord:ch, le: lerp(-0.95,-0.80,Math.max(0,(a-0.34)/0.66)), y: 0.80 + 0.045*a*half, tc: 0.12, twist: -1.5*a, });
+  }
+  parts.push(wingMesh(st, { half, K:12, camber:0.02, paint:wp }));
+  // montantes
+  for(const s of [1,-1]){
+    parts.push(tube([s*0.62,-0.60,-0.15],[s*2.55,0.72,-0.18], 0.060, 0.016, [0,0,1], 10, null, WHITE));
+    parts.push(tube([s*1.60,-0.00,-0.17],[s*1.60,0.70,-0.20], 0.030, 0.010, [0,0,1], 8, null, WHITE));
+  }
+  // cola
+  const finSt = []; for(const s of [0,0.25,0.5,0.75,1]) finSt.push({ s, chord: lerp(1.40,0.74,s), le: 2.80 + 0.95*s, y:0, tc:0.09 });
+  const fp = (s,xc)=> (xc > 0.68 && s > 0.2) ? RED : (s > 0.96 ? RED : WHITE);
+  parts.push(shiftY(wingMesh(finSt, { half:1.30, orient:'v', K:10, paint:fp }), 0.22));
+  const stSt = []; for(const s of [-1,-0.6,-0.25,0,0.25,0.6,1]){ const a = Math.abs(s); stSt.push({ s, chord: lerp(1.15,0.78,a), le: 3.05 + 0.18*a, y: 0.30 + 0.0*a, tc:0.08 }); }
+  parts.push(wingMesh(stSt, { half:1.72, K:10, paint:(s,xc)=> xc>0.62 ? mulc(WHITE,0.93) : WHITE }));
+  // tren principal con carenados
+  for(const s of [1,-1]){
+    parts.push(tube([s*0.62,-0.62,-0.15],[s*1.42,-0.95,-0.10], 0.052, 0.020, [0,0,1], 10, null, METAL));
+    wheel(s*1.44,-0.83,-0.10, 0.30, 0.17, parts, null);
+    parts.push(lathe([[0,-0.52],[0.20,-0.38],[0.27,-0.10],[0.28,0.10],[0.25,0.32],[0.16,0.50],[0,0.60]], 'z', [s*1.44,-0.78,-0.05], 16, 0.55, 1.0, null, WHITE));
+  }
+  // tren de morro
+  parts.push(tube([0,-0.50,-2.42],[0,-0.98,-2.36], 0.036, 0.036, [1,0,0], 10, null, METAL));
+  wheel(0,-0.88,-2.36, 0.25, 0.13, parts, null);
+  parts.push(lathe([[0,-0.34],[0.16,-0.24],[0.21,0],[0.17,0.26],[0,0.38]], 'z', [0,-0.84,-2.36], 14, 0.42, 1.0, null, WHITE));
+  // hélice
+  propParts(0,-0.22,-3.80, 0.95, 0.17, hex(0xe8c13a), parts);
+  return { parts, gear:null, prop:[0,-0.22,-3.80], yRest:1.13 };
+}
+function shiftY(part, dy){ for(let i=1;i<part.pos.length;i+=3) part.pos[i] += dy; return part; }
+
+/* ---------- Arrow III ---------- */
+function buildArrow(){
+  const parts = [];
+  const F = makeFuse([
+    [-3.30, 0.62, 0.52, -0.14, 2.3], [-3.12, 0.78, 0.64, -0.12, 2.4], [-2.65, 0.98, 0.80, -0.08, 2.6], [-2.05, 1.12, 0.96, -0.04, 2.8],
+    [-1.40, 1.20, 1.08, 0.00, 3.0], [-0.70, 1.24, 1.14, 0.02, 3.2], [0.10, 1.24, 1.14, 0.03, 3.2], [1.00, 1.14, 1.04, 0.05, 3.0],
+    [1.90, 0.92, 0.84, 0.10, 2.7], [2.80, 0.62, 0.62, 0.20, 2.5], [3.50, 0.34, 0.38, 0.30, 2.3], [3.97, 0.10, 0.22, 0.34, 2.0]]);
+  const paintFus = (x,y,z,nx,ny,nz)=>{
+    let c = WHITE; const side = Math.abs(nx) > 0.5;
+    if(side && z > -2.4 && z < 3.9){
+      const ys = y - 0.04;
+      if(ys > -0.06 && ys < 0.09) c = RED;
+      else if(ys >= 0.09 && ys < 0.14) c = hex(0x8a1f19);
+    }
+    if(ny < -0.6) c = mulc(c, 0.86);
+    return c; };
+  const zz = [-3.30,-3.15,-2.8,-2.4,-2.0,-1.6,-1.2,-0.8,-0.4,0.1,0.6,1.0,1.5,1.9,2.4,2.8,3.3,3.7,3.97];
+  parts.push(fuseMesh(F, zz, 44, paintFus, WHITE));
+  parts.push(lathe([[0.0,-3.295],[0.25,-3.295],[0.28,-3.25],[0,-3.25]], 'z', [0,-0.14,0], 24, 1.0, 0.82, null, DARK, 'dark'));
+  parts.push(fusePatch(F, -1.55, -0.75, 0.40, PI-0.40, 7, 20, 0.012, 'glass', GLASS, 3.0));
+  parts.push(fusePatch(F,  0.55, 1.30, 0.50, PI-0.50, 6, 16, 0.012, 'glass', GLASS, 3.0));
+  for(const s of [1,-1]){ const t0 = s>0 ? 0.25 : PI-0.95, t1 = s>0 ? 0.95 : PI-0.25; parts.push(fusePatch(F, -1.4, 0.45, t0, t1, 10, 6, 0.010, 'glass', GLASS, 3.0)); }
+  // ala baja con diedro 7°, afinada
+  const half = 5.41, st = [];
+  for(const s of [-1,-0.75,-0.5,-0.3,-0.12,0,0.12,0.3,0.5,0.75,1]){
+    const a = Math.abs(s), ch = a <= 0.12 ? 1.70 : lerp(1.70, 1.28, (a-0.12)/0.88);
+    st.push({ s, chord:ch, le: lerp(-0.80,-0.62,a), y: -0.34 + Math.tan(7*PI/180)*a*half*0.92, tc: 0.14 - 0.03*a, twist:-2*a });
+  }
+  const wp = (s,xc,up)=>{ let c = WHITE; const a = Math.abs(s);
+    if(xc > 0.68 && a > 0.30 && a < 0.80) c = mulc(c,0.93);
+    if(xc > 0.68 && a <= 0.30) c = mulc(c,0.96);
+    if(a > 0.97) c = RED;
+    return c; };
+  parts.push(wingMesh(st, { half, K:12, camber:0.02, paint:wp }));
+  // cola: deriva + estabilador
+  const finSt = []; for(const s of [0,0.25,0.5,0.75,1]) finSt.push({ s, chord: lerp(1.50,0.80,s), le: 2.48 + 0.95*s, y:0, tc:0.09 });
+  const fp = (s,xc)=> (xc > 0.66 && s > 0.15) ? RED : (s > 0.96 ? RED : WHITE);
+  parts.push(shiftY(wingMesh(finSt, { half:1.45, orient:'v', K:10, paint:fp }), 0.22));
+  const stSt = []; for(const s of [-1,-0.6,-0.25,0,0.25,0.6,1]){ const a = Math.abs(s); stSt.push({ s, chord: lerp(1.05,0.72,a), le: 3.00 + 0.15*a, y: 0.28, tc:0.08 }); }
+  parts.push(wingMesh(stSt, { half:1.95, K:10, paint:(s,xc)=> xc>0.55 ? mulc(WHITE,0.93) : WHITE }));
+  // tren retráctil: grupos N, L, R con origen en el anclaje
+  const gear = { N:[0,-0.45,-2.35], L:[-1.50,-0.50,0.10], R:[1.50,-0.50,0.10] };
+  const gp = [];
+  for(const [k,sx] of [['L',-1],['R',1]]){
+    const a = gear[k];
+    const leg = tube([sx*1.50,-0.50,0.10],[sx*1.55,-0.98+0.30,0.10], 0.040, 0.040, [0,0,1], 10, null, METAL); leg.g = k; gp.push(leg);
+    const strut = tube([sx*1.50,-0.50,0.10],[sx*1.52,-0.74,0.10], 0.052, 0.052, [0,0,1], 10, null, hex(0x9aa2ad)); strut.g = k; gp.push(strut);
+    const wp2 = []; wheel(sx*1.56, -0.98+0.30, 0.10, 0.30, 0.16, wp2, k); gp.push(...wp2);
+    const door = lathe([[0,-0.1],[0.22,0],[0,0.1]], 'x', [sx*1.56,-0.78,0.10], 6, 1, 1, null, WHITE); // (pequeño detalle)
+  }
+  { const leg = tube([0,-0.45,-2.35],[0,-0.98+0.25,-2.30], 0.036, 0.036, [1,0,0], 10, null, METAL); leg.g = 'N'; gp.push(leg);
+    const w = []; wheel(0, -0.98+0.25, -2.30, 0.25, 0.13, w, 'N'); gp.push(...w); }
+  for(const p of gp){ const a = gear[p.g]; shift(p, a); parts.push(p); }
+  propParts(0,-0.14,-3.55, 0.96, 0.17, hex(0xe8c13a), parts);
+  return { parts, gear, prop:[0,-0.14,-3.55], yRest:0.98 };
+}
+
+/* ---------- L-39 Albatros ---------- */
+function buildL39(){
+  const parts = [];
+  const F = makeFuse([
+    [-5.45, 0.04, 0.04, -0.08, 2.1], [-5.20, 0.30, 0.28, -0.08, 2.1], [-4.70, 0.62, 0.58, -0.06, 2.2], [-4.00, 0.90, 0.84, -0.03, 2.4],
+    [-3.20, 1.10, 1.00, 0.00, 2.6], [-2.20, 1.22, 1.10, 0.03, 2.8], [-1.00, 1.30, 1.22, 0.05, 3.0], [0.30, 1.26, 1.20, 0.05, 3.0],
+    [1.60, 1.10, 1.06, 0.05, 2.8], [3.00, 0.92, 0.92, 0.06, 2.6], [4.40, 0.76, 0.78, 0.08, 2.4], [5.60, 0.64, 0.66, 0.08, 2.3], [6.30, 0.58, 0.60, 0.08, 2.2]]);
+  const OLIVE = hex(0x5d7740), LGREY = hex(0xcfd4da), SAND = hex(0xb9b49f);
+  const paintFus = (x,y,z,nx,ny,nz)=>{
+    let c = LGREY;
+    if(ny > 0.35) c = mixc(LGREY, OLIVE, clamp((ny-0.35)/0.3,0,1));
+    if(ny < -0.5) c = mulc(LGREY, 0.88);
+    if(z < -4.55) c = mixc(c, hex(0x2f3338), clamp((-4.55-z)/0.5,0,1)*0.0 + 0.0);
+    return c; };
+  const zz = [-5.45,-5.2,-4.7,-4.0,-3.2,-2.6,-2.0,-1.4,-0.8,-0.2,0.4,1.0,1.6,2.3,3.0,3.7,4.4,5.0,5.6,6.3];
+  parts.push(fuseMesh(F, zz, 44, paintFus, LGREY));
+  // tobera
+  parts.push(lathe([[0.35,6.20],[0.31,6.45],[0.27,6.62],[0.0,6.62]], 'z', [0,0.08,0], 20, 1, 1, null, DARK, 'dark'));
+  parts.push(lathe([[0.36,6.05],[0.37,6.30],[0.36,6.5]], 'z', [0,0.08,0], 20, 1, 1, null, hex(0x56595e)));
+  // dosel en tándem
+  const canopy = (zc, L, H, W, base)=>{
+    const part = newPart('glass');
+    grid(part, (u,v)=>{
+      const z = zc + (v-0.5)*L, e = Math.sqrt(Math.max(0, 1-Math.pow((v-0.5)*2, 2)));
+      const t = u*PI, w = W*0.5*(0.55+0.45*e), hgt = H*Math.pow(e,0.7);
+      return [ Math.cos(t)*w, base + Math.sin(t)*hgt, z ];
+    }, 18, 10, false);
+    return finish(part, (x,y,z)=>[x, y-base, 0], null, GLASS);
+  };
+  const topAt = z => F.at(z)[2] + F.at(z)[1]/2;
+  parts.push(canopy(-3.05, 1.75, 0.55, 0.92, topAt(-3.05)-0.12));
+  parts.push(canopy(-1.30, 2.10, 0.66, 0.92, topAt(-1.30)-0.14));
+  // marcos oscuros del dosel
+  parts.push(tube([0,topAt(-2.20)+0.10,-2.18],[0,topAt(-2.20)-0.02,-2.18], 0.07, 0.015, [0,0,1], 8, null, DARK, 'dark'));
+  // tomas de aire laterales
+  for(const s of [1,-1]){
+    const part = newPart('body');
+    const g = grid(part, (u,v)=>{
+      const z = lerp(-1.95, 0.9, v), k = sm(v), t = u*TAU;
+      const rx = lerp(0.20, 0.10, k), ry = lerp(0.28, 0.14, k), cx = s*lerp(0.74, 0.60, k);
+      return [ cx + Math.cos(t)*rx, 0.0 + Math.sin(t)*ry, z ];
+    }, 16, 8, true);
+    parts.push(finish(part, (x,y,z)=>[x-s*0.68, y, 0], null, LGREY));
+    parts.push(lathe([[0,0],[0.17,0],[0.22,0.02],[0,0.02]], 'z', [s*0.74, 0.0, -1.94], 16, 1.0, 1.25, null, DARK, 'dark'));
+  }
+  // ala recta
+  const half = 4.00, st = [];
+  for(const s of [-1,-0.8,-0.55,-0.3,-0.15,0,0.15,0.3,0.55,0.8,1]){
+    const a = Math.abs(s), ch = lerp(2.75, 1.75, a);
+    st.push({ s, chord:ch, le: lerp(-0.95,-0.55,a), y: -0.26 + 0.08*a*half*0.5, tc: 0.12 - 0.03*a, twist:-2*a });
+  }
+  const wp = (s,xc,up)=>{ let c = up ? mixc(LGREY, OLIVE, 0.55) : LGREY; const a = Math.abs(s);
+    if(xc > 0.70 && a > 0.40 && a < 0.92) c = mulc(c,0.93); if(xc > 0.70 && a <= 0.40) c = mulc(c,0.96); return c; };
+  parts.push(wingMesh(st, { half, K:12, camber:0.015, paint:wp }));
+  // depósitos de punta
+  for(const s of [1,-1]){
+    parts.push(lathe([[0,-1.60],[0.12,-1.45],[0.24,-1.15],[0.31,-0.70],[0.33,-0.20],[0.33,0.60],[0.30,1.10],[0.20,1.55],[0.07,1.80],[0,1.86]], 'z', [s*4.12,-0.18,0.35], 20, 1, 1, null, LGREY));
+    parts.push(lathe([[0.332,0.20],[0.332,0.50]], 'z', [s*4.12,-0.18,0.35], 20, 1, 1, null, OLIVE));
+  }
+  // cola: deriva muy barrida + estabilizador
+  const finSt = []; for(const s of [0,0.2,0.45,0.7,1]) finSt.push({ s, chord: lerp(2.80,1.25,s), le: 3.80 + 1.85*s*s*0.9 + 0.8*s, y:0, tc:0.09 });
+  const finPaint = (s,xc)=> (s > 0.62 || xc > 0.74) ? hex(0xc8352b) : mixc(LGREY, OLIVE, 0.0);
+  parts.push(shiftY(wingMesh(finSt, { half:3.00, orient:'v', K:10, paint:finPaint }), 0.45));
+  const stSt = []; for(const s of [-1,-0.6,-0.25,0,0.25,0.6,1]){ const a = Math.abs(s); stSt.push({ s, chord: lerp(1.60,0.95,a), le: 4.55 + 0.70*a, y: 0.50, tc:0.08 }); }
+  parts.push(wingMesh(stSt, { half:1.75, K:10, paint:(s,xc)=> LGREY }));
+  // tren
+  const gear = { N:[0,-0.45,-3.30], L:[-1.25,-0.42,0.95], R:[1.25,-0.42,0.95] };
+  const gp = [];
+  for(const [k,sx] of [['L',-1],['R',1]]){
+    const leg = tube([sx*1.25,-0.42,0.95],[sx*1.30,-1.18+0.36,0.95], 0.060, 0.060, [0,0,1], 10, null, METAL); leg.g = k; gp.push(leg);
+    const w = []; wheel(sx*1.34, -1.18+0.36, 0.95, 0.36, 0.20, w, k); gp.push(...w);
+    const link = tube([sx*1.25,-0.62,0.95],[sx*1.12,-0.40,0.65], 0.022, 0.022, [0,1,0], 8, null, METAL); link.g = k; gp.push(link);
+  }
+  { const leg = tube([0,-0.45,-3.30],[0,-1.18+0.30,-3.20], 0.050, 0.050, [1,0,0], 10, null, METAL); leg.g = 'N'; gp.push(leg);
+    const w = []; wheel(0,-1.18+0.30,-3.20, 0.30, 0.16, w, 'N'); gp.push(...w);
+    const door = tube([0,-0.42,-3.52],[0,-0.82,-3.30], 0.14, 0.012, [1,0,0], 8, null, LGREY); door.g='N'; }
+  for(const p of gp){ const a = gear[p.g]; shift(p, a); parts.push(p); }
+  // pequeñas luces de punta / antena
+  parts.push(tube([0,topAt(1.0)-0.02,1.0],[0,topAt(1.0)+0.25,1.15], 0.012, 0.012, [1,0,0], 6, null, DARK, 'dark'));
+  return { parts, gear, prop:null, yRest:1.18 };
+}
+
+function build(id){ return id==='c172' ? buildC172() : id==='arrow' ? buildArrow() : buildL39(); }
+return { build };
+})();
+
+
 const acModel = new THREE.Group();
 (function buildModel(){
-  const grey  = new THREE.MeshLambertMaterial({ color:0xc9ced4 });
-  const olive = new THREE.MeshLambertMaterial({ color:0x4a6a35 });
-  const dark  = new THREE.MeshLambertMaterial({ color:0x23282d });
-  const glass = new THREE.MeshLambertMaterial({ color:0x35607f });
-  const leg   = new THREE.MeshLambertMaterial({ color:0xa7adb5 });
-  const tyre  = new THREE.MeshLambertMaterial({ color:0x14181d });
-  const add = (geo, mat, x,y,z)=>{ const m = new THREE.Mesh(geo, mat); m.position.set(x,y,z); acModel.add(m); return m; };
-  const cylZ = (r0,r1,len, mat, x,y,z)=>{ const m = new THREE.Mesh(new THREE.CylinderGeometry(r1,r0,len,14), mat); m.rotation.x = Math.PI/2; m.position.set(x,y,z); acModel.add(m); return m; };
-
-  /* fuselaje: morro cónico, cabina en tándem, cuerpo, cono de cola y tobera */
-  cylZ(0.18,0.62,2.6, grey, 0,0.00,-4.6);                         // morro
-  add(new THREE.BoxGeometry(1.25,1.15,4.4), grey, 0,0.00,-1.0);
-  add(new THREE.BoxGeometry(1.20,1.00,3.2), grey, 0,0.00, 2.4);
-  cylZ(0.62,0.38,3.2, grey, 0,0.05, 5.5);                         // cola
-  cylZ(0.34,0.30,0.5, dark, 0,0.05, 7.3);                         // tobera
-  add(new THREE.BoxGeometry(1.27,0.14,10.0), olive, 0,0.22, 0.6);  // franja verde del lomo
-  /* cabinas */
-  add(new THREE.BoxGeometry(0.95,0.62,1.35), glass, 0,0.78,-2.5);
-  add(new THREE.BoxGeometry(0.95,0.72,1.45), glass, 0,0.88,-0.95);
-  add(new THREE.BoxGeometry(1.0,0.1,0.12), dark, 0,0.64,-1.75);
-  /* tomas de aire laterales */
-  add(new THREE.BoxGeometry(0.42,0.62,1.7), dark, -0.82,-0.02,0.35);
-  add(new THREE.BoxGeometry(0.42,0.62,1.7), dark,  0.82,-0.02,0.35);
-  /* ala recta, depósitos de punta */
-  add(new THREE.BoxGeometry(8.5,0.14,2.4), grey, 0,-0.22,0.6);
-  add(new THREE.BoxGeometry(8.5,0.05,0.5), olive, 0,-0.14,-0.35);
-  [-1,1].forEach(s=>{
-    cylZ(0.30,0.30,3.0, grey, s*4.45,-0.22,0.7);
-    cylZ(0.30,0.06,0.9, grey, s*4.45,-0.22,-1.25);
-    cylZ(0.06,0.30,0.9, grey, s*4.45,-0.22, 2.65);
-    cylZ(0.31,0.31,0.4, olive, s*4.45,-0.22,0.7);
+  const D = AcModels.build('l39'), YS = -0.12;           // YS: ruedas a -gearH
+  const mats = {
+    body: new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide }),
+    glass: new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide, transparent:true, opacity:0.88 }),
+    dark: new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide })
+  };
+  const groups = {};
+  const grp = (k, p)=>{ if(!groups[k]){ const g = new THREE.Group(); g.position.set(p[0],p[1]+YS,p[2]); acModel.add(g); groups[k] = g; } return groups[k]; };
+  D.parts.forEach(pt=>{
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pt.pos),3));
+    geo.setAttribute('normal',   new THREE.BufferAttribute(new Float32Array(pt.nor),3));
+    geo.setAttribute('color',    new THREE.BufferAttribute(new Float32Array(pt.col),3));
+    geo.setIndex(pt.idx);
+    const mesh = new THREE.Mesh(geo, mats[pt.m]||mats.body);
+    if(pt.g === 'prop') grp('prop', D.prop).add(mesh);
+    else if(pt.g && D.gear) grp(pt.g, D.gear[pt.g]).add(mesh);
+    else { mesh.position.y = YS; acModel.add(mesh); }
   });
-  /* cola: deriva y estabilizador */
-  add(new THREE.BoxGeometry(0.14,1.9,1.9), grey, 0,1.35,5.7);
-  add(new THREE.BoxGeometry(0.16,0.5,1.0), olive, 0,2.05,5.9);
-  add(new THREE.BoxGeometry(3.7,0.12,1.3), grey, 0,0.45,6.3);
-
-  /* tren: nariz y principales; el origen de cada pata es el anclaje */
-  const gear = {};
-  function mkLeg(x, y, z, len){
-    const gr = new THREE.Group(); gr.position.set(x, y, z);
-    const l = new THREE.Mesh(new THREE.BoxGeometry(0.11, len, 0.11), leg); l.position.y = -len/2; gr.add(l);
-    const w = new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.34,0.22,14), tyre); w.rotation.z = Math.PI/2; w.position.y = -len; gr.add(w);
-    acModel.add(gr); return gr;
-  }
-  gear.N = mkLeg(0,   -0.45,-3.1, 0.66);
-  gear.L = mkLeg(-1.25,-0.40, 0.9, 0.70);
-  gear.R = mkLeg( 1.25,-0.40, 0.9, 0.70);
-  acModel.userData.gear = gear;
-
+  if(groups.prop) acModel.userData.prop = groups.prop;
+  if(D.gear){ acModel.userData.gear = { N:groups.N, L:groups.L, R:groups.R }; }
   acModel.visible = false;
   scene.add(acModel);
 })();
 
+
 /* --- cámara --- */
-const camera = new THREE.PerspectiveCamera(62, 1, 0.08, 20000);
+const camera = new THREE.PerspectiveCamera(62, 1, 0.08, 70000);
 scene.add(camera);
 
 /* --- morro desde la cabina (cúpula y arco del parabrisas) --- */
@@ -2356,9 +3727,9 @@ function applyFeel(dt){
 function setLight(mode){
   Settings.d.light = mode; Settings.save();
   const cfg = {
-    day:  { sky:SKY.day,   sun:1.00, hemi:0.85, amb:0.22, fogN:1200, fogF:9000 },
-    dusk: { sky:SKY.dusk,  sun:0.45, hemi:0.40, amb:0.18, fogN: 700, fogF:6000 },
-    night:{ sky:SKY.night, sun:0.05, hemi:0.12, amb:0.08, fogN: 350, fogF:4500 }
+    day:  { sky:SKY.day,   sun:1.00, hemi:0.85, amb:0.22, fogN:TERR_BIOME.fog.N, fogF:TERR_BIOME.fog.F },
+    dusk: { sky:SKY.dusk,  sun:0.45, hemi:0.40, amb:0.18, fogN:TERR_BIOME.fog.N*0.6, fogF:TERR_BIOME.fog.F*0.6 },
+    night:{ sky:SKY.night, sun:0.05, hemi:0.12, amb:0.08, fogN:TERR_BIOME.fog.N*0.3, fogF:TERR_BIOME.fog.F*0.4 }
   }[mode];
 
   scene.background.setHex(cfg.sky);
@@ -2381,6 +3752,7 @@ function setView(mode){
   Settings.d.view = mode; Settings.save();
   $('btnViewCockpit').classList.toggle('on', mode==='cockpit');
   $('btnViewExt').classList.toggle('on', mode==='ext');
+  $('btnViewFloat').textContent = (mode==='cockpit') ? 'EXT' : 'CAB';
   cockpitNose.visible = (mode==='cockpit');
   acModel.visible = (mode==='ext');
   $('gaugePanel').style.display = (mode==='ext') ? 'none' : '';
@@ -2572,6 +3944,125 @@ const FIXED = 1/240;
 let gaugeTimer = 0, ckTimer = 0;
 let lastState = null;
 
+/* ==========================================================================
+   ACCIDENTE: sacudida, llamarada y humo, aviso a pantalla completa
+   ========================================================================== */
+const Crash = {
+  on:false, t:0, puffs:[], geo:null,
+  start(st){
+    this.on = true; this.t = 0;
+    const td = st.td;
+    const cause = (st.terrM||0) > 3 ? 'IMPACTO CONTRA EL TERRENO' : 'IMPACTO';
+    $('crashTxt').innerHTML = cause + (td ? '<br>'+Math.round(td.ias)+' kt · '+Math.round(td.vs)+' fpm · alabeo '+Math.round(td.phi)+'°' : '');
+    $('crash').classList.add('show');
+    if(!this.geo) this.geo = new THREE.SphereGeometry(1, 8, 6);
+    for(let i=0;i<16;i++){
+      const fire = i < 6;
+      const m = new THREE.MeshBasicMaterial({ color: fire ? 0xff7a1a : 0x2a2a2a, transparent:true, opacity:0.9, fog:false, depthWrite:false });
+      const mesh = new THREE.Mesh(this.geo, m);
+      mesh.position.set(st.z + (Math.random()-0.5)*5, st.y + 0.5 + Math.random()*1.5, -st.x + (Math.random()-0.5)*5);
+      mesh.scale.setScalar(0.8);
+      scene.add(mesh);
+      this.puffs.push({ mesh, fire, vy: 2 + Math.random()*3, g: 3 + Math.random()*5, life: fire ? 3.5 : 14, age: -Math.random()*0.6, vx:(Math.random()-0.5)*1.5, vz:(Math.random()-0.5)*1.5 });
+    }
+  },
+  clear(){
+    this.on = false; $('crash').classList.remove('show');
+    for(const p of this.puffs){ scene.remove(p.mesh); p.mesh.material.dispose(); }
+    this.puffs.length = 0;
+  },
+  retry(){ this.clear(); resetCurrent(); },
+  tick(st, dt){
+    if(st.crashed && !this.on) this.start(st);
+    else if(!st.crashed && this.on) this.clear();
+    if(!this.on) return;
+    this.t += dt;
+    if(this.t < 1.4){                      // sacudida de cámara
+      const a = 0.6*Math.pow(1-this.t/1.4, 2);
+      camera.position.x += (Math.random()-0.5)*a; camera.position.y += (Math.random()-0.5)*a; camera.position.z += (Math.random()-0.5)*a;
+    }
+    for(let i=this.puffs.length-1;i>=0;i--){
+      const p = this.puffs[i]; p.age += dt; if(p.age < 0) continue;
+      const k = p.age/p.life;
+      if(k >= 1){ scene.remove(p.mesh); p.mesh.material.dispose(); this.puffs.splice(i,1); continue; }
+      p.mesh.position.x += p.vx*dt; p.mesh.position.z += p.vz*dt; p.mesh.position.y += p.vy*dt*(p.fire?1:0.7);
+      p.mesh.scale.setScalar((p.fire?1.5:2.5) + k*(p.fire?4:9));
+      p.mesh.material.opacity = (p.fire ? 0.9 : 0.75)*(1-k);
+      if(p.fire) p.mesh.material.color.setHex(k < 0.4 ? 0xffa030 : 0xc03010);
+    }
+  }
+};
+
+/* Ficha del avión: se muestra al iniciar (con la simulación en pausa) y desde el botón «Ficha del avión» */
+/* Visor 3D de la portada: arrastra para girar, rueda/pellizco para acercar */
+const InfoView = {
+  r:null, sc:null, cam:null, az:0.9, el:0.28, dist:16, auto:true, raf:0, drag:null, resumeT:0, run:false, ok:null, pinch:null, lastW:0,
+  init(){
+    if(this.ok !== null) return this.ok;
+    try{
+      const cv = $('infoCv');
+      this.r = new THREE.WebGLRenderer({ canvas:cv, antialias:true, alpha:true });
+      this.r.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
+      this.sc = new THREE.Scene();
+      this.sc.add(new THREE.HemisphereLight(0xe4eeff, 0x4a5a6a, 0.95));
+      const dl = new THREE.DirectionalLight(0xffffff, 0.85); dl.position.set(6,9,7); this.sc.add(dl);
+      const m = acModel.clone(true); m.visible = true; m.position.set(0,0,0); m.rotation.set(0,0,0);
+      this.sc.add(m);
+      const bb = new THREE.Box3().setFromObject(m), ctr = new THREE.Vector3(), sz = new THREE.Vector3();
+      bb.getCenter(ctr); bb.getSize(sz);
+      this.ctr = ctr; this.dist = Math.max(sz.x, sz.z, sz.y*2)*1.35; this.d0 = this.dist;
+      const disc = new THREE.Mesh(new THREE.CircleGeometry(Math.max(sz.x,sz.z)*0.62, 40), new THREE.MeshBasicMaterial({ color:0x0b1626, transparent:true, opacity:0.35 }));
+      disc.rotation.x = -Math.PI/2; disc.position.set(ctr.x, bb.min.y-0.03, ctr.z); this.sc.add(disc);
+      this.cam = new THREE.PerspectiveCamera(34, 1, 0.1, 400);
+      const self = this;
+      cv.addEventListener('pointerdown', e=>{ self.drag = { x:e.clientX, y:e.clientY }; self.auto = false; try{ cv.setPointerCapture(e.pointerId); }catch(_){} });
+      cv.addEventListener('pointermove', e=>{ if(!self.drag) return; self.az -= (e.clientX-self.drag.x)*0.012; self.el = Math.max(-0.25, Math.min(1.25, self.el + (e.clientY-self.drag.y)*0.01)); self.drag.x = e.clientX; self.drag.y = e.clientY; });
+      const up = ()=>{ self.drag = null; self.resumeT = performance.now() + 4000; };
+      cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+      cv.addEventListener('wheel', e=>{ e.preventDefault(); self.dist = Math.max(self.d0*0.5, Math.min(self.d0*1.8, self.dist*(1+e.deltaY*0.001))); self.resumeT = performance.now()+4000; self.auto=false; }, { passive:false });
+      cv.addEventListener('touchmove', e=>{
+        if(e.touches.length === 2){
+          const d = Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
+          if(self.pinch) self.dist = Math.max(self.d0*0.5, Math.min(self.d0*1.8, self.dist*self.pinch/d));
+          self.pinch = d; e.preventDefault();
+        }
+      }, { passive:false });
+      cv.addEventListener('touchend', ()=>{ self.pinch = null; });
+      $('infoSvg').style.display = 'none'; cv.style.display = 'block';
+      this.ok = true;
+    }catch(err){ this.ok = false; try{ $('infoCv').style.display='none'; }catch(_){} }
+    return this.ok;
+  },
+  start(){
+    if(!this.init()) return;
+    this.run = true; this.auto = true; this.az = 0.9; this.el = 0.28; this.dist = this.d0;
+    const self = this;
+    const frame = ()=>{
+      if(!self.run) return; self.raf = requestAnimationFrame(frame);
+      const cv = $('infoCv'), w = cv.clientWidth, h = cv.clientHeight;
+      if(w && (w !== self.lastW)){ self.r.setSize(w, h, false); self.cam.aspect = w/h; self.cam.updateProjectionMatrix(); self.lastW = w; }
+      if(!self.drag && !self.auto && performance.now() > self.resumeT) self.auto = true;
+      if(self.auto) self.az += 0.006;
+      const c = self.ctr, d = self.dist, ce = Math.cos(self.el);
+      self.cam.position.set(c.x + d*ce*Math.sin(self.az), c.y + d*Math.sin(self.el), c.z + d*ce*Math.cos(self.az));
+      self.cam.lookAt(c);
+      self.r.render(self.sc, self.cam);
+    };
+    cancelAnimationFrame(this.raf); frame();
+  },
+  stop(){ this.run = false; cancelAnimationFrame(this.raf); }
+};
+const Info = {
+  KEY:'l39_ficha_oculta', was:false, isOpen:false,
+  hidden(){ try{ return localStorage.getItem(this.KEY)==='1'; }catch(e){ return false; } },
+  open(){ if(this.isOpen) return; this.isOpen = true; this.was = paused; setPaused(true);
+    try{ $('infoNo').checked = this.hidden(); }catch(e){}
+    $('aircraftInfo').style.display='flex'; InfoView.start(); const c=$('aircraftInfo').firstElementChild; if(c) c.scrollTop=0; },
+  close(){ if(!this.isOpen) return; this.isOpen = false;
+    try{ if($('infoNo').checked) localStorage.setItem(this.KEY,'1'); else localStorage.removeItem(this.KEY); }catch(e){}
+    $('aircraftInfo').style.display='none'; InfoView.stop(); setPaused(this.was); }
+};
+
 function loop(now){
   requestAnimationFrame(loop);
 
@@ -2626,6 +4117,16 @@ function loop(now){
     gaugeHDG($('gHDG'), st.psi);
     gaugeVSI($('gVSI'), st.vsFpm);
     gaugeRPM($('gRPM'), st.rpm);
+    { const V=(id,t)=>{ const e=$('v'+id); if(e) e.textContent=t; };
+      V('gIAS',Math.round(st.iasKt));
+      V('gATT',(st.theta*RAD>=0?'+':'')+(st.theta*RAD).toFixed(0)+'° '+(st.phi*RAD>=0?'D':'I')+Math.abs(st.phi*RAD).toFixed(0)+'°');
+      V('gALT',Math.round(st.altFt));
+      V('gTC',(st.phi*RAD>=0?'D ':'I ')+Math.abs(st.phi*RAD).toFixed(0)+'°');
+      V('gHDG',Math.round(((st.psi*RAD)%360+360)%360));
+      V('gVSI',Math.round(st.vsFpm));
+      V('gRPM',Math.round(st.rpm));
+      V('gEGT',Math.round(st.egt));
+    }
     gaugeEGT($('gEGT'), st.egt);
 
     $('telIas').textContent   = Math.round(st.iasKt);
@@ -2654,6 +4155,8 @@ function loop(now){
     else al.classList.remove('show');
   }
 
+  Crash.tick(lastState, dt);
+  terrTick();
   renderer.render(scene, camera);
 }
 
@@ -2685,6 +4188,7 @@ function resizeAll(){
   camera.updateProjectionMatrix();
 
   $('mapToggle').style.top = ($('mapBox').offsetHeight + 12) + 'px';
+  $('btnViewFloat').style.top = $('mapToggle').style.top;
   hudCv.width  = Math.round(w*dpr);
   hudCv.height = Math.round(h*dpr);
 
@@ -3394,7 +4898,7 @@ function sysUpdateUI(st){
 function toggleGear(){
   if(!ac || ac.sys.gearEmerg) return;
   const c = ac.controls;
-  if(c.gear > 0.5 && ac.y < ac.contactH() + 0.03){ Coach.show('Seguro de tierra: el tren no se retrae con peso sobre las ruedas','warn'); return; }
+  if(c.gear > 0.5 && (ac.y-(ac.gh||0)) < ac.contactH() + 0.03){ Coach.show('Seguro de tierra: el tren no se retrae con peso sobre las ruedas','warn'); return; }
   c.gear = c.gear > 0.5 ? 0 : 1;
 }
 
@@ -4016,6 +5520,7 @@ function boot(){
   $('scFlare').onclick    = ()=> userScene('flare');
   $('btnReset').onclick   = ()=> resetCurrent();
   $('btnPause').onclick   = ()=> togglePause();
+  $('btnInfo').onclick    = ()=> Info.open();
   $('btnSound').onclick   = ()=> toggleSound();
   $('btnSound').classList.add('on');
   $('scCold').onclick = ()=> userScene('cold');
@@ -4060,11 +5565,28 @@ function boot(){
   /* vista */
   $('btnViewCockpit').onclick = ()=> setView('cockpit');
   $('btnViewExt').onclick     = ()=> setView('ext');
+/* Cambio de vista: botón flotante + doble toque sobre la escena */
+(function(){
+  const wrap = $('cockpitWrap'), fb = $('btnViewFloat');
+  const flip = ()=> setView(viewMode==='cockpit' ? 'ext' : 'cockpit');
+  fb.addEventListener('click', e=>{ e.stopPropagation(); flip(); });
+  let lastT = 0, lx = 0, ly = 0;
+  wrap.addEventListener('pointerup', e=>{
+    if(e.target.closest && e.target.closest('#gaugePanel, #mapBox, #mapToggle, button, #radioBox, #crash, #coach')) return;
+    const t = performance.now();
+    if(t - lastT < 320 && Math.hypot(e.clientX-lx, e.clientY-ly) < 40){ lastT = 0; flip(); }
+    else { lastT = t; lx = e.clientX; ly = e.clientY; }
+  });
+})();
+
 
   /* luz */
   $('litDay').onclick   = ()=> setLight('day');
   $('litDusk').onclick  = ()=> setLight('dusk');
   $('litNight').onclick = ()=> setLight('night');
+  (function(){ const b=$('btnTerrain'); const paint=()=>{ const on=TERR_ON(); b.classList.toggle('on',on); b.textContent='Relieve: '+(!on?'no':(TERR_LITE()?'ligero':'completo')); };
+    b.onclick = ()=>{ Settings.d.terrain = !TERR_ON() ? true : (TERR_LITE() ? false : 'lite'); Settings.save(); terrApply(); paint(); };
+    paint(); })();
 
   /* trim */
   $('trimUp').onclick   = ()=>{ feel.trim.elevator = clamp(feel.trim.elevator+0.02,-0.5,0.5); updateReadouts(); };
@@ -4101,10 +5623,34 @@ function boot(){
 
   resizeAll();
   setTimeout(resizeAll, 120);
+  if(!Info.hidden()) Info.open();
   requestAnimationFrame(loop);
 }
 
 window.addEventListener('load', boot);
+/* panel inferior en móvil: solo los mandos hasta «Escenario»; lo demás con scroll */
+(function fitPanel(){
+  const panel = document.getElementById('panel'), ctl = document.getElementById('ctrlOverlay');
+  if(!panel || !ctl) return;
+  let last = -1;
+  function fit(){
+    const mobile = window.innerWidth <= 860 || window.innerHeight <= 500;
+    if(!mobile){ panel.style.maxHeight = ''; last = -1; return; }
+    const cs = getComputedStyle(panel), h4 = [...panel.querySelectorAll('h4')].find(x=>x.textContent.trim()==='Escenario');
+    let h = ctl.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(getComputedStyle(ctl).marginBottom) + 1;
+    if(h4) h = h4.getBoundingClientRect().bottom - panel.getBoundingClientRect().top + panel.scrollTop + 5;   // deja visible la palabra «Escenario»
+    const hh = Math.round(Math.min(h, window.innerHeight * 0.6));
+    if(hh === last) return; last = hh;
+    panel.style.maxHeight = hh + 'px';
+    try{ if(typeof resizeAll === 'function') resizeAll(); }catch(e){}
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', ()=> setTimeout(fit, 250));
+  if(window.ResizeObserver) new ResizeObserver(fit).observe(ctl);
+  window.addEventListener('load', ()=> setTimeout(fit, 60));
+  fit();
+})();
+
 </script>
 </body>
 </html>
