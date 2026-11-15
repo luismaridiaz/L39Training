@@ -1,34 +1,18 @@
-# Entrenador Aero L-39 Albatros — Escuela de vuelo
+# Entrenador C172 v3 — Escuela de vuelo
 
-App independiente (no toca C172 ni Arrow). Turborreactor de entrenamiento: motor con respuesta lenta (ralentí→95 % ≈ 6 s), EGT, arranque con secuencia (batería, bombas, llave, arranque), reencendido en vuelo, aerofrenos, tren/flaps con límites, control con presión dinámica, efecto Mach, 24 lecciones y 4 checklists.
+Versión 2: añade el mando circular (botón dentro de un aro: izquierda/derecha = alerones, arriba/abajo = cabeceo). Se puede volver al yoke clásico en Ajustes → «Mando circular».
 
-Publicar: sube la carpeta entera (index.html, manifest.json, sw.js, iconos) a Netlify Drop / GitHub Pages / Vercel. iPhone: Safari → Compartir → Añadir a pantalla de inicio.
+La versión anterior (v1) se mantiene aparte, sin cambios.
 
-## Límites (honestos)
-- Modelo simplificado, NO validado contra un avión real. Inercias, tren y curva de empuje estimados.
-- Ascenso a nivel del mar ~4500 fpm (real ~4100), Vmax ~391 kt, carrera de despegue ~600 m (real ~530 m).
-- Velocidades en kt (no km/h). Límites (tren/flaps 190/170 kt), arranque y reencendido: aproximaciones didácticas; verifica con el manual de vuelo.
-- Sin eyección, un solo depósito, sin depósitos de punta de ala en la física.
-- Solo para aprender procedimientos y sensaciones; no sustituye instrucción real.
-
-## Cambios v2
-- Morro de cabina más pequeño.
-- Mando elíptico por defecto con una palanca (stick) dibujada con botones rojos: lados = alerones, arriba/abajo = cabeceo. Ajustes permite volver al circular.
-
-## Ajuste a datos publicados (v2)
-Fuentes: especificaciones públicas del L-39C (no el manual de vuelo original).
-- Vs1 97 kt, Vs0 84 kt, Vs 25° ≈ 90 kt (publicado 97/84/90).
-- Masa vacía 3565 kg, combustible interno 824 kg.
-- Ascenso a nivel del mar ~4370 fpm (publicado 4330), Vmax a nivel del mar ~385 kt (publicado 378).
-- Despegue con flaps 25°, rotación a 100 kt y tirón firme: ~480 m (publicado 480 m a 4300 kg). Si rotas tarde o flojo, más.
-- NO encontrado en fuentes públicas: límites de tren/flaps (190/170 kt), velocidades de aproximación y toma (120/105 kt), parámetros de arranque y reencendido. Siguen siendo estimaciones didácticas: verifícalas con el manual.
-- Corregido: el arranque en caliente ahora daña el motor tras 3 s por encima de 780 °C (en la primera versión no lo hacía).
+## Cambios v3
+- Morro de cabina más pequeño (tapa menos el exterior).
+- Mando elíptico por defecto: elipse con el volante dibujado; arrastra a los lados = alerones, arriba/abajo = cabeceo (arriba = morro arriba), con curva suave en el centro. Al soltar vuelve a neutro. En Ajustes puedes volver al mando circular o al volante clásico.
 - Vista de cabina propia (colores y marcos de cada modelo).
 - Panel de mandos y escenario ~1/3 más bajo; instrumentos redondos ocupan el ancho del móvil; (Arrow/L-39) tren como palanca vertical.
 
 
-## Terreno procedural (l39-v3)
-Paisaje: **Alta montaña**. Valle glaciar con río y lago, laderas de pino, roca estratificada, canchales y nieve sobre ~1250 m, pueblos de montaña, cabañas y carretera de valle. Cimas de >2000 m a los lados; el eje del valle queda libre para las lecciones.
+## Terreno procedural (c172-v4)
+Paisaje: **Valle atlántico**. Costa al oeste (mar), prados con setos y parcelas irregulares, bosque mixto y de coníferas, ríos, pueblos con casas e iglesia, caseríos. Colinas hasta ~200 m. Cielo/niebla azul-húmedos.
 - Relieve real en la física: el suelo, el efecto suelo y el choque leen la altura del terreno. La altitud del altímetro sigue siendo sobre el nivel del aeródromo (MSL); `aglFt` (altura sobre el suelo) está en el estado. Choque si la velocidad de cierre contra el terreno supera 6 m/s o la pendiente es >35° a más de 12 m/s.
 - El aeródromo y su entorno son llanos (rampa suave), así que despegue, aterrizaje y lecciones no cambian.
 - Detalle por shader (campos, caminos, bosque, agua, roca/nieve) + árboles, casas, iglesias... instanciados en trozos de 400 m alrededor del avión.

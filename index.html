@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Entrenador Aero L-39 Albatros v2 — Escuela de vuelo</title>
+<title>Entrenador C172 v3 — Escuela de vuelo</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0b0f0c">
+<meta name="theme-color" content="#080c14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-title" content="C172">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
 <style>
 :root{
-  --bg:#0b0f0c; --panel:#151b16; --panel2:#111712;
-  --ink:#e6eadf; --ink2:#8f9a88; --accent:#b5d46a; --accent2:#f0b429;
-  --ok:#3ddc84; --warn:#ffd54f; --bad:#ff5c5c; --bd:#2e382f;
+  --bg:#080c14; --panel:#0f1724; --panel2:#0b1220;
+  --ink:#e8edf5; --ink2:#7f90ad; --accent:#4fc3f7; --accent2:#f0b429;
+  --ok:#3ddc84; --warn:#ffd54f; --bad:#ff5c5c; --bd:#22314a;
   --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -27,7 +28,7 @@ body{
 }
 
 /* ---------- ESCENARIO 3D ---------- */
-#stage{flex:1 1 auto; position:relative; min-height:0; background:#040605}
+#stage{flex:1 1 auto; position:relative; min-height:0; background:#05070d}
 #cockpitWrap{position:absolute; inset:0; overflow:hidden}
 #glCanvas{position:absolute; inset:0; width:100%; height:100%; display:block}
 #hudCanvas{position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none}
@@ -35,10 +36,10 @@ body{
 /* ---------- PANEL DE INSTRUMENTOS ---------- */
 #gaugePanel{
   position:absolute; left:50%; bottom:8px; transform:translateX(-50%);
-  display:grid; grid-template-columns:repeat(8,auto); gap:6px;
+  display:grid; grid-template-columns:repeat(7,auto); gap:6px;
   padding:7px 9px; border-radius:12px;
-  background:linear-gradient(180deg,rgba(14,20,15,.84),rgba(6,10,7,.95));
-  border:1px solid #38443a; box-shadow:0 8px 28px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.05);
+  background:linear-gradient(180deg,rgba(10,16,26,.80),rgba(6,10,16,.92));
+  border:1px solid #23334d; box-shadow:0 8px 28px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.05);
   backdrop-filter:blur(6px); z-index:5;
 }
 .gauge{position:relative; text-align:center; width:77.5px}
@@ -46,7 +47,7 @@ body{
 .gauge span b{display:block; margin-top:2px; font:700 9px/1 var(--mono); letter-spacing:.2px; color:#e6eefc; white-space:nowrap}
 .gauge span{
   display:block; margin-top:1px; font:700 8px/1 var(--mono);
-  letter-spacing:.6px; color:#8f9a88;
+  letter-spacing:.6px; color:#7f90ad;
 }
 
 /* ---------- MAPA ---------- */
@@ -57,13 +58,13 @@ body{
 #cockpitWrap{touch-action:manipulation}
 #mapBox{
   position:absolute; right:8px; top:8px; width:264px; height:186px;
-  border-radius:10px; overflow:hidden; border:1px solid #38443a;
-  background:#111712; box-shadow:0 6px 20px rgba(0,0,0,.6); z-index:6;
+  border-radius:10px; overflow:hidden; border:1px solid #23334d;
+  background:#0b1220; box-shadow:0 6px 20px rgba(0,0,0,.6); z-index:6;
 }
 #mapCanvas{width:100%; height:100%; display:block}
 #mapInfo{
   position:absolute; left:6px; bottom:4px; font:700 9px var(--mono);
-  color:#c3cdb8; text-shadow:0 1px 2px #000; pointer-events:none;
+  color:#9fb4d0; text-shadow:0 1px 2px #000; pointer-events:none;
 }
 #mapToggle{
   position:absolute; right:8px; top:200px; z-index:7;
@@ -73,12 +74,12 @@ body{
 /* ---------- PANEL DE MANDOS ---------- */
 #panel{
   flex:0 0 auto; max-height:47vh; overflow:hidden; display:flex; flex-direction:column;
-  background:linear-gradient(180deg,#151b16,#0e130f);
+  background:linear-gradient(180deg,#0f1724,#0a101c);
   border-top:1px solid var(--bd); padding:8px 10px 12px;
   box-shadow:0 -6px 24px rgba(0,0,0,.5);
 }
 .grid::-webkit-scrollbar{width:8px}
-.grid::-webkit-scrollbar-thumb{background:#2e382f; border-radius:4px}
+.grid::-webkit-scrollbar-thumb{background:#22314a; border-radius:4px}
 
 .grid{display:flex; gap:10px; flex-wrap:wrap; align-items:stretch; overflow-y:auto; overflow-x:hidden; min-height:0; flex:1 1 auto}
 .col{flex:1 1 250px; min-width:220px; display:flex; flex-direction:column; gap:7px}
@@ -95,25 +96,25 @@ body{
 
 button{
   flex:1 1 auto; min-width:56px; padding:8px 6px; border-radius:6px;
-  border:1px solid var(--bd); background:#0d120e; color:var(--ink2);
+  border:1px solid var(--bd); background:#0a1220; color:var(--ink2);
   font:700 10px var(--mono); cursor:pointer; letter-spacing:.3px;
   transition:background .12s, color .12s, border-color .12s, transform .06s;
 }
-button:hover{background:#222b23; color:#dfe6d6}
+button:hover{background:#132136; color:#b9cbe4}
 button:active{transform:scale(.97)}
-button.on{background:rgba(181,212,106,.18); color:var(--accent); border-color:var(--accent); box-shadow:0 0 10px rgba(181,212,106,.25) inset}
+button.on{background:rgba(79,195,247,.18); color:var(--accent); border-color:var(--accent); box-shadow:0 0 10px rgba(79,195,247,.25) inset}
 button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var(--bad)}
 
 /* Yoke */
 .yokeArea{
   position:relative; width:100%; height:104px; border-radius:9px;
-  background:radial-gradient(ellipse at 50% 30%, #1d251e, #090d0a);
+  background:radial-gradient(ellipse at 50% 30%, #142033, #080e18);
   border:1px solid var(--bd); overflow:hidden; touch-action:none; cursor:grab;
 }
 .yokeArea:active{cursor:grabbing}
 .yokeArea::after{
   content:'YOKE — arrastra'; position:absolute; left:0; right:0; bottom:3px;
-  text-align:center; font:700 8px var(--mono); color:#4c5a4e; letter-spacing:1px;
+  text-align:center; font:700 8px var(--mono); color:#33465f; letter-spacing:1px;
 }
 #yokeVisual{
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -124,12 +125,12 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 /* Pedales */
 .pedalArea{
   position:relative; width:100%; height:70px; border-radius:9px;
-  background:radial-gradient(ellipse at 50% 30%, #1d251e, #090d0a);
+  background:radial-gradient(ellipse at 50% 30%, #142033, #080e18);
   border:1px solid var(--bd); overflow:hidden; touch-action:none; cursor:ew-resize;
 }
 .pedalArea::after{
   content:'TIMÓN'; position:absolute; left:0; right:0; bottom:3px;
-  text-align:center; font:700 8px var(--mono); color:#4c5a4e; letter-spacing:1px;
+  text-align:center; font:700 8px var(--mono); color:#33465f; letter-spacing:1px;
 }
 .pedal{
   position:absolute; bottom:14px; width:34px; height:40px; border-radius:5px;
@@ -154,20 +155,18 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 .lever-knob{
   position:absolute; left:50%; width:22px; height:22px; margin-left:-11px; border-radius:50%;
   background:radial-gradient(circle at 35% 30%, #7fd6ff, #2a8fc0);
-  border:2px solid #06101c; box-shadow:0 0 10px rgba(181,212,106,.55);
+  border:2px solid #06101c; box-shadow:0 0 10px rgba(79,195,247,.55);
   will-change:bottom;
 }
 .lever.lever-flap .lever-fill{background:linear-gradient(180deg,#a78bfa,#4c2f9e); opacity:.35}
 .lever.lever-flap .lever-knob{background:radial-gradient(circle at 35% 30%,#c4b5fd,#6d47c9)}
-.lever.lever-prop .lever-fill{background:linear-gradient(180deg,#6be3a4,#1c6b45); opacity:.35}
-.lever.lever-prop .lever-knob{background:radial-gradient(circle at 35% 30%,#a8f0cb,#2c9966)}
 .lever.lever-mix .lever-fill{background:linear-gradient(180deg,#ff9f6b,#8a3d18); opacity:.35}
 .lever.lever-mix .lever-knob{background:radial-gradient(circle at 35% 30%,#ffc09b,#c2601f)}
 
 /* Telemetría */
 .tel{display:grid; grid-template-columns:repeat(3,1fr); gap:5px}
 .tel div{
-  background:#0d120e; border:1px solid #1b2a41; border-radius:5px;
+  background:#0a1220; border:1px solid #1b2a41; border-radius:5px;
   padding:4px 5px; text-align:center;
 }
 .tel b{display:block; font:700 14px/1.1 var(--mono); color:var(--accent)}
@@ -202,7 +201,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 #lessonBox{
   position:absolute; left:8px; top:8px; width:min(268px, calc(100vw - 196px)); z-index:9;
   max-height:calc(100% - 100px); overflow-y:auto;
-  background:rgba(8,13,22,.88); border:1px solid #38443a; border-radius:10px;
+  background:rgba(8,13,22,.88); border:1px solid #23334d; border-radius:10px;
   padding:7px 8px; backdrop-filter:blur(6px); box-shadow:0 6px 20px rgba(0,0,0,.55);
 }
 #lsHead{display:flex; align-items:center; justify-content:space-between; gap:6px}
@@ -210,7 +209,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 #lsToggle{flex:0 0 auto; min-width:26px; padding:3px 6px; font-size:11px}
 #lessonBox.min #lsBody{display:none}
 #lsSel{
-  width:100%; margin-top:6px; padding:5px; border-radius:5px; background:#0d120e; color:var(--ink);
+  width:100%; margin-top:6px; padding:5px; border-radius:5px; background:#0a1220; color:var(--ink);
   border:1px solid var(--bd); font:700 10px var(--mono);
 }
 #lsBrief{margin-top:6px; font:11px/1.45 system-ui,sans-serif; color:#c5d3e8}
@@ -221,8 +220,8 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   display:grid; grid-template-columns:10px 1fr auto; gap:6px; align-items:center;
   padding:3px 4px; border-radius:4px; font:700 9px var(--mono); color:var(--ink2);
 }
-#lsCrit li i{width:8px; height:8px; border-radius:50%; background:#4c5a4e}
-#lsCrit li em{font-style:normal; color:#c3cdb8}
+#lsCrit li i{width:8px; height:8px; border-radius:50%; background:#33465f}
+#lsCrit li em{font-style:normal; color:#9fb4d0}
 #lsCrit li.ok i{background:var(--ok)} #lsCrit li.ok em{color:var(--ok)}
 #lsCrit li.bad i{background:var(--bad)} #lsCrit li.bad em{color:var(--bad)}
 #lsCrit li.note{display:block; color:var(--warn)}
@@ -230,7 +229,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 #pauseTag{
   display:none; position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:10;
   padding:6px 18px; border-radius:6px; font:800 14px var(--mono); letter-spacing:3px;
-  background:rgba(181,212,106,.14); color:var(--accent); border:1px solid var(--accent); pointer-events:none;
+  background:rgba(79,195,247,.14); color:var(--accent); border:1px solid var(--accent); pointer-events:none;
 }
 #debrief{
   display:none; position:absolute; inset:0; z-index:20; align-items:center; justify-content:center;
@@ -247,15 +246,15 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   display:grid; grid-template-columns:10px 1fr; gap:2px 8px; padding:5px 0;
   border-top:1px solid #1b2a41; font:10px var(--mono);
 }
-.dbRow i{grid-row:span 3; width:8px; height:8px; border-radius:50%; margin-top:3px; background:#4c5a4e}
+.dbRow i{grid-row:span 3; width:8px; height:8px; border-radius:50%; margin-top:3px; background:#33465f}
 .dbRow.ok i{background:var(--ok)} .dbRow.bad i{background:var(--bad)}
-.dbRow b{color:var(--ink)} .dbRow span{color:var(--ink2)} .dbRow em{font-style:normal; color:#c3cdb8}
+.dbRow b{color:var(--ink)} .dbRow span{color:var(--ink2)} .dbRow em{font-style:normal; color:#9fb4d0}
 #dbTips h4{font:800 10px var(--mono); color:var(--accent2); margin:8px 0 3px}
 #dbTips ul{margin-left:16px; font:11px/1.45 system-ui,sans-serif; color:#c5d3e8}
 #dbTips p{font:11px/1.45 system-ui,sans-serif; color:#c5d3e8}
 .dbCard .row{margin-top:10px}
 .vgrid{display:grid; grid-template-columns:repeat(5,1fr); gap:4px}
-.vgrid div{background:#0d120e; border:1px solid #1b2a41; border-radius:5px; padding:3px 2px; text-align:center}
+.vgrid div{background:#0a1220; border:1px solid #1b2a41; border-radius:5px; padding:3px 2px; text-align:center}
 .vgrid b{display:block; font:700 12px var(--mono); color:var(--accent2)}
 .vgrid span{font:700 7px var(--mono); color:var(--ink2); letter-spacing:.3px}
 
@@ -297,9 +296,9 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   .gauge{width:48px}
   .gauge canvas{width:48px;height:48px}
   .gauge span{font-size:7px}
-  .gauge{width:41.5px}
-  .gauge canvas{width:41.5px;height:41.5px}
-  #gaugePanel{grid-template-columns:repeat(8,auto); gap:2px; padding:4px 4px}
+  .gauge{width:46.1px}
+  .gauge canvas{width:46.1px;height:46.1px}
+  #gaugePanel{grid-template-columns:repeat(7,auto); gap:3px; padding:4px 5px}
   #ctrlOverlay .yokeArea{height:72.6px}
   #ctrlOverlay .lever{height:100px}
   #lessonBox{max-height:calc(100% - 100px)}
@@ -310,10 +309,10 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   display:none; position:absolute; left:50%; top:50%; width:var(--ring,88px); height:var(--ring,88px);
   margin:calc(var(--ring,88px) / -2) 0 0 calc(var(--ring,88px) / -2); border-radius:50%;
   border:2px solid #2f4b70; pointer-events:none;
-  background:radial-gradient(circle at 50% 40%, #182841, #0d120e);
-  box-shadow:inset 0 0 16px rgba(181,212,106,.18), 0 0 0 4px rgba(47,75,112,.25);
+  background:radial-gradient(circle at 50% 40%, #182841, #0a1220);
+  box-shadow:inset 0 0 16px rgba(79,195,247,.18), 0 0 0 4px rgba(47,75,112,.25);
 }
-#stickRing::before,#stickRing::after{content:''; position:absolute; background:rgba(181,212,106,.16)}
+#stickRing::before,#stickRing::after{content:''; position:absolute; background:rgba(79,195,247,.16)}
 #stickRing::before{left:50%; top:8%; bottom:8%; width:1px}
 #stickRing::after{top:50%; left:8%; right:8%; height:1px}
 #stickKnob{
@@ -323,12 +322,12 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 }
 .yokeArea.stick #stickRing{display:block}
 #ellipsePad{display:none; position:absolute; left:4%; right:4%; top:6%; bottom:6%; border-radius:50%;
-  border:2px solid #4a5640; background:radial-gradient(ellipse at 50% 40%, #232a1f, #0b0f0c);
-  box-shadow:inset 0 0 16px rgba(181,212,106,.15); pointer-events:none}
-#ellipsePad::before{content:''; position:absolute; left:50%; top:10%; bottom:10%; width:1px; background:rgba(255,255,255,.08)}
-#ellipsePad::after{content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:rgba(255,255,255,.08)}
-#ellipseYoke{position:absolute; left:50%; top:50%; height:84%; aspect-ratio:80/110; transform:translate(-50%,-50%); transform-origin:50% 88%; will-change:transform}
-#ellipseYoke svg{width:100%; height:100%; overflow:visible; filter:drop-shadow(0 2px 4px rgba(0,0,0,.7))}
+  border:2px solid #2f4b70; background:radial-gradient(ellipse at 50% 40%, #182841, #0a1220);
+  box-shadow:inset 0 0 16px rgba(79,195,247,.18); pointer-events:none}
+#ellipsePad::before{content:''; position:absolute; left:50%; top:10%; bottom:10%; width:1px; background:rgba(79,195,247,.14)}
+#ellipsePad::after{content:''; position:absolute; top:50%; left:6%; right:6%; height:1px; background:rgba(79,195,247,.14)}
+#ellipseYoke{position:absolute; left:50%; top:50%; height:84%; aspect-ratio:150/78; transform:translate(-50%,-50%); will-change:transform}
+#ellipseYoke svg{width:100%; height:100%; overflow:visible; filter:drop-shadow(0 2px 4px rgba(0,0,0,.6))}
 .yokeArea.ell #ellipsePad{display:block}
 .yokeArea.ell #stickRing,.yokeArea.ell #yokeVisual{display:none}
 .yokeArea.ell::after{display:none}
@@ -407,24 +406,10 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 .navRow{display:flex; gap:6px; align-items:center; justify-content:center}
 .navRow canvas{width:84px; height:84px}
 #navInfo{font:700 9px var(--mono); color:var(--ink2); margin:4px 0; text-align:center}
-.gearRow{display:flex; gap:6px; align-items:center; margin-top:5px}
-#btnGear{flex:1 1 auto; min-width:0; padding:7px 4px; font-size:10px}
-
-#gearLights{display:flex; gap:3px; align-items:center}
-.glt{width:14px; height:14px; border-radius:50%; background:#12261f; border:1px solid #2a4a40; display:inline-block}
-.glt.on{background:#3ddc84; box-shadow:0 0 8px #3ddc84}
-.glt.red{background:#2a1212; border-color:#5a2a2a}
-.glt.red.on{background:#ff5c5c; box-shadow:0 0 8px #ff5c5c}
 .sysGrid{display:grid; grid-template-columns:repeat(3,1fr); gap:4px}
 .sysGrid button{padding:7px 2px; font-size:9px}
 #sysState{font:800 10px var(--mono); margin-top:6px; text-align:center}
 @media(max-width:520px){ #dbCharts{grid-template-columns:1fr} #radioBox{top:auto; bottom:84px; transform:none; right:6px} #coach{bottom:84px} }
-
-/* aspecto L-39: panel verde militar mate y filete ámbar */
-#panel{border-top:3px solid #d9a21b; background:repeating-linear-gradient(90deg,rgba(255,255,255,.012) 0 2px,transparent 2px 4px),linear-gradient(180deg,#19201a,#0c110d)}
-#gaugePanel{border:1px solid #4a5a4b; border-bottom:2px solid #d9a21b}
-.card{background:linear-gradient(180deg,#131914,#0d120e)}
-.card h4{border-left:3px solid #d9a21b; padding-left:6px}
 
 /* ---------- v3: panel compacto, vista exterior más grande ---------- */
 #panel{max-height:30vh; overflow-y:auto; overflow-x:hidden; padding:6px 8px 8px; -webkit-overflow-scrolling:touch}
@@ -478,8 +463,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
       <div class="gauge"><canvas id="gTC"  width="300" height="300"></canvas><span>G. VIRAJE<b id="vgTC"></b></span></div>
       <div class="gauge"><canvas id="gHDG" width="300" height="300"></canvas><span>RUMBO<b id="vgHDG"></b></span></div>
       <div class="gauge"><canvas id="gVSI" width="300" height="300"></canvas><span>V/S fpm<b id="vgVSI"></b></span></div>
-      <div class="gauge"><canvas id="gRPM" width="300" height="300"></canvas><span>RPM %<b id="vgRPM"></b></span></div>
-      <div class="gauge"><canvas id="gEGT" width="300" height="300"></canvas><span>EGT °C<b id="vgEGT"></b></span></div>
+      <div class="gauge"><canvas id="gRPM" width="300" height="300"></canvas><span>RPM<b id="vgRPM"></b></span></div>
     </div>
 
     <div id="mapBox">
@@ -527,23 +511,22 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
 </div>
 
 <div class="modal" id="aircraftInfo"><div class="mCard">
-  <div class="cover"><canvas id="infoCv"></canvas><svg id="infoSvg" viewBox="0 0 340 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aero L-39">
+  <div class="cover"><canvas id="infoCv"></canvas><svg id="infoSvg" viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cessna 172">
 <g fill="none" stroke-linejoin="round" stroke-linecap="round">
-<path d="M8,60 L30,52 L120,50 C160,50 190,48 215,44 C250,44 285,52 330,66 C285,76 240,78 215,78 L120,76 L30,70 L8,66 Z" fill="#dfe7f2" stroke="#7f90ad" stroke-width="1.6"/>
-<path d="M30,52 L22,12 L46,12 L66,52 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.6"/>
-<path d="M36,54 L88,54 L84,59 L34,58 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.4"/>
-<path d="M214,45 C226,30 244,32 250,45 Z" fill="#6fa9d8" stroke="#4a6d8c" stroke-width="1.2"/>
-<path d="M170,48 C180,36 196,36 204,48 Z" fill="#6fa9d8" stroke="#4a6d8c" stroke-width="1.2"/>
-<path d="M140,76 L188,76 L186,70" fill="#aebdd1" stroke="#7f90ad" stroke-width="1.2"/>
-<path d="M110,60 L112,70" stroke="#aab7c9" stroke-width="2.5"/>
-<ellipse cx="14" cy="63" rx="5" ry="3.6" fill="#ff9a3c" opacity=".85"/>
-<path d="M132,66 L206,64 L206,70 L132,72 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.5"/>
-<path d="M228,77 L231,99" stroke="#5c6a80" stroke-width="3"/><circle cx="231" cy="104" r="7" fill="#2c3a4c" stroke="#7f90ad" stroke-width="1.6"/>
-<path d="M142,76 L144,99" stroke="#5c6a80" stroke-width="3"/><circle cx="144" cy="104" r="8" fill="#2c3a4c" stroke="#7f90ad" stroke-width="1.6"/>
-</g></svg><div class="hint3d">Arrastra para girar el avión</div><h3>Aero L-39 Albatros</h3><div class="sub">Entrenador a reacción checoslovaco</div></div>
-  <div class="brief"><b>Entrenador a reacción.</b> Para dar el salto de hélice a reactor; hoy también vuelo deportivo y de coleccionista.</div>
-  <div class="stats"><div><b>2 en tándem</b><span>PLAZAS</span></div><div><b>16,9 kN</b><span>TURBOFÁN</span></div><div><b>≈ 490 kt</b><span>VEL. MÁX.</span></div><div><b>≈ 4 600 kg</b><span>PESO MÁX.</span></div><div><b>≈ 36 000 ft</b><span>TECHO</span></div><div><b>Retráctil</b><span>TREN</span></div></div>
-  <details><summary>ESTRUCTURA</summary><div><ul class="fl"><li><b>Monoplano de ala recta</b> baja-media, totalmente metálico, con <b>depósitos de punta de ala</b> (tip tanks).</li><li>Fuselaje semimonocasco de aleación; <b>cabina presurizada en tándem</b> con dosel de burbuja y <b>asientos eyectables</b> (instructor detrás, ligeramente elevado).</li><li>Flaps de ranura en dos posiciones (25° y 44°) y <b>frenos aerodinámicos</b> (aerofrenos) en el fuselaje.</li><li>Límites estructurales de entrenador acrobático: aproximadamente +8 g / −4 g.</li></ul></div></details><details><summary>TREN, MANDOS Y SISTEMAS</summary><div><ul class="fl"><li><b>Tren triciclo retráctil</b> accionado por sistema neumático/hidráulico; palanca en cabina, luces de posición y tren de emergencia neumático.</li><li>Mandos mecánicos con mando de gases tipo reactor; compensadores eléctricos.</li><li>Sistema de arranque del turbofán con control de EGT: un «hot start» (temperatura excesiva) puede dañar el motor.</li><li>Frenos de ruedas neumáticos; combustible interno y en depósitos de punta.</li></ul></div></details><details><summary>MOTOR</summary><div><dl class="spec"><dt>Motor</dt><dd>Ivchenko AI-25TL, <b>turbofán</b> axial de dos ejes</dd><dt>Empuje estático</dt><dd>16,9 kN (≈ 1 720 kgf)</dd><dt>Mandos de motor</dt><dd>Palanca de gases (% rpm del compresor), arranque, EGT, presión de aceite</dd><dt>Combustible interno</dt><dd>≈ 820 kg en el simulador (depósitos de punta aparte)</dd></dl></div></details><details><summary>DIMENSIONES Y PESOS</summary><div><dl class="spec"><dt>Envergadura</dt><dd>9,46 m (con depósitos de punta)</dd><dt>Longitud / altura</dt><dd>12,13 m / 4,77 m</dd><dt>Superficie alar</dt><dd>18,18 m²</dd><dt>Peso máx. al despegue</dt><dd>≈ 4 500–4 700 kg</dd><dt>Peso vacío</dt><dd>≈ 3 450 kg</dd></dl></div></details><details><summary>VELOCIDADES (KT, IAS)</summary><div><dl class="spec"><dt>Pérdida Vs0 / Vs1</dt><dd>84 / 97 (flaps 44° / limpio)</dd><dt>Rotación Vr</dt><dd>100</dd><dt>Mejor planeo</dt><dd>160 (≈ 11 : 1)</dd><dt>Aproximación final</dt><dd>120; toma ≈ 105</dd><dt>Flaps máx. Vfe</dt><dd>170</dd><dt>Tren Vle / Vlo</dt><dd>190</dd><dt>Nunca exceder Vne / Mmo</dt><dd>437 kt / Mach 0,80</dd></dl></div></details><details><summary>PRESTACIONES</summary><div><dl class="spec"><dt>Velocidad máx.</dt><dd>≈ 490 kt (910 km/h) a 5 000 m; ≈ 400 kt a nivel del mar</dd><dt>Régimen de ascenso</dt><dd>≈ 4 100 ft/min</dd><dt>Techo de servicio</dt><dd>≈ 36 000 ft (11 000 m)</dd><dt>Carrera de despegue</dt><dd>≈ 500 m</dd><dt>Alcance interno</dt><dd>≈ 1 100 km (aprox.)</dd><dt>Factor de carga</dt><dd>+8 g / −4 g</dd></dl></div></details><details><summary>EN EL SIMULADOR</summary><div><p>Referencia de 4 200 kg. Inercias, geometría del tren, momentos y curva de empuje del turbofán son estimaciones (no vienen en el manual de vuelo). Las cifras de prestaciones de arriba son valores públicos aproximados.</p></div></details>
+<path d="M16,46 L112,51 C135,51 150,40 176,38 L214,39 C240,41 262,51 278,59 L287,63 C293,67 291,75 281,77 L120,73 L16,58 Z" fill="#dfe7f2" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M16,46 L7,13 L33,13 L52,48 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M22,52 L72,54 L70,59 L22,57 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.4"/>
+<path d="M164,42 L205,42 L219,54 L164,54 Z" fill="#6fa9d8" stroke="#4a6d8c" stroke-width="1.2"/>
+<path d="M18,60 L282,70" stroke="#e0554a" stroke-width="3"/>
+<path d="M146,30 L248,30 L248,35 L146,35 Z" fill="#c7d3e4" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M192,35 L207,72" stroke="#7f90ad" stroke-width="2.4"/>
+<path d="M256,77 L259,100" stroke="#5c6a80" stroke-width="3"/><circle cx="259" cy="105" r="7" fill="#2c3a4c" stroke="#7f90ad" stroke-width="1.6"/>
+<path d="M184,74 L178,100" stroke="#5c6a80" stroke-width="3"/><circle cx="178" cy="105" r="8" fill="#2c3a4c" stroke="#7f90ad" stroke-width="1.6"/>
+<ellipse cx="293" cy="66" rx="3" ry="28" fill="#9fb4cc" opacity=".55"/><path d="M288,62 L296,66 L288,70 Z" fill="#7f90ad"/>
+</g></svg><div class="hint3d">Arrastra para girar el avión</div><h3>Cessna 172 Skyhawk</h3><div class="sub">Monomotor ligero de cuatro plazas</div></div>
+  <div class="brief"><b>Escuela y vuelo recreativo.</b> El avión de referencia para sacarse la licencia de piloto privado: estable, perdona errores y vuela despacio.</div>
+  <div class="stats"><div><b>4</b><span>PLAZAS</span></div><div><b>180 hp</b><span>MOTOR</span></div><div><b>≈ 120 kt</b><span>CRUCERO</span></div><div><b>1 157 kg</b><span>PESO MÁX.</span></div><div><b>14 000 ft</b><span>TECHO</span></div><div><b>Fijo</b><span>TREN</span></div></div>
+  <details><summary>ESTRUCTURA</summary><div><ul class="fl"><li><b>Monoplano de ala alta</b> arriostrada con montantes: la visibilidad hacia abajo es buena y el ala alta da estabilidad natural.</li><li>Fuselaje <b>semimonocasco de aleación de aluminio</b> (revestimiento remachado sobre cuadernas y larguerillos).</li><li>Ala rectangular con perfil NACA 2412, ligero diedro; flaps <b>Fowler</b> eléctricos (0–10–20–30°) y alerones tipo Frise.</li><li>Empenaje convencional; compensador del timón de profundidad con rueda en cabina.</li><li>Cabina cerrada con cuatro asientos, puertas a ambos lados y limitaciones de categoría normal (+3,8 g / −1,52 g).</li></ul></div></details><details><summary>TREN, MANDOS Y SISTEMAS</summary><div><ul class="fl"><li><b>Tren triciclo fijo</b>: patas principales de acero elástico y rueda de morro con amortiguador, dirigible con los pedales; frenos hidráulicos de disco independientes.</li><li>Mandos mecánicos directos por cables (volante, pedales); sin ayudas hidráulicas.</li><li>Sistema eléctrico de 28 V, alternador y batería; instrumentos de vuelo clásicos (pitot-estática y giroscópicos).</li><li>Combustible en dos depósitos de ala por gravedad, selector Izq / Der / Ambos.</li></ul></div></details><details><summary>MOTOR Y HÉLICE</summary><div><dl class="spec"><dt>Motor</dt><dd>Lycoming IO-360-L2A, 4 cilindros opuestos, inyección, refrigerado por aire</dd><dt>Potencia</dt><dd>180 hp (134 kW) a 2 700 rpm</dd><dt>Hélice</dt><dd>Bipala McCauley de <b>paso fijo</b> (sin palanca de hélice)</dd><dt>Mandos de motor</dt><dd>Gases, mezcla y llave de magnetos (sin calefacción de carburador: es de inyección)</dd></dl></div></details><details><summary>DIMENSIONES Y PESOS</summary><div><dl class="spec"><dt>Envergadura</dt><dd>11,0 m</dd><dt>Longitud / altura</dt><dd>8,28 m / 2,72 m</dd><dt>Superficie alar</dt><dd>16,2 m²</dd><dt>Peso máx. al despegue</dt><dd>1 157 kg (2 550 lb)</dd><dt>Peso vacío</dt><dd>≈ 760 kg</dd><dt>Combustible</dt><dd>212 L totales · 201 L utilizables</dd></dl></div></details><details><summary>VELOCIDADES (KT, IAS)</summary><div><dl class="spec"><dt>Pérdida Vs0 / Vs1</dt><dd>40 / 48 (flaps fuera / limpio)</dd><dt>Rotación Vr</dt><dd>55</dd><dt>Mejor ángulo Vx / régimen Vy</dt><dd>62 / 74</dd><dt>Mejor planeo</dt><dd>68</dd><dt>Aproximación final</dt><dd>65</dd><dt>Flaps máx. Vfe</dt><dd>85</dd><dt>Maniobra / crucero normal Vno</dt><dd>99 / 128</dd><dt>Nunca exceder Vne</dt><dd>163</dd></dl></div></details><details><summary>PRESTACIONES</summary><div><dl class="spec"><dt>Velocidad de crucero</dt><dd>≈ 120–124 kt (75 % de potencia)</dd><dt>Régimen de ascenso</dt><dd>≈ 700–730 ft/min al nivel del mar</dd><dt>Techo de servicio</dt><dd>14 000 ft</dd><dt>Carrera de despegue</dt><dd>≈ 290 m (960 ft); 500 m hasta 50 ft</dd><dt>Rodadura de aterrizaje</dt><dd>≈ 175 m (575 ft)</dd><dt>Alcance / autonomía</dt><dd>≈ 640 NM / ≈ 5 h con reservas</dd><dt>Relación de planeo</dt><dd>≈ 9 : 1 a 68 kt</dd></dl></div></details><details><summary>EN EL SIMULADOR</summary><div><p>La masa de referencia es 1 043 kg y el modelo está calibrado con las velocidades de arriba. Inercias, tren y coeficientes de momentos son estimaciones, no datos del manual.</p></div></details>
   <label class="setRow chk" style="margin-top:10px"><input type="checkbox" id="infoNo"> <span>No mostrar al iniciar</span></label>
   <button class="startBtn" onclick="Info.close()">EMPEZAR A VOLAR</button>
 </div></div>
@@ -563,15 +546,12 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
     <div id="ctrlOverlay">
       <div class="ctrlBlock" id="ctrlFlight">
         <div class="yokeArea" id="yokeArea">
-          <div id="ellipsePad"><div id="ellipseYoke"><svg viewBox="0 0 80 110">
-              <ellipse cx="40" cy="98" rx="30" ry="9" fill="#1b1f1a" stroke="#c9d1bd" stroke-width="2"/>
-              <path d="M33 98 L35 46 L45 46 L47 98Z" fill="#2b3028" stroke="#c9d1bd" stroke-width="2"/>
-              <rect x="27" y="12" width="26" height="40" rx="12" fill="#e8ecdf" stroke="#9aa38d" stroke-width="2"/>
-              <rect x="30" y="16" width="20" height="32" rx="9" fill="#33392f"/>
-              <circle cx="33" cy="22" r="4.5" fill="#d23a2e" stroke="#fff" stroke-width="1"/>
-              <circle cx="47" cy="22" r="4.5" fill="#d23a2e" stroke="#fff" stroke-width="1"/>
-              <rect x="36" y="30" width="8" height="6" rx="2" fill="#d9a21b"/>
-            </svg></div></div>
+          <div id="ellipsePad"><div id="ellipseYoke"><svg viewBox="0 0 150 78">
+              <rect x="65" y="38" width="20" height="30" rx="4" fill="#16202e" stroke="#4fc3f7" stroke-width="1.6"/>
+              <rect x="16" y="30" width="118" height="8" rx="4" fill="#243244" stroke="#4fc3f7" stroke-width="1.6"/>
+              <rect x="6" y="-1" width="15" height="42" rx="6" fill="#16202e" stroke="#4fc3f7" stroke-width="1.6"/>
+              <rect x="129" y="-1" width="15" height="42" rx="6" fill="#16202e" stroke="#4fc3f7" stroke-width="1.6"/>
+              <circle cx="75" cy="52" r="8.5" fill="#4fc3f7" opacity=".9"/></svg></div></div>
           <div id="stickRing"><div id="stickKnob"></div></div>
           <div id="yokeVisual">
             <svg viewBox="0 0 150 78">
@@ -607,22 +587,14 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
             <label>GAS</label><span class="val" id="valThrottle">35%</span>
           </div>
           <div class="leverWrap">
-            <div class="lever lever-prop" id="leverAB"><div class="lever-fill"></div><div class="lever-knob"></div></div>
-            <label>F.AERO</label><span class="val" id="valAB">CERR</span>
+            <div class="lever lever-mix" id="leverMixture"><div class="lever-fill"></div><div class="lever-knob"></div></div>
+            <label>MEZCLA</label><span class="val" id="valMixture">100%</span>
           </div>
           <div class="leverWrap">
             <div class="lever lever-flap" id="leverFlap"><div class="lever-fill"></div><div class="lever-knob"></div></div>
             <label>FLAPS</label><span class="val" id="valFlap">0°</span>
           </div>
-          <div class="leverWrap">
-            <div class="lever lever-gear" id="leverGear"><div class="lever-knob"></div></div>
-            <label>TREN</label>
-            <div id="gearLights" title="3 verdes = abajo y bloqueado · roja = en tránsito / no seguro">
-              <i class="glt" id="glN"></i><i class="glt" id="glL"></i><i class="glt" id="glR"></i><i class="glt red" id="glU"></i>
-            </div>
-          </div>
         </div>
-        <button id="btnGear" style="display:none"></button>
       </div>
 
     </div>
@@ -688,11 +660,8 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
           <div><b id="telPitch">0</b><span>MORRO °</span></div>
           <div><b id="telRoll">0</b><span>BANCO °</span></div>
           <div><b id="telAlpha">0</b><span>α °</span></div>
-          <div><b id="telRpm">0</b><span>RPM %</span></div>
-          <div><b id="telEgt">0</b><span>EGT °C</span></div>
-          <div><b id="telFf">0</b><span>FF kg/h</span></div>
-          <div><b id="telFuel">0</b><span>COMB kg</span></div>
-          <div><b id="telMach">0</b><span>MACH</span></div>
+          <div><b id="telRpm">0</b><span>RPM</span></div>
+          <div><b id="telFuel">0</b><span>FUEL L</span></div>
           <div><b id="telGs">0</b><span>GS kt</span></div>
           <div><b id="telTrk">0</b><span>TRK °</span></div>
           <div><b id="telThr">0</b><span>GAS %</span></div>
@@ -738,12 +707,12 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
       <div class="card">
         <h4>Motor y sistemas</h4>
         <div class="sysGrid">
-          <button id="sysBat">MASTER</button>
-          <button id="sysPump">BOMBAS OFF</button>
-          <button id="sysSel">LLAVE CERR</button>
+          <button id="sysBat">BATERÍA</button>
+          <button id="sysMag">MAG OFF</button>
+          <button id="sysCarb">CARB HEAT</button>
+          <button id="sysPrime">CEBAR 0</button>
+          <button id="sysHum">HUMEDAD</button>
           <button id="sysStart">ARRANQUE</button>
-          <button id="sysEmerg">EMERG TREN</button>
-          <button id="sysFill">REPOSTAR</button>
         </div>
         <div id="sysState">--</div>
         <div class="row" style="margin-top:6px">
@@ -758,7 +727,6 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
           <kbd>↑</kbd><kbd>↓</kbd> morro · <kbd>←</kbd><kbd>→</kbd> alabeo ·
           <kbd>A</kbd><kbd>D</kbd> timón · <kbd>W</kbd><kbd>S</kbd> gas ·
           <kbd>Q</kbd><kbd>E</kbd> trim · <kbd>F</kbd><kbd>V</kbd> flaps ·
-          <kbd>G</kbd> tren · <kbd>Z</kbd><kbd>X</kbd> aerofrenos ·
           <kbd>B</kbd> frenos · <kbd>C</kbd> vista · <kbd>R</kbd> reset ·
           <kbd>P</kbd> pausa · <kbd>M</kbd> sonido · <kbd>H</kbd> HUD · <kbd>L</kbd> lección ·
           <kbd>1</kbd>–<kbd>6</kbd> escenarios
@@ -766,16 +734,14 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
       </div>
 
       <div class="card">
-        <h4>Velocidades L-39C (kt)</h4>
+        <h4>Velocidades C172 (kt)</h4>
         <div class="vgrid">
-          <div><b>97</b><span>Vs1</span></div><div><b>84</b><span>Vs0</span></div>
-          <div><b>100</b><span>ROTAR</span></div><div><b>160</b><span>PLANEO</span></div>
-          <div><b>215</b><span>ASCENSO</span></div><div><b>120</b><span>FINAL</span></div>
-          <div><b>170</b><span>Vfe</span></div><div><b>190</b><span>Tren máx.</span></div>
-          <div><b>380</b><span>Vno</span></div><div><b>437</b><span>Vne</span></div>
-          <div><b>0,80</b><span>Mmo</span></div>
+          <div><b>40</b><span>Vs0</span></div><div><b>48</b><span>Vs1</span></div>
+          <div><b>55</b><span>ROTAR</span></div><div><b>62</b><span>Vx</span></div>
+          <div><b>74</b><span>Vy</span></div><div><b>68</b><span>PLANEO</span></div>
+          <div><b>65</b><span>APROX</span></div><div><b>85</b><span>Vfe</span></div>
+          <div><b>128</b><span>Vno</span></div><div><b>163</b><span>Vne</span></div>
         </div>
-        <p class="help" style="font-size:9px;margin-top:5px">Régimen aprox.: despegue y ascenso 100 % · crucero 85 % · circuito 75–80 % · final 70–75 % · ralentí ≈ 52 %. El motor tarda ~6 s de ralentí a plena potencia. Valores didácticos y aproximados: verifica con tu manual (el L-39 usa km/h).</p>
       </div>
     </div>
 
@@ -1655,7 +1621,7 @@ return { init, GLSL_BIOME, GLSL_COMMON };
 if(typeof module !== 'undefined') module.exports = TerrainGL;
 
 var TERRAIN_H=null;
-var TERR_BIOME=TerrainCore.BIOMES['l39']();
+var TERR_BIOME=TerrainCore.BIOMES['c172']();
 function terrH(z,x){ return TERRAIN_H ? TERRAIN_H(z,x) : 0; }          // (z sim = este, x sim = norte)
 function terrNormal(z,x){
   if(!TERRAIN_H) return [0,1,0];
@@ -1676,79 +1642,44 @@ const sign = x => x<0?-1:(x>0?1:0);
 
 /* ==========================================================================
    MODELO DE VUELO  (6-DOF simplificado, cuerpo x=adelante, y=derecha, z=abajo)
-   Aero L-39C Albatros · turbofán Ivchenko AI-25TL (16,9 kN ≈ 1720 kgf)
-   Referencia de calibración (4200 kg, nivel del mar, ISA, valores aproximados):
-   Vs1 ≈ 97 kt · Vs0 (flaps 44°) ≈ 84 kt · aproximación 120 kt · toma ≈ 105 kt ·
-   carrera de despegue ≈ 500 m · Vmáx ≈ 400 kt a nivel del mar · planeo máx. ≈ 11:1 a ≈ 160 kt
-   Las inercias, la geometría del tren, los coeficientes de momentos y la curva de
-   empuje del turbofán son ESTIMACIONES (no están en el manual de vuelo).
+   Referencia de calibración (C172 ~1043 kg, nivel del mar, ISA):
+   Vs1≈48 kt · Vs0≈40 kt · Vy 74 kt (≈700 fpm) · crucero máx ≈ 120 kt · planeo 68 kt ≈ 9:1
    ========================================================================== */
 const P = {
-  mEmpty: 3565,          // masa vacía + 2 tripulantes (kg); la masa total suma el combustible
-  mRef: 4200,
-  S: 18.18, b: 9.46, c: 2.00, g: 9.81,
-  Ix: 5200, Iy: 16000, Iz: 19500,
-  Pmax: 1,               // (sin uso: se conserva por compatibilidad con Ajustes)
-  Tstat: 14700,          // empuje estático máximo a nivel del mar (N)
-  CL0: 0.20, CLa: 4.20, CLe: 0.38, CLf: 0.50,
-  CD0: 0.0235, k: 0.081, CDf: 0.075, CDgear: 0.018, CDab: 0.030,
-  CYb: -0.60, CYr: 0.25,
-  Cm0: 0.020, Cma: -1.00, Cme: 0.65, Cmf: -0.10, Cmq: -15,
-  Clb: -0.095, Clp: -0.55, Clr: 0.09, Clail: 0.070, Clrud: 0.018,
-  Cnb: 0.110, Cnp: -0.035, Cnr: -0.110, Cnail: -0.020, Cnrud: 0.060,
-  alphaStall: 17.4*DEG,
-  gearH: 1.30,           // altura del CG con el tren abajo y sin comprimir (m)
-  bellyH: 0.60,          // altura del CG con el tren arriba (vientre)
-  wingH: 0.90,           // altura del ala sobre el suelo con el CG en el suelo
-  gearK: 350000, gearC: 40000,
-  Mrot: 11000,           // momento de cabeceo necesario para levantar la rueda de morro (N·m)
+  m: 1043, S: 16.2, b: 11.0, c: 1.5, g: 9.81,
+  Ix: 1280, Iy: 1800, Iz: 2500,
+  Tmax: 2050,            // empuje estático (N)
+  Pmax: 80000,           // potencia útil de hélice (W): T = min(Tmax, Pmax/V)
+  CL0: 0.30, CLa: 4.6, CLe: 0.34, CLf: 0.90,
+  CD0: 0.034, k: 0.056, CDf: 0.022,
+  CYb: -0.65, CYr: 0.28,
+  Cm0: 0.020, Cma: -0.90, Cme: 0.62, Cmf: -0.26, Cmq: -14,
+  Clb: -0.10, Clp: -0.58, Clr: 0.09, Clail: 0.075, Clrud: 0.018,
+  Cnb: 0.115, Cnp: -0.035, Cnr: -0.115, Cnail: -0.022, Cnrud: 0.065,
+  alphaStall: 16*DEG,
+  gearH: 1.25,           // altura del CG con el tren sin comprimir (m)
+  gearK: 85000, gearC: 11000,   // muelle/amortiguador del tren
+  Mrot: 2600,            // momento de cabeceo necesario para levantar la rueda de morro (N·m)
   // velocidades de referencia (kt)
-  Vs0: 84, Vs1: 97, Vr: 100, Vapp: 120, Vglide: 160, Vfe: 170, Vno: 380, Vne: 437, Mmo: 0.80,
-  Vle: 190, VloDn: 190, VloUp: 190
+  Vs0: 40, Vs1: 48, Vr: 55, Vx: 62, Vy: 74, Vglide: 68, Vapp: 65, Vfe: 85, Vno: 128, Vne: 163
 };
-P.gearSag = P.mRef*P.g/P.gearK;        // compresión estática
+P.gearSag = P.m*P.g/P.gearK;           // compresión estática
 P.yRest   = P.gearH - P.gearSag;        // altura del CG en reposo sobre el suelo
-const FLAPS = [0, 0.568, 1];           // palanca de flaps: 0° · 25° · 44°
-const flapDeg = f => Math.round(f*44);
-const FUEL_MAX = 824;                  // combustible interno utilizable (kg)
-const N_IDLE = 52;                     // ralentí (% rpm)
-
-const soundSpeed = h => 340.29*Math.sqrt(Math.max(216.65, 288.15 - 0.0065*h)/288.15);
-
-/* Turbofán: N = % rpm del compresor. Empuje, consumo (kg/s) y EGT (°C) */
-function thrustAt(N, V, hAbs){
-  const sig = Math.exp(-hAbs/8500);
-  const M = V/soundSpeed(hAbs);
-  const x = clamp((N - N_IDLE)/(100 - N_IDLE), 0, 1.04);
-  const frac = 0.06 + 0.94*Math.pow(x, 1.6);
-  const ram = Math.max(0.35, 1 - 0.55*M + 0.12*M*M);
-  const lo = clamp((N - 20)/32, 0, 1);                       // por debajo del ralentí no hay empuje útil
-  const T = P.Tstat*frac*Math.pow(sig, 0.85)*ram*lo;
-  const ff = (0.065 + 0.235*Math.pow(frac, 0.9))*Math.pow(sig, 0.7)*(N > 30 ? 1 : 0);
-  return { T, ff, frac, M, x };
-}
-const egtSteady = (N, hAbs)=> 360 + 330*Math.pow(clamp((N - N_IDLE)/(100 - N_IDLE), 0, 1.04), 1.2) - 0.004*hAbs*0.3048;
-
-/* palanca de gas 0..1 → % rpm de equilibrio */
-const lever2N = t => N_IDLE + (100 - N_IDLE)*clamp(t, 0, 1);
-
-/* eficacia de mandos: baja a alta presión dinámica (la fuerza de la palanca/servos se limita) */
-const ctlFactor = q => 1/(1 + Math.max(0, q - 2500)/9000);
 
 /* Escenarios predefinidos. psi en grados, altitud en ft, ias en kt. */
 const SCENES = {
-  ground:   { ground:true, x:0,    z:0,   psi:0, pump:true },
-  takeoff:  { ground:true, x:-600, z:0,   psi:0, pump:true },
+  ground:   { ground:true, x:0,    z:0,   psi:0 },
+  takeoff:  { ground:true, x:-600, z:0,   psi:0 },
   cold:     { ground:true, cold:true, x:-600, z:0, psi:0 },
-  cruise:   { altFt:8000, ias:270, psi:20, x:-3000, z:600, gear:0 },
-  nav:      { altFt:6500, ias:250, psi:31, x:-3600, z:-200, gear:0 },
-  approach: { altFt:500,  ias:120, flap:1, gamma:-3,   x:-3300, z:-25, psi:0, gear:1, pump:true },
-  flare:    { altFt:30,   ias:112, flap:1, gamma:-2.5, x:-380,  z:4,   psi:0, gear:1, pump:true }
+  cruise:   { altFt:2000, ias:100, psi:20, x:-3000, z:600 },
+  nav:      { altFt:1700, ias:95,  psi:31, x:-3600, z:-200 },
+  approach: { altFt:270,  ias:65,  flap:2/3, gamma:-3,   x:-1900, z:-25, psi:0 },
+  flare:    { altFt:30,   ias:60,  flap:1,   gamma:-2.5, x:-260,  z:4,   psi:0 }
 };
 
 class Aircraft {
   constructor(){
-    this.controls = { throttle:0.35, ab:0, elevator:0, aileron:0, rudder:0, flap:0, brake:0, gear:1 };
+    this.controls = { throttle:0.35, mixture:1, elevator:0, aileron:0, rudder:0, flap:0, brake:0 };
     this.wind = { x:0, z:0 };       // x = Norte, z = Este (m/s, hacia donde sopla)
     this.vel  = { x:0, z:0, y:0 };  // velocidad respecto al suelo
     this.vyE = 0;
@@ -1761,11 +1692,6 @@ class Aircraft {
 
   reset(kind){ this.setup(SCENES[kind] || SCENES.approach); }
 
-  mass(){ return P.mEmpty + this.fuel; }
-
-  /* altura del CG con la que el tren (o el vientre) toca el suelo */
-  contactH(){ return P.bellyH + (P.gearH - P.bellyH)*clamp((this.gearPos - 0.55)/0.45, 0, 1); }
-
   /* Coloca la aeronave compensada (trim + potencia) para la condición pedida */
   setup(o){
     const c = this.controls;
@@ -1775,26 +1701,19 @@ class Aircraft {
     this.td = null; this.touchCount = 0; this.liftoff = null;
     this.u=this.v=this.w=this.p=this.q=this.r=0;
     this.phi=this.theta=0;
-    this.vyE = 0; this.N = N_IDLE; this.egt = 360; this.ff = 0; this.running = false; this.mach = 0;
-    c.brake = 0; c.elevator = 0; c.aileron = 0; c.rudder = 0;
-    c.ab = o.ab || 0; this.abEff = c.ab;
-    this.fuel = (o.fuel!=null) ? o.fuel : 560;
+    this.vyE = 0; this.rpm = 700;
+    c.brake = 0; c.mixture = 1; c.elevator = 0; c.aileron = 0; c.rudder = 0;
+    this.fuel = (o.fuel!=null) ? o.fuel : 150;
     this.x = o.x||0; this.z = o.z||0;
     this.psi = (o.psi||0)*DEG;
-    c.flap = o.flap||0; this.flapEff = c.flap;
+    c.flap = o.flap||0;
     this.trimHint = 0; this.thrHint = 0;
-    /* tren */
-    const g0 = (o.gear!=null) ? o.gear : 1;
-    this.gearPos = g0; c.gear = g0;
-    this.gearFail = !!o.gearFail; this.gearDamaged = false; this.gearOver = false;
-    this.bellyLanding = false; this.propStrike = false; this.gearWarn = false;
 
     /* sistemas del motor y viento efectivo */
-    this.sys = { battery:!o.cold, starter:false, fuelPump:!!o.pump && !o.cold, cock:!o.cold,
-                 engineOn:!o.cold, startT:0, cold:!!o.cold, cough:0, startPhase:false, hot:false,
-                 starve:0, flameout:false, gearEmerg:false, overT:0, damaged:false, lit:false,
-                 relightOK:false };
-    if(o.cold){ this.N = 0; this.egt = 15; }
+    const humid = this.sys ? this.sys.humid : false;
+    this.sys = { battery:!o.cold, mag:o.cold?'OFF':'BOTH', carbHeat:false, starter:false, primer:0,
+                 engineOn:!o.cold, ice:0, humid, startT:0, cold:!!o.cold, cough:0 };
+    if(o.cold){ this.rpm = 0; c.mixture = 1; }
     this.gust = { x:0, z:0, y:0 };
     this.windEff = this.windAt((o.ground ? 0 : (o.altFt||2000))/FT);
 
@@ -1802,7 +1721,8 @@ class Aircraft {
     if(o.ground){
       this.y = P.yRest;
       c.throttle = 0;
-      this.trimHint = this.trimFor(55, 1.225, 0, c.flap).de;     // compensador en posición de despegue
+      this.trimHint = this.trimFor(36, 1.225, 0, c.flap).de;     // compensador en posición de despegue (≈70 kt)
+      // en tierra: velocidad respecto al suelo = 0  =>  aire relativo = -viento
       this.u = -(this.windEff.x*cps + this.windEff.z*sps);
       this.v = -(-this.windEff.x*sps + this.windEff.z*cps);
       this.wasContact = true;
@@ -1815,27 +1735,16 @@ class Aircraft {
     const V    = (o.ias/KT)/Math.sqrt(rho/1.225);
     const gam  = (o.gamma||0)*DEG;
     const tr = this.trimFor(V, rho, gam, c.flap);
-    const CLreq = tr.CL, qd = 0.5*rho*V*V;
-    const de = tr.de/ctlFactor(qd), alpha = tr.alpha;
+    const de = tr.de, alpha = tr.alpha, CLreq = tr.CL, qd = 0.5*rho*V*V;
 
-    const M = V/soundSpeed(altM);
-    const Dreq = qd*P.S*(P.CD0 + P.k*CLreq*CLreq + P.CDf*Math.pow(c.flap,1.3) + P.CDgear*g0 + this.dCDmach(M) + P.CDab*c.ab);
-    const Treq = Dreq + this.mass()*P.g*Math.sin(gam);
-    let thr;
-    if(o.thr!=null) thr = o.thr;
-    else {
-      let lo = 0.0, hi = 1;
-      for(let i=0;i<24;i++){
-        const mid = (lo+hi)/2;
-        if(thrustAt(lever2N(mid), V, altM).T < Treq) lo = mid; else hi = mid;
-      }
-      thr = clamp((lo+hi)/2, 0, 1);
-    }
+    const Dreq = qd*P.S*(P.CD0 + P.k*CLreq*CLreq + P.CDf*c.flap + 0.002);
+    const Treq = Dreq + P.m*P.g*Math.sin(gam);
+    const rhoEff = clamp(rho/1.225, 0.45, 1.05);
+    const Tav = rhoEff*Math.min(P.Tmax, P.Pmax/Math.max(V,8));
+    const thr = (o.thr!=null) ? o.thr : clamp(Treq/Tav, 0.05, 1);
+
     this.trimHint = de; this.thrHint = thr;
     c.throttle = thr;
-    this.N = lever2N(thr);
-    const e0 = thrustAt(this.N, V, altM);
-    this.egt = egtSteady(this.N, altM); this.ff = e0.ff; this.running = true; this.mach = e0.M;
     this.u = V*Math.cos(alpha); this.w = V*Math.sin(alpha);
     this.theta = alpha + gam;
     this.y = P.yRest + altM;
@@ -1843,9 +1752,6 @@ class Aircraft {
     this.vel = { x:V*Math.cos(gam)*cps + this.windEff.x, z:V*Math.cos(gam)*sps + this.windEff.z, y:V*Math.sin(gam) };
     this.vyE = V*Math.sin(gam);
   }
-
-  /* aumento de resistencia por compresibilidad (por encima de M ≈ 0,74) */
-  dCDmach(M){ const d = Math.max(0, M - 0.74); return 4.0*d*d; }
 
   /* viento a una altura dada: aumenta con la altura (capa límite) + ráfagas */
   windAt(h){
@@ -1868,7 +1774,7 @@ class Aircraft {
   /* elevador de compensación y ángulo de ataque para vuelo estabilizado a V (m/s aire) */
   trimFor(V, rho, gam, flap){
     const qd = 0.5*rho*V*V;
-    const CL = this.mass()*P.g*Math.cos(gam)/(qd*P.S);
+    const CL = P.m*P.g*Math.cos(gam)/(qd*P.S);
     const a0 = (CL - P.CL0 - P.CLf*flap)/P.CLa;
     const de = -(P.Cm0 + P.Cma*a0 + P.Cmf*flap)/(P.Cme - P.Cma*P.CLe/P.CLa);
     return { de, alpha: a0 - (P.CLe/P.CLa)*de, CL };
@@ -1888,8 +1794,7 @@ class Aircraft {
   step(dt){
     dt = Math.min(dt, 0.02);
     this.time += dt;
-    const c = this.controls, g = P.g;
-    const m = this.mass();
+    const c = this.controls, m = P.m, g = P.g;
 
     /* --- atmósfera y aire relativo --- */
     const gh = terrH(this.z,this.x); this.gh = gh;
@@ -1915,40 +1820,14 @@ class Aircraft {
     const al = this.alpha();
     const be = this.beta();
     const iasKt = V*Math.sqrt(rho/1.225)*KT;
-    const mach = V/soundSpeed(hAbs);
-    this.mach = mach;
-    const sy = this.sys;
-    const ctl = ctlFactor(q);
 
-    /* --- tren: palanca, hidráulica, bloqueo en tierra y límites de velocidad --- */
-    {
-      const g0 = this.gearPos, want = c.gear > 0.5 ? 1 : 0;
-      const squat = (this.y-gh) < this.contactH() + 0.03;               // amortiguadores comprimidos
-      const hyd = sy.battery && !this.gearFail && !this.gearDamaged;
-      if(sy.gearEmerg && g0 < 1) this.gearPos = Math.min(1, g0 + dt/9);        // neumática de emergencia
-      else if(want === 1 && g0 < 1 && hyd) this.gearPos = Math.min(1, g0 + dt/6);
-      else if(want === 0 && g0 > 0 && hyd && !squat) this.gearPos = Math.max(0, g0 - dt/7);
-      if(this.gearPos !== g0 && this.gearPos > 0 && this.gearPos < 1 && !sy.gearEmerg){
-        const lim = want ? P.VloDn : P.VloUp;
-        if(iasKt > lim + 5) this.gearOver = true;
-        if(iasKt > lim + 20) this.gearDamaged = true;              // puertas dañadas: hidráulica inútil
-      }
-    }
-    const gp = this.gearPos;
-
-    /* --- contacto con el suelo (tren o vientre como muelle-amortiguador) --- */
-    const pen = this.contactH() - (this.y - gh);
+    /* --- contacto con el suelo (tren como muelle-amortiguador) --- */
+    const pen = P.gearH - (this.y - gh);
     const contact = pen > 0;
-    const belly = gp < 0.9;
 
-    /* --- efecto suelo --- */
-    const hw = Math.max(0.6, Math.max(0,this.y-gh-P.yRest) + P.wingH);
+    /* --- efecto suelo (reducción de resistencia inducida) --- */
+    const hw = Math.max(0.6, Math.max(0,this.y-gh-P.yRest) + 1.95);          // altura del ala sobre el suelo
     const gx = Math.pow(16*hw/P.b, 2), ge = gx/(1+gx);
-
-    /* --- flaps y aerofrenos: el movimiento no es instantáneo --- */
-    this.flapEff = damp(this.flapEff, c.flap, 1.2, dt);
-    const fl = this.flapEff;
-    this.abEff = damp(this.abEff, c.ab, 1.3, dt);
 
     /* --- pérdida --- */
     const as = P.alphaStall, aa = Math.abs(al);
@@ -1957,65 +1836,44 @@ class Aircraft {
     this.stallWarn = !contact && V > 8 && aa > as - (P.warnMargin || 3.2*DEG);
     this.buffet    = contact ? 0 : clamp((aa-(as-2.5*DEG))/(2.5*DEG), 0, 1);
 
-    /* --- turbofán: arranque, encendido, régimen, EGT, combustible --- */
-    const feed = this.fuel > 0.3 && sy.cock;
-    const engOK = !this.engineFail && !this.crashed;
-    if(sy.engineOn){
-      if(!feed){ sy.starve += dt; if(sy.starve > 1.5){ sy.engineOn = false; sy.flameout = true; sy.startPhase = false; } }
-      else sy.starve = Math.max(0, sy.starve - dt);
+    /* --- motor / hélice --- */
+    const mixEff = c.mixture < 0.25 ? clamp(c.mixture/0.25,0,1) : 1;
+    const rhoEff = clamp(rho/1.225, 0.45, 1.05);
+    const engOK  = this.fuel > 0 && !this.engineFail && !this.crashed;
+    const sy = this.sys;
+    /* arranque, magnetos, corte de mezcla, hielo en carburador */
+    if(sy.mag === 'OFF' || c.mixture < 0.08) sy.engineOn = false;
+    if(!sy.engineOn){
+      if(sy.starter && sy.battery && engOK){
+        sy.startT += dt;
+        const okStart = sy.mag==='BOTH' && c.mixture>0.4 && c.throttle<0.5 && sy.primer >= (sy.cold?2:0);
+        if(okStart && sy.startT > 1.6){ sy.engineOn = true; sy.cold = false; sy.startT = 0; }
+        if(!okStart) sy.cough += dt;
+      } else sy.startT = 0;
     }
-    if(!engOK && sy.engineOn){ sy.engineOn = false; sy.startPhase = false; }
-    const windN = contact ? 0 : clamp(0.33*V, 0, 28);
-    const spin = !sy.engineOn && sy.starter && sy.battery && engOK;
-    if(spin){
-      sy.startT += dt;
-      /* encendido: ≥ 14 % rpm, llave de combustible abierta, bombas ON y combustible */
-      if(this.N >= 14 && feed && sy.fuelPump){
-        sy.engineOn = true; sy.cold = false; sy.startPhase = true; sy.lit = true; sy.flameout = false;
-        sy.hot = c.throttle > 0.15; sy.startT = 0;
-      } else if(this.N >= 14) sy.cough += dt;
-    } else if(!sy.engineOn) sy.startT = 0;
-
-    const running = engOK && sy.engineOn;
-    const Ntgt = running ? lever2N(c.throttle) : 0;
-    if(running){
-      const x = clamp((this.N - N_IDLE)/(100 - N_IDLE), 0, 1);
-      const tau = sy.startPhase ? 9 : (Ntgt > this.N ? 5.0 - 3.5*x : 2.0);
-      this.N += (Ntgt - this.N)/tau*dt;
-      if(sy.startPhase){
-        if(c.throttle > 0.15) sy.hot = true;
-        if(this.N >= 45){ sy.startPhase = false; sy.starter = false; }
-      }
-    } else {
-      const tgtN = spin ? Math.max(22, windN) : windN;
-      this.N += (tgtN - this.N)/(spin ? 3.3 : 7.0)*dt;
-      if(tgtN === 0 && this.N < 0.3) this.N = 0;
-    }
-    const e = thrustAt(this.N, V, hAbs);
-    const T = running ? e.T : 0;
+    if(sy.engineOn && sy.humid && !sy.carbHeat && c.throttle < 0.65) sy.ice = Math.min(1, sy.ice + dt/90);
+    else if(sy.carbHeat) sy.ice = Math.max(0, sy.ice - dt/12);
+    if(sy.engineOn && sy.ice > 0.92 && c.throttle < 0.3) sy.engineOn = false;       // se para por hielo
+    const running = engOK && sy.engineOn && mixEff > 0.05;
+    const carbF = (sy.carbHeat ? 0.9 : 1) * (1 - 0.55*sy.ice);
+    const magF  = sy.mag === 'BOTH' ? 1 : (sy.mag === 'OFF' ? 0 : 0.97);
+    const pw = running ? c.throttle*mixEff*carbF*magF : 0;
+    const T  = pw*rhoEff*Math.min(P.Tmax, P.Pmax/Math.max(V,8));
+    const spinning = sy.starter && sy.battery && !sy.engineOn && engOK;
+    this.rpm = running ? clamp(700 + pw*(1600+11*V) - (sy.mag!=='BOTH'?90:0) - (sy.carbHeat?40:0), 560, 2700)
+             : spinning ? 220
+             : (contact ? 0 : clamp(18*V, 0, 2000));
     this.running = running;
-    this.ff = running ? e.ff : 0;                                   // kg/s
-    if(running) this.fuel = Math.max(0, this.fuel - e.ff*dt);
-    /* EGT: transitorio al acelerar, pico en el arranque y arranque caliente */
-    let egtT;
-    if(!running) egtT = spin ? 90 : Math.max(15, 15 - 0.0065*hAbs);
-    else if(sy.startPhase){
-      egtT = 360 + 200*Math.sin(Math.PI*clamp((this.N - 14)/38, 0, 1));
-      if(sy.hot) egtT += 340;
-    } else egtT = egtSteady(this.N, hAbs) + 75*clamp((Ntgt - this.N)/25, 0, 1);
-    this.egt = damp(this.egt, egtT, running ? 1.2 : 0.12, dt);
-    if(this.egt > 780){ sy.overT += dt; if(sy.overT > 3){ this.engineFail = true; sy.damaged = true; } }
-    else sy.overT = Math.max(0, sy.overT - dt*0.5);
-    /* aviso de tren: régimen bajo con velocidad baja, o flaps de aterrizaje, con el tren sin bajar y bloqueado */
-    this.gearWarn = !contact && gp < 0.999 && ((this.N < 72 && iasKt < 150) || c.flap >= 0.5);
+    const slip = clamp(1 - V/55, 0, 1);
+    const pfac = 1 + clamp(al/(10*DEG), 0, 1.5);                // factor P
+    const Nprop = -420*pw*rhoEff*slip*pfac;                      // guiñada a la izquierda
+    const Lprop = -60*pw*rhoEff*(0.5+0.5*slip);                 // par de reacción
 
     /* --- coeficientes --- */
-    const CL = P.CL0 + this.clAlpha(al) + P.CLe*c.elevator*ctl + P.CLf*fl;
-    const gDrag = P.CDgear*gp + 0.012*Math.sin(Math.PI*gp);
-    const windmill = running ? 0 : (contact ? 0 : 0.004);
-    const CD = P.CD0 + P.k*ge*CL*CL + P.CDf*Math.pow(fl,1.3) + gDrag + stallAmt*0.10 + windmill
-             + P.CDab*this.abEff + this.dCDmach(mach);
-    const CY = P.CYb*be + P.CYr*c.rudder*ctl;
+    const CL = P.CL0 + this.clAlpha(al) + P.CLe*c.elevator + P.CLf*c.flap;
+    const CD = P.CD0 + P.k*ge*CL*CL + P.CDf*c.flap + stallAmt*0.10
+             + (running ? 0.008*(1-c.throttle) : 0.016);
+    const CY = P.CYb*be + P.CYr*c.rudder;
 
     const L = q*P.S*CL, D = q*P.S*CD, Y = q*P.S*CY;
 
@@ -2039,10 +1897,9 @@ class Aircraft {
       this.td = {
         vs: vs*FT*60, ias: iasKt, phi: this.phi*RAD, theta: this.theta*RAD,
         x: this.x, z: this.z, psi: this.psi, t: this.time,
-        gs: Math.hypot(this.vel.x, this.vel.z), bounce: this.touchCount>0, gear: gp
+        gs: Math.hypot(this.vel.x, this.vel.z), bounce: this.touchCount>0
       };
       this.touchCount++;
-      if(belly){ this.bellyLanding = true; this.propStrike = true; sy.engineOn = false; sy.startPhase = false; }
       if(vs < -3.5) this.hardLanding = true;
       { const tn=terrNormal(this.z,this.x); const cl=-(this.vel.x*tn[0]+this.vel.y*tn[1]+this.vel.z*tn[2]);
         if(vs < -6.0 || cl > 6.0 || Math.abs(this.phi) > 35*DEG || (tn[1] < 0.82 && Math.hypot(this.vel.x,this.vel.z) > 12)) this.crashed = true; }
@@ -2064,12 +1921,12 @@ class Aircraft {
     const ph_ = this.p*P.b/(2*V), qh_ = this.q*P.c/(2*V), rh_ = this.r*P.b/(2*V);
     const stallRoll = stallAmt*0.05*clamp(this.phi/0.3 + be*5 + c.rudder*1.5, -1, 1)
                     + stallAmt*0.012*(Math.sin(this.time*13)+Math.sin(this.time*7.7));
-    const Cl = P.Clb*be + P.Clp*ph_*(1 - 1.2*stallAmt) + P.Clr*rh_ + P.Clail*c.aileron*ctl*(1-0.6*stallAmt)
-             + P.Clrud*c.rudder*ctl + stallRoll;
-    const Cm = P.Cm0 + P.Cma*al + P.Cme*c.elevator*ctl + P.Cmf*fl + P.Cmq*qh_ - 0.012*this.abEff;
-    const Cn = P.Cnb*be + P.Cnp*ph_ + P.Cnr*rh_*(1 - 0.7*stallAmt) + P.Cnail*c.aileron*ctl + P.Cnrud*c.rudder*ctl;
+    const Cl = P.Clb*be + P.Clp*ph_*(1 - 1.2*stallAmt) + P.Clr*rh_ + P.Clail*c.aileron*(1-0.6*stallAmt)
+             + P.Clrud*c.rudder + stallRoll;
+    const Cm = P.Cm0 + P.Cma*al + P.Cme*c.elevator + P.Cmf*c.flap + P.Cmq*qh_;
+    const Cn = P.Cnb*be + P.Cnp*ph_ + P.Cnr*rh_*(1 - 0.7*stallAmt) + P.Cnail*c.aileron + P.Cnrud*c.rudder;
 
-    const Lm = q*P.S*P.b*Cl, Mm = q*P.S*P.c*Cm, Nm = q*P.S*P.b*Cn;
+    const Lm = q*P.S*P.b*Cl + Lprop, Mm = q*P.S*P.c*Cm, Nm = q*P.S*P.b*Cn + Nprop;
 
     /* --- integración --- */
     this.u += (Fx/m + this.r*this.v - this.q*this.w)*dt;
@@ -2077,7 +1934,7 @@ class Aircraft {
     this.w += (Fz/m + this.q*this.u - this.p*this.v)*dt;
 
     // la rueda de morro sostiene el avión hasta que el elevador genera momento suficiente
-    const held = contact && !belly && this.theta < 0.015 && Mm < P.Mrot;
+    const held = contact && this.theta < 0.015 && Mm < P.Mrot;
     this.p += (Lm/P.Ix)*dt;
     this.p = clamp(this.p, -3.5, 3.5);
     if(held) this.q = 0; else this.q += (Mm/P.Iy)*dt;
@@ -2088,8 +1945,8 @@ class Aircraft {
     this.theta += (this.q*cph - this.r*sph)*dt;
     this.psi   += ((this.q*sph + this.r*cph)/Math.max(0.3, cth))*dt;
 
-    this.phi   = clamp(this.phi, -180*DEG, 180*DEG);
-    this.theta = clamp(this.theta, -80*DEG, 80*DEG);
+    this.phi   = clamp(this.phi, -85*DEG, 85*DEG);
+    this.theta = clamp(this.theta, -60*DEG, 60*DEG);
     this.psi   = wrapPi(this.psi);
 
     /* --- velocidad respecto al suelo = aire + viento --- */
@@ -2106,13 +1963,12 @@ class Aircraft {
     this.x += this.vel.x*dt;
     this.z += this.vel.z*dt;
     this.y += vy*dt;
-    if(this.y < gh + this.contactH() - 0.8) this.y = gh + this.contactH() - 0.8;
+    if(this.y < gh + P.gearH - 0.8) this.y = gh + P.gearH - 0.8;
 
     /* --- dinámica en tierra --- */
     if(contact){
       if(held) this.theta = Math.max(0, this.theta);
-      if(this.theta > 13*DEG && !belly){ this.theta = 13*DEG; if(this.q > 0) this.q = 0; this.tailStrike = true; }
-      if(belly){ this.theta = damp(this.theta, 0.03, 3, dt); this.q *= Math.exp(-6*dt); }
+      if(this.theta > 14*DEG){ this.theta = 14*DEG; if(this.q > 0) this.q = 0; this.tailStrike = true; }
       this.phi = damp(this.phi, 0, 4, dt);
       this.p  *= Math.exp(-8*dt);
       this.r  *= Math.exp(-5*dt);
@@ -2122,10 +1978,10 @@ class Aircraft {
       const wby = -this.windEff.x*sps + this.windEff.z*cps;
       let ug = this.u + wbx;                       // velocidad longitudinal respecto al suelo
       let vg = this.v + wby;                       // velocidad lateral respecto al suelo
-      const spd = belly ? 0 : clamp(Math.abs(ug)/8, 0, 1)*(1 - clamp(Math.abs(ug)/45, 0, 0.75));
-      this.psi = wrapPi(this.psi + c.rudder*0.5*spd*dt);   // dirección de la rueda de morro
+      const spd = clamp(Math.abs(ug)/8, 0, 1)*(1 - clamp(Math.abs(ug)/32, 0, 0.75));
+      this.psi = wrapPi(this.psi + c.rudder*0.5*spd*dt);
       vg *= Math.exp(-4*dt);
-      const mu = belly ? 0.42 : 0.016 + c.brake*0.40;
+      const mu = 0.018 + c.brake*0.45;
       const dv = mu*g*dt*clamp(N/(m*g), 0, 1.3);
       if(Math.abs(ug) > dv) ug -= sign(ug)*dv; else ug = 0;
       this.u = ug - wbx;
@@ -2137,21 +1993,17 @@ class Aircraft {
       this.u *= k; this.v *= k; this.w *= k; this.p = this.q = this.r = 0;
     }
 
+    /* --- combustible (l/s) --- */
+    if(running) this.fuel = Math.max(0, this.fuel - (0.12+0.88*c.throttle)*(0.6+0.4*mixEff)*0.0108*dt);
+
     this.wasContact = contact;
     this._alert = this.crashed ? 'IMPACTO'
-                : this.bellyLanding && contact ? 'ATERRIZAJE SIN TREN'
                 : this.stalled ? 'PÉRDIDA · STALL'
-                : (this.fuel <= 0.3 && !contact) ? 'SIN COMBUSTIBLE'
-                : sy.damaged ? 'MOTOR DAÑADO · SOBRETEMPERATURA'
+                : this.fuel <= 0 ? 'SIN COMBUSTIBLE'
                 : this.engineFail ? 'FALLO DE MOTOR'
-                : (!sy.engineOn && !contact) ? (sy.flameout ? 'APAGADO DE MOTOR · REENCENDIDO: ≥ 150 kt, BOMBAS, LLAVE, ARRANQUE' : 'MOTOR PARADO')
-                : (this.egt > 730 && sy.engineOn) ? 'EGT ALTA · REDUCE GAS' + (sy.startPhase ? ' / CORTA LA LLAVE' : '')
-                : this.gearOver && gp > 0 && gp < 1 ? 'EXCESO DE VELOCIDAD · TREN'
-                : (this.gearWarn && hAbs < 250 && iasKt < 150) ? 'TREN NO ABAJO'
-                : mach > P.Mmo ? 'MACH LÍMITE'
+                : (!sy.engineOn && !contact) ? (sy.ice > 0.9 ? 'MOTOR PARADO · HIELO' : 'MOTOR PARADO')
                 : (this.stalled && Math.abs(this.p) > 1.2) ? 'AUTORROTACIÓN'
                 : this.hardLanding && contact && this.time - (this.td?this.td.t:0) < 4 ? 'ATERRIZAJE DURO'
-                : (this.fuel < 150 && sy.engineOn) ? 'COMBUSTIBLE BAJO'
                 : '';
   }
 
@@ -2164,36 +2016,29 @@ class Aircraft {
     const cth=Math.cos(this.theta), sth=Math.sin(this.theta);
     const cph=Math.cos(this.phi), sph=Math.sin(this.phi);
     const vd = -sth*this.u + sph*cth*this.v + cph*cth*this.w;
-    const sy = this.sys;
     return {
       x:this.x, y:this.y, z:this.z,
       theta:this.theta, phi:this.phi, psi:this.psi,
       u:this.u, v:this.v, w:this.w, p:this.p, q:this.q, r:this.r,
       iasKt: V*Math.sqrt(rho/1.225)*KT,
-      tasKt: V*KT, mach: V/soundSpeed(hAbs),
       altFt: hAbs*FT,
       vsFpm: (-vd + this.windEff.y)*196.85,
       gsKt: gs*KT, trk: trk,
       gamma: Math.atan2(this.vel.y, Math.max(gs,0.5)),
       drift: gs>2 ? wrapPi(trk - this.psi) : 0,
       alphaDeg: this.alpha()*RAD,
-      rpm: this.N, egt: this.egt, ff: this.ff*3600, fuel: this.fuel,
-      mass: this.mass(),
-      throttle: this.controls.throttle, ab: this.abEff, abCmd: this.controls.ab,
-      flap: this.controls.flap,
-      gearPos: this.gearPos, gearCmd: this.controls.gear, gearWarn: this.gearWarn,
-      gearOver: this.gearOver, gearDamaged: this.gearDamaged, gearFail: this.gearFail,
-      bellyLanding: this.bellyLanding,
-      onGround: (this.y-(this.gh||0)) < this.contactH(),
+      rpm: this.rpm, fuel: this.fuel,
+      throttle: this.controls.throttle, flap: this.controls.flap,
+      onGround: (this.y-(this.gh||0)) < P.gearH,
       aglFt: Math.max(0,this.y-(this.gh||0)-P.yRest)*FT, terrM: this.gh||0,
       stalled: this.stalled, stallWarn: this.stallWarn, buffet: this.buffet,
       engineFail: this.engineFail, running: this.running,
       crashed: this.crashed, hard: this.hardLanding, tailStrike: this.tailStrike,
       td: this.td, liftoff: this.liftoff, touchCount: this.touchCount,
       alert: this._alert, time: this.time,
-      sys: { battery:sy.battery, starter:sy.starter, fuelPump:sy.fuelPump, cock:sy.cock,
-             engineOn:sy.engineOn, startPhase:sy.startPhase, hot:sy.hot, cold:sy.cold, cough:sy.cough,
-             starve:sy.starve, flameout:sy.flameout, gearEmerg:sy.gearEmerg, damaged:sy.damaged },
+      sys: { battery:this.sys.battery, mag:this.sys.mag, carbHeat:this.sys.carbHeat, starter:this.sys.starter,
+             primer:this.sys.primer, engineOn:this.sys.engineOn, ice:this.sys.ice, humid:this.sys.humid,
+             cold:this.sys.cold, cough:this.sys.cough },
       turb: this.turbLevel,
       windN: this.windEff.x, windE: this.windEff.z,
       spinning: this.stalled && Math.abs(this.p) > 1.2
@@ -2252,7 +2097,7 @@ let TR = null;
 const TERR_ON = ()=> Settings.d.terrain !== false;
 const TERR_LITE = ()=> Settings.d.terrain === 'lite';
 try{
-  TR = TerrainGL.init(THREE, scene, null, 'l39', {});
+  TR = TerrainGL.init(THREE, scene, null, 'c172', {});
 }catch(err){ console.warn('terreno desactivado', err); TR = null; }
 function terrApply(){
   const on = !!TR && TERR_ON();
@@ -2380,7 +2225,7 @@ function updatePapi(st){
   });
 })();
 
-/* --- modelo externo L-39 Albatros (ala recta con depósitos de punta, tándem, tren retráctil) --- */
+/* --- modelo externo C172 --- */
 /* modelos 3D detallados (datos procedurales) */
 /* ==========================================================================
    MODELOS 3D DETALLADOS (datos puros, sin THREE)
@@ -2798,7 +2643,7 @@ return { build };
 
 const acModel = new THREE.Group();
 (function buildModel(){
-  const D = AcModels.build('l39'), YS = -0.12;           // YS: ruedas a -gearH
+  const D = AcModels.build('c172'), YS = -0.12;           // YS: ruedas a -gearH
   const mats = {
     body: new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide }),
     glass: new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide, transparent:true, opacity:0.88 }),
@@ -2828,23 +2673,22 @@ const acModel = new THREE.Group();
 const camera = new THREE.PerspectiveCamera(62, 1, 0.08, 70000);
 scene.add(camera);
 
-/* --- morro desde la cabina (cúpula y arco del parabrisas) --- */
+/* --- morro desde la cabina --- */
 const cockpitNose = new THREE.Group();
 (function buildCockpitNose(){
   const M = (c,e,o)=>{ const m = new THREE.MeshLambertMaterial({ color:c, emissive:c, emissiveIntensity:(e==null?0.4:e) }); if(o!=null){ m.transparent=true; m.opacity=o; m.depthWrite=false; } return m; };
   const B = (w,h,d,mat,x,y,z,rx,ry,rz)=>{ const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat); m.position.set(x,y,z); m.rotation.set(rx||0,ry||0,rz||0); cockpitNose.add(m); return m; };
   const C = (rt,rb,h,mat,x,y,z,rx)=>{ const m = new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,16), mat); m.position.set(x,y,z); m.rotation.x = rx||0; cockpitNose.add(m); return m; };
-  /* L-39: cabina en tándem, arco de dosel metálico gris-verdoso, visera con colimador, laterales gris azulado */
-  C(0.26,0.10,2.0,M(0xb9c0c7,0.45),0,-0.86,-2.0,Math.PI/2);
-  B(2.4,0.15,0.5,M(0x1b211c,0.25),0,-0.46,-0.72,-0.18,0,0);        // visera
-  B(2.6,0.08,0.08,M(0x6e776a,0.5),0,0.44,-0.78,0,0,0);            // arco superior del parabrisas
-  B(0.06,0.42,0.06,M(0x6e776a,0.5),0,0.24,-0.78,0,0,0);           // poste central del parabrisas
-  B(0.05,1.6,0.05,M(0x76806f,0.5),-0.94,0.0,-0.78,0,0,-0.30);      // marcos del dosel
-  B(0.05,1.6,0.05,M(0x76806f,0.5), 0.94,0.0,-0.78,0,0, 0.30);
-  B(0.16,1.3,0.12,M(0x56626b,0.4),-1.28,-0.2,-0.68,0,0,0);        // consolas laterales gris azulado
-  B(0.16,1.3,0.12,M(0x56626b,0.4), 1.28,-0.2,-0.68,0,0,0);
-  B(0.22,0.10,0.20,M(0x14181a,0.25),0,-0.33,-0.66,0,0,0);          // colimador
-  B(0.20,0.15,0.01,M(0x9dffb4,0.8,0.18),0,-0.22,-0.60,-0.25,0,0);   // cristal reflector
+  /* C172: interior beige, cuadro negro mate, montantes color crema, capó blanco, brújula en el parabrisas */
+  C(0.30,0.24,1.5,M(0xeef1f4,0.5),0,-0.82,-1.7,Math.PI/2);
+  B(2.3,0.13,0.5,M(0x232326,0.3),0,-0.46,-0.72,-0.16,0,0);          // visera del cuadro
+  B(2.6,0.11,0.5,M(0xcdbf9f,0.55),0,0.45,-0.8,0,0,0);              // techo
+  B(0.05,1.5,0.05,M(0xd6cbb0,0.55),-0.92,0.0,-0.8,0,0,-0.20);     // montantes
+  B(0.05,1.5,0.05,M(0xd6cbb0,0.55), 0.92,0.0,-0.8,0,0, 0.20);
+  B(0.025,0.92,0.04,M(0xb9ad92,0.5),0,0.02,-0.8,0,0,0);          // travesaño central del parabrisas
+  B(0.10,1.3,0.1,M(0xb8a98a,0.45),-1.26,-0.1,-0.7,0,0,0);          // tapizado de las puertas
+  B(0.10,1.3,0.1,M(0xb8a98a,0.45), 1.26,-0.1,-0.7,0,0,0);
+  C(0.02,0.02,0.015,M(0x1c1c1e,0.3),0,0.36,-0.72,Math.PI/2);        // brújula
 })();
 camera.add(cockpitNose);
 
@@ -2875,16 +2719,16 @@ function gaugeASI(cv, kt){
   const r = R*0.93;
   face(ctx, r);
 
-  const VMAX = 500, A0 = -Math.PI*0.75, A1 = Math.PI*0.75;
+  const VMAX = 180, A0 = -Math.PI*0.75, A1 = Math.PI*0.75;
   const ang = v => A0 + (v/VMAX)*(A1-A0);
 
   const arc = (v1,v2,col,rad,w)=>{
     ctx.beginPath(); ctx.arc(0,0,rad, ang(v1), ang(v2));
     ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineCap='butt'; ctx.stroke();
   };
-  arc(P.Vno,P.Vne,'#ffd54f', r*0.845, r*0.055);      // amarillo 380-437
-  arc(P.Vs1,P.Vno,'#3ddc84', r*0.845, r*0.055);      // verde 100-380
-  arc(P.Vs0,P.Vfe,'#f2f5f8', r*0.765, r*0.045);      // blanco 82-170 (flaps)
+  arc(P.Vno,P.Vne,'#ffd54f', r*0.845, r*0.055);      // amarillo 128-163
+  arc(P.Vs1,P.Vno,'#3ddc84', r*0.845, r*0.055);      // verde 48-128
+  arc(P.Vs0,P.Vfe,'#f2f5f8', r*0.765, r*0.045);      // blanco 40-85
   // línea roja
   ctx.beginPath();
   ctx.moveTo(Math.cos(ang(P.Vne))*r*0.78, Math.sin(ang(P.Vne))*r*0.78);
@@ -2893,15 +2737,15 @@ function gaugeASI(cv, kt){
 
   ctx.strokeStyle = '#cfe3f5'; ctx.fillStyle = '#dbe9f7';
   ctx.textAlign='center'; ctx.textBaseline='middle';
-  for(let v=0; v<=VMAX; v+=25){
+  for(let v=0; v<=VMAX; v+=10){
     const a = ang(v), c = Math.cos(a), s = Math.sin(a);
-    const big = v%50===0;
+    const big = v%20===0;
     ctx.lineWidth = big? r*0.022 : r*0.012;
     ctx.beginPath();
     ctx.moveTo(c*r*0.90, s*r*0.90);
     ctx.lineTo(c*(big? r*0.795 : r*0.85), s*(big? r*0.795 : r*0.85));
     ctx.stroke();
-    if(big && v%100===0){
+    if(big && v%40===0){
       ctx.font = `bold ${r*0.155}px ui-monospace,monospace`;
       ctx.fillText(String(v), c*r*0.64, s*r*0.64);
     }
@@ -3016,14 +2860,14 @@ function gaugeALT(cv, ft){
   const pos = ((ft % 10000)+10000)%10000;
   // aguja larga (cientos)
   ctx.save();
-  ctx.rotate((pos%1000)/1000*Math.PI*2);
+  ctx.rotate((pos%1000)/1000*Math.PI*2 - Math.PI/2);
   ctx.beginPath();
   ctx.moveTo(r*0.72,0); ctx.lineTo(-r*0.10, r*0.018); ctx.lineTo(-r*0.10,-r*0.018);
   ctx.closePath(); ctx.fillStyle='#f2f6fa'; ctx.fill(); ctx.restore();
 
   // aguja corta (millares)
   ctx.save();
-  ctx.rotate(pos/10000*Math.PI*2);
+  ctx.rotate(pos/10000*Math.PI*2 - Math.PI/2);
   ctx.beginPath();
   ctx.moveTo(r*0.50,0); ctx.lineTo(-r*0.08, r*0.038); ctx.lineTo(-r*0.08,-r*0.038);
   ctx.closePath(); ctx.fillStyle='#dfe9f5'; ctx.fill(); ctx.restore();
@@ -3150,47 +2994,22 @@ function gaugeRPM(cv, rpm){
   const { ctx, S, R } = clearG(cv);
   ctx.save(); ctx.translate(R,R);
   const r = R*0.93; face(ctx, r);
-  const MAX = 110, A0 = -135*DEG, A1 = 135*DEG;
+  const MAX = 3000, A0 = -135*DEG, A1 = 135*DEG;
   const ang = v => A0 + clamp(v/MAX,0,1)*(A1-A0);
   const arc = (v0,v1,col)=>{ ctx.beginPath(); ctx.arc(0,0,r*0.84,ang(v0)-Math.PI/2,ang(v1)-Math.PI/2); ctx.lineWidth=r*0.07; ctx.strokeStyle=col; ctx.stroke(); };
-  arc(0,50,'rgba(255,255,255,.30)'); arc(50,100,'#3ddc84'); arc(100,104,'#ffd54f'); arc(104,110,'#ff5c5c');
+  arc(500,2100,'rgba(255,255,255,.35)'); arc(2100,2550,'#3ddc84'); arc(2550,2700,'#ffd54f'); arc(2700,3000,'#ff5c5c');
   ctx.strokeStyle='#cfe3f5'; ctx.fillStyle='#dbe9f7'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  for(let v=0; v<=MAX; v+=10){
-    const big = v%20===0, a = ang(v)-Math.PI/2, c=Math.cos(a), sn=Math.sin(a);
+  for(let v=0; v<=MAX; v+=250){
+    const big = v%500===0, a = ang(v)-Math.PI/2, c=Math.cos(a), sn=Math.sin(a);
     ctx.lineWidth = big ? r*0.024 : r*0.011;
     ctx.beginPath(); ctx.moveTo(c*r*0.76, sn*r*0.76); ctx.lineTo(c*r*(big?0.62:0.68), sn*r*(big?0.62:0.68)); ctx.stroke();
-    if(big){ ctx.font = `bold ${r*0.15}px ui-monospace,monospace`; ctx.fillText(String(v), c*r*0.48, sn*r*0.48); }
+    if(big){ ctx.font = `bold ${r*0.15}px ui-monospace,monospace`; ctx.fillText(String(v/100), c*r*0.48, sn*r*0.48); }
   }
   ctx.fillStyle='#8fd0f0'; ctx.font=`bold ${r*0.13}px ui-monospace,monospace`;
-  ctx.fillText('N %', 0, r*0.28);
+  ctx.fillText('x100', 0, r*0.28);
   ctx.fillStyle='#dbe9f7'; ctx.font=`bold ${r*0.17}px ui-monospace,monospace`;
-  ctx.fillText(rpm.toFixed(0), 0, r*0.58);
+  ctx.fillText(String(Math.round(rpm)), 0, r*0.58);
   ctx.save(); ctx.rotate(ang(rpm));
-  ctx.beginPath(); ctx.moveTo(-r*0.05,r*0.12); ctx.lineTo(0,-r*0.80); ctx.lineTo(r*0.05,r*0.12); ctx.closePath();
-  ctx.fillStyle='#f5f7fa'; ctx.fill(); ctx.restore();
-  ctx.beginPath(); ctx.arc(0,0,r*0.07,0,Math.PI*2); ctx.fillStyle='#46586f'; ctx.fill();
-  ctx.restore();
-}
-function gaugeEGT(cv, egt){
-  const { ctx, S, R } = clearG(cv);
-  ctx.save(); ctx.translate(R,R);
-  const r = R*0.93; face(ctx, r);
-  const MAX = 900, A0 = -135*DEG, A1 = 135*DEG;
-  const ang = v => A0 + clamp(v/MAX,0,1)*(A1-A0);
-  const arc = (v0,v1,col)=>{ ctx.beginPath(); ctx.arc(0,0,r*0.84,ang(v0)-Math.PI/2,ang(v1)-Math.PI/2); ctx.lineWidth=r*0.07; ctx.strokeStyle=col; ctx.stroke(); };
-  arc(300,690,'#3ddc84'); arc(690,750,'#ffd54f'); arc(750,900,'#ff5c5c');
-  ctx.strokeStyle='#cfe3f5'; ctx.fillStyle='#dbe9f7'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  for(let v=0; v<=MAX; v+=100){
-    const a = ang(v)-Math.PI/2, c=Math.cos(a), sn=Math.sin(a);
-    ctx.lineWidth = r*0.024;
-    ctx.beginPath(); ctx.moveTo(c*r*0.76, sn*r*0.76); ctx.lineTo(c*r*0.62, sn*r*0.62); ctx.stroke();
-    ctx.font = `bold ${r*0.15}px ui-monospace,monospace`; ctx.fillText(String(v/100), c*r*0.48, sn*r*0.48);
-  }
-  ctx.fillStyle='#8fd0f0'; ctx.font=`bold ${r*0.12}px ui-monospace,monospace`;
-  ctx.fillText('EGT x100', 0, r*0.26);
-  ctx.fillStyle = egt > 730 ? '#ff7b7b' : '#dbe9f7'; ctx.font=`bold ${r*0.17}px ui-monospace,monospace`;
-  ctx.fillText(egt.toFixed(0), 0, r*0.58);
-  ctx.save(); ctx.rotate(ang(egt));
   ctx.beginPath(); ctx.moveTo(-r*0.05,r*0.12); ctx.lineTo(0,-r*0.80); ctx.lineTo(r*0.05,r*0.12); ctx.closePath();
   ctx.fillStyle='#f5f7fa'; ctx.fill(); ctx.restore();
   ctx.beginPath(); ctx.arc(0,0,r*0.07,0,Math.PI*2); ctx.fillStyle='#46586f'; ctx.fill();
@@ -3337,15 +3156,6 @@ function drawHUD(st){
   ctx.moveTo( 18*sc,0); ctx.lineTo( 52*sc,0);
   ctx.stroke();
   ctx.beginPath(); ctx.arc(0,0,3.4*sc,0,Math.PI*2); ctx.fillStyle='#f0b429'; ctx.fill();
-  ctx.restore();
-
-  /* estado de configuración: tren · flaps · MP · rpm */
-  ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.font = `bold ${11*sc}px ui-monospace,monospace`;
-  const gp = st.gearPos, gtxt = gp >= 0.999 ? 'TREN ▼' : (gp <= 0.001 ? 'TREN ▲' : 'TREN ···');
-  ctx.fillStyle = st.gearWarn ? '#ff5c5c' : (gp >= 0.999 ? '#3ddc84' : (gp <= 0.001 ? '#9fb4d0' : '#ffd54f'));
-  ctx.fillText(gtxt, cx - 112*sc, h*0.09);
-  ctx.fillStyle = '#9fb4d0';
-  ctx.fillText('FLAPS ' + flapDeg(st.flap) + '°   N ' + st.rpm.toFixed(0) + '%' + (st.ab > 0.15 ? ' · F.AERO' : '') + '   M' + st.mach.toFixed(2), cx + 62*sc, h*0.09);
   ctx.restore();
 }
 
@@ -3523,7 +3333,7 @@ function makeLever(el, initial, onChange){
    ESTADO GLOBAL DE INTERFAZ
    ========================================================================== */
 let ac, hudVisible = true, viewMode = 'cockpit', currentScene = 'approach';
-let leverThrottle, leverAB, leverFlap;
+let leverThrottle, leverMixture, leverFlap;
 
 /* ==========================================================================
    YOKE
@@ -3538,7 +3348,8 @@ function updateStickGeom(){
   const rw = ring.offsetWidth, kw = knob.offsetWidth;
   if(rw > 0) stickR = Math.max(10, rw/2 - kw/2 - 2);
 }
-function expo(v){ return 0.45*v + 0.55*v*Math.abs(v)*Math.abs(v); }
+const ELL = { ex:0, ey:0 };
+function expo(v){ return 0.45*v + 0.55*v*Math.abs(v)*Math.abs(v); }  // suave en el centro, pleno en el borde
 function setEllipse(clientX, clientY){
   const r = $('ellipsePad').getBoundingClientRect();
   let nx = (clientX - (r.left + r.width/2)) / (r.width/2);
@@ -3551,7 +3362,7 @@ function setEllipse(clientX, clientY){
 function drawEllipse(nx, ny){
   const r = $('ellipsePad').getBoundingClientRect();
   $('ellipseYoke').style.transform =
-    `translate(calc(-50% + ${(nx*r.width*0.3).toFixed(1)}px), calc(-50% + ${(ny*r.height*0.12).toFixed(1)}px)) rotate(${(nx*28).toFixed(1)}deg) scaleY(${(1 - ny*0.12).toFixed(3)})`;
+    `translate(calc(-50% + ${(nx*r.width*0.26).toFixed(1)}px), calc(-50% + ${(ny*r.height*0.08).toFixed(1)}px)) rotate(${(nx*40).toFixed(1)}deg)`;
 }
 function applyStickStyle(){
   yokeArea.classList.toggle('ell', !!Settings.d.ellipse);
@@ -3647,7 +3458,6 @@ window.addEventListener('keydown', e=>{
   if(k==='p'||k==='P'){ togglePause(); }
   if(k==='m'||k==='M'){ toggleSound(); }
   if(k==='l'||k==='L'){ Lsn.toggleBody(); }
-  if(k==='g'||k==='G'){ toggleGear(); }
   if(k>='1'&&k<='6'){
     userScene({ '1':'ground', '2':'takeoff', '3':'cruise', '4':'nav', '5':'approach', '6':'flare' }[k]);
   }
@@ -3668,8 +3478,6 @@ function keysToFeel(dt){
   if(keys['q']||keys['Q']) feel.trim.elevator = clamp(feel.trim.elevator - 0.35*dt, -0.5, 0.5);
   if(keys['e']||keys['E']) feel.trim.elevator = clamp(feel.trim.elevator + 0.35*dt, -0.5, 0.5);
 
-  if(keys['z']||keys['Z']) leverAB.set(leverAB.get() - 0.9*dt);
-  if(keys['x']||keys['X']) leverAB.set(leverAB.get() + 0.9*dt);
   if(keys['f']||keys['F']) leverFlap.set(leverFlap.get() + 0.5*dt);
   if(keys['v']||keys['V']) leverFlap.set(leverFlap.get() - 0.5*dt);
 
@@ -3755,7 +3563,6 @@ function setView(mode){
   $('btnViewFloat').textContent = (mode==='cockpit') ? 'EXT' : 'CAB';
   cockpitNose.visible = (mode==='cockpit');
   acModel.visible = (mode==='ext');
-  $('gaugePanel').style.display = (mode==='ext') ? 'none' : '';
 }
 
 /* ==========================================================================
@@ -3785,13 +3592,14 @@ function updateTransforms(st){
     acModel.quaternion.setFromRotationMatrix(_basis);
     acModel.position.copy(_pos);
 
-    const off = new THREE.Vector3(0, 3.8, 15).applyQuaternion(acModel.quaternion);
+    const off = new THREE.Vector3(0, 3.2, 11).applyQuaternion(acModel.quaternion);
     camera.position.copy(_pos).add(off).addScaledVector(_up, 0.5);
     camera.lookAt(_pos.x, _pos.y + 0.6, _pos.z);
   }
 
-  const gd = acModel.userData.gear;
-  if(gd){ const gpos = st.gearPos; [gd.N, gd.L, gd.R].forEach(g=>{ g.visible = gpos > 0.04; g.scale.y = Math.max(0.05, gpos); }); }
+  if(acModel.userData.prop){
+    acModel.userData.prop.rotation.z += (0.1 + st.rpm/2600) * 0.9;
+  }
 }
 
 /* ==========================================================================
@@ -3809,8 +3617,8 @@ function setScene(kind, def){
 
   // sincronizar palancas y mandos con la condición compensada
   leverThrottle.set(ac.controls.throttle);
-  leverFlap.set(Math.max(0, FLAPS.findIndex(f=>Math.abs(f-ac.controls.flap)<0.02))/2);
-  leverAB.set(ac.controls.ab);
+  leverFlap.set(ac.controls.flap);
+  leverMixture.set(1);
   feel.cmd.throttle = ac.controls.throttle;
   feel.surf.throttle = ac.controls.throttle;
   feel.cmd.elevator = feel.cmd.aileron = feel.cmd.rudder = 0;
@@ -3852,8 +3660,8 @@ function setWindUI(e, n){
 function updateReadouts(){
   if(!ac) return;
   $('valThrottle').textContent = Math.round(ac.controls.throttle*100)+'%';
-  $('valFlap').textContent     = flapDeg(ac.controls.flap)+'°';
-  $('valAB').textContent       = ac.controls.ab < 0.05 ? 'CERR' : Math.round(ac.controls.ab*100)+'%';
+  $('valMixture').textContent  = Math.round(ac.controls.mixture*100)+'%';
+  $('valFlap').textContent     = Math.round(ac.controls.flap*30)+'°';
   $('valTrim').textContent     = Math.round(feel.trim.elevator*100);
   $('btnBrake').classList.toggle('on', ac.controls.brake > 0.15);
 }
@@ -4053,7 +3861,7 @@ const InfoView = {
   stop(){ this.run = false; cancelAnimationFrame(this.raf); }
 };
 const Info = {
-  KEY:'l39_ficha_oculta', was:false, isOpen:false,
+  KEY:'c172_ficha_oculta', was:false, isOpen:false,
   hidden(){ try{ return localStorage.getItem(this.KEY)==='1'; }catch(e){ return false; } },
   open(){ if(this.isOpen) return; this.isOpen = true; this.was = paused; setPaused(true);
     try{ $('infoNo').checked = this.hidden(); }catch(e){}
@@ -4125,9 +3933,7 @@ function loop(now){
       V('gHDG',Math.round(((st.psi*RAD)%360+360)%360));
       V('gVSI',Math.round(st.vsFpm));
       V('gRPM',Math.round(st.rpm));
-      V('gEGT',Math.round(st.egt));
     }
-    gaugeEGT($('gEGT'), st.egt);
 
     $('telIas').textContent   = Math.round(st.iasKt);
     $('telAlt').textContent   = Math.round(st.altFt);
@@ -4136,11 +3942,8 @@ function loop(now){
     $('telPitch').textContent = (st.theta*RAD).toFixed(1);
     $('telRoll').textContent  = (st.phi*RAD).toFixed(1);
     $('telAlpha').textContent = st.alphaDeg.toFixed(1);
-    $('telRpm').textContent   = st.rpm.toFixed(0);
-    $('telEgt').textContent   = Math.round(st.egt);
-    $('telFf').textContent    = Math.round(st.ff);
+    $('telRpm').textContent   = Math.round(st.rpm);
     $('telFuel').textContent  = Math.round(st.fuel);
-    $('telMach').textContent  = st.mach.toFixed(2);
     $('telGs').textContent    = Math.round(st.gsKt);
     $('telTrk').textContent   = st.gsKt > 2 ? Math.round(((st.trk*RAD)%360+360)%360) : '--';
     $('telThr').textContent   = Math.round(st.throttle*100);
@@ -4251,18 +4054,16 @@ const Snd = (()=>{
     const on = enabled && !paused;
     master.gain.setTargetAtTime(on?0.55:0, t, 0.05);
     if(!on) return;
-    const f = 70 + st.rpm*8;
+    const f = Math.max(8, st.rpm/60*2);
     o1.frequency.setTargetAtTime(f, t, 0.08);
-    o2.frequency.setTargetAtTime(f*1.5, t, 0.08);
-    lp.frequency.setTargetAtTime(500 + st.rpm*22, t, 0.1);
-    const eg = st.running ? (0.04 + 0.10*st.rpm/100) : (st.rpm>1 ? 0.02 : 0);
+    o2.frequency.setTargetAtTime(f*0.5, t, 0.08);
+    lp.frequency.setTargetAtTime(380 + st.throttle*900, t, 0.1);
+    const eg = st.running ? (0.07 + 0.14*st.throttle) : (st.rpm>0 ? 0.015 : 0);
     engG.gain.setTargetAtTime(eg, t, 0.1);
     const v = clamp(st.iasKt/120, 0, 1);
     wBP.frequency.setTargetAtTime(350 + 900*v, t, 0.2);
     wG.gain.setTargetAtTime(0.02 + 0.22*v*v + 0.12*st.buffet, t, 0.2);
-    const stallH = st.stallWarn && !st.onGround;
-    hornO.frequency.setTargetAtTime(stallH ? 470 : 820, t, 0.01);
-    hornG.gain.setTargetAtTime(stallH ? 0.10 : ((st.gearWarn && Math.sin(t*11) > 0) ? 0.08 : 0), t, 0.02);
+    hornG.gain.setTargetAtTime((st.stallWarn && !st.onGround) ? 0.10 : 0, t, 0.03);
     if(st.td && st.touchCount !== lastTouch){ lastTouch = st.touchCount; thump(st.td.vs); }
     if(st.touchCount === 0) lastTouch = 0;
   }
@@ -4309,7 +4110,7 @@ function tdEvents(st, L, zmin, zmax){
   L.set('zone', t.x >= zmin && t.x <= zmax, 'a '+fmt(t.x+RWY_HALF)+' m del umbral');
   L.set('att', t.theta >= 0.5 && Math.abs(t.phi) <= 6, 'cabeceo '+fmt(t.theta,1)+'° · banco '+fmt(t.phi,1)+'°');
 }
-const evVs   = { id:'vs',   ev:true, label:'Velocidad vertical al tocar', tol:'≤ 300 fpm',
+const evVs   = { id:'vs',   ev:true, label:'Velocidad vertical al tocar', tol:'≤ 250 fpm',
   tip:'Toma: a ~10 ft reduce gas a ralentí y tira suave para detener el descenso; mira al final de la pista, no al suelo.' };
 const evZone = (txt)=>({ id:'zone', ev:true, label:'Zona de toma', tol:txt,
   tip:'Punto de toma: si vas alto, reduce potencia; si vas bajo, añade. Evita arrastrarte con gas en flare.' });
@@ -4318,7 +4119,171 @@ const evAtt  = { id:'att',  ev:true, label:'Actitud al tocar', tol:'morro ≥ 0,
 const evBnc  = { id:'bounce', ev:true, label:'Sin rebote', tol:'un solo contacto',
   tip:'Rebote: si rebotas, mantén el morro y añade un toque de gas; no empujes la palanca.' };
 
-const LESSONS = [];
+const LESSONS = [
+{ id:'recto', title:'1 · Vuelo recto y nivelado', scene:'cruise', wind:[0,0], grace:6,
+  brief:'Mantén <b>2000 ft</b>, rumbo <b>020°</b> y <b>100 kt</b> durante 2 minutos.',
+  steps:['Horizonte primero: la actitud fija la actuación','Correcciones pequeñas (1–2°) y espera la respuesta','Compensa con el trim hasta soltar presión'],
+  crit:[cAlt(100,.8), cHdg(10,.8), cIas(100,10,.8)],
+  done:(st,L)=>L.te>=120 },
+
+{ id:'viraje', title:'2 · Viraje medio de 30°', scene:'cruise', wind:[0,0], grace:4,
+  brief:'Vira a la <b>derecha</b> hasta rumbo <b>110°</b> con ~30° de banco sin perder altitud. Sal 10–15° antes y estabiliza 8 s.',
+  steps:['Alerón para alabear, tira un poco para mantener la altitud','En viraje la sustentación vertical baja: añade morro arriba','Sal del viraje anticipando 10–15°'],
+  start:(L)=>{ L.d.arr = 0; },
+  tick:(st,L,dt)=>{
+    if(Math.abs(dHdg(hdgOf(st),110))<=10 && Math.abs(st.phi)<8*DEG) L.d.arr += dt; else L.d.arr = 0;
+    if(L.d.arr >= 8) L.set('arr', true, 'rumbo 110° estabilizado');
+  },
+  crit:[ cAlt(100,.75),
+    { id:'bank', label:'Banco máximo', tol:'≤ 35°', need:.9, gate:()=>true, ok:st=>Math.abs(st.phi)<=35*DEG,
+      val:st=>fmt(st.phi*RAD)+'°', tip:'Banco excesivo: 30° es suficiente; más banco aumenta factor de carga y velocidad de pérdida.' },
+    cIas(100,10,.75),
+    { id:'arr', ev:true, label:'Rumbo final 110°', tol:'±10° durante 8 s',
+      tip:'Anticipa la salida: empieza a nivelar alas unos 10–15° antes del rumbo.' } ],
+  done:(st,L)=>L.d.arr>=8 || L.te>=200 },
+
+{ id:'ascenso', title:'3 · Ascenso a Vy', scene:{ altFt:1000, ias:74, psi:20, x:-3000, z:600, thr:1 }, wind:[0,0], grace:6,
+  brief:'Gas a fondo y asciende de <b>1000 a 2500 ft</b> a <b>Vy 74 kt</b> (mejor régimen). Rumbo 020°.',
+  steps:['Potencia: gas a fondo, mezcla rica','Controla 74 kt con el morro','Pedal derecho para compensar la guiñada de la hélice'],
+  crit:[ cIas(74,5,.75), cHdg(10,.8),
+    { id:'pwr', label:'Potencia de ascenso', tol:'gas ≥ 90%', need:.9, gate:()=>true, ok:st=>st.throttle>0.9,
+      val:st=>fmt(st.throttle*100)+'%', tip:'En ascenso Vy se vuela con gas a fondo; a poca potencia no obtienes el régimen esperado.' } ],
+  done:(st,L)=>st.altFt>=2500 || L.te>=300 },
+
+{ id:'planeo', title:'4 · Descenso y mejor planeo', scene:{ altFt:3500, ias:68, psi:20, x:-3000, z:600, thr:0, gamma:-6 }, wind:[0,0], grace:6,
+  brief:'Motor al ralentí. Mantén <b>68 kt</b> (mejor planeo) y rumbo 020° hasta <b>1500 ft</b>.',
+  steps:['Morro: fija 68 kt y compensa','Flaps arriba hasta tener la pista asegurada','Mejor planeo ≈ 9:1 sin viento'],
+  crit:[ cIas(68,5,.75), cHdg(10,.8),
+    { id:'flap', label:'Flaps arriba', tol:'0°', need:.9, gate:()=>true, ok:st=>st.flap<0.05,
+      val:st=>fmt(st.flap*30)+'°', tip:'Los flaps aumentan la resistencia y reducen el alcance de planeo; retráelos hasta tener la pista asegurada.' } ],
+  done:(st,L)=>st.altFt<=1500 || L.te>=300 },
+
+{ id:'perdida', title:'5 · Pérdida y recuperación', scene:{ altFt:3500, ias:75, psi:20, x:-3000, z:600 }, wind:[0,0], grace:0,
+  brief:'Reduce gas, mantén altitud tirando suave hasta que suene la bocina y se produzca la pérdida. Recupera: <b>morro abajo, gas a fondo, alas a nivel</b>, perdiendo ≤ 300 ft.',
+  steps:['Gas a ralentí, mantén altitud con elevador','La bocina avisa ~5 kt antes: la pérdida es por ángulo de ataque, no por velocidad','Recupera: baja el morro, gas, nivela con timón'],
+  start:(L)=>{ L.d = { stalled:false, alt0:0, minAlt:1e9, rec:false }; },
+  tick:(st,L)=>{
+    const d = L.d;
+    if(st.stalled && !d.stalled){ d.stalled = true; d.alt0 = st.altFt; d.minAlt = st.altFt; L.set('st', true, 'pérdida alcanzada'); }
+    if(d.stalled){
+      d.minAlt = Math.min(d.minAlt, st.altFt);
+      if(st.throttle > 0.9) L.set('pwr', true, 'potencia aplicada');
+      if(!st.stalled && st.iasKt > 56 && st.vsFpm > -200 && !d.rec){
+        d.rec = true; const lost = d.alt0 - d.minAlt;
+        L.set('loss', lost <= 300, fmt(lost)+' ft perdidos');
+      }
+    }
+  },
+  crit:[
+    { id:'st', ev:true, label:'Pérdida provocada', tol:'bocina → pérdida',
+      tip:'Reduce gas a ralentí y sigue tirando suave del yoke hasta que el morro caiga.' },
+    { id:'bank', label:'Alabeo en pérdida', tol:'≤ 20°', need:.8, gate:st=>st.stalled||st.stallWarn,
+      ok:st=>Math.abs(st.phi)<=20*DEG, val:st=>fmt(st.phi*RAD)+'°',
+      tip:'En pérdida usa timón (pedales) para mantener alas a nivel; los alerones empeoran la caída del ala.' },
+    { id:'pwr', ev:true, label:'Potencia de recuperación', tol:'gas ≥ 90%',
+      tip:'Recuperar: baja el morro para reducir ángulo de ataque y aplica gas a fondo suave.' },
+    { id:'loss', ev:true, label:'Pérdida de altitud', tol:'≤ 300 ft',
+      tip:'Recupera ya: el ángulo de ataque se corrige con el morro; luego potencia y nivela con suavidad.' } ],
+  done:(st,L)=>L.d.rec || L.te>=240 },
+
+{ id:'despegue', title:'6 · Despegue normal', scene:'takeoff', wind:[2,0], grace:0,
+  brief:'En el umbral. Gas a fondo, mantén el eje de pista, rota a <b>55 kt</b> y asciende a <b>Vy 74 kt</b> hasta 500 ft. Viento cruzado 4 kt.',
+  steps:['Gas progresivo a fondo, mezcla rica, flaps 0–10°','Pedal derecho: la hélice guiña a la izquierda','Rota a 55 kt: tira suave, deja que vuele'],
+  start:(L)=>{ L.d = { fl:false, t0:0 }; },
+  tick:(st,L)=>{
+    if(st.liftoff && !L.d.fl){
+      L.d.fl = true; L.d.t0 = st.time;
+      L.set('rot', st.liftoff.ias>=48 && st.liftoff.ias<=62, fmt(st.liftoff.ias)+' kt');
+      L.set('flap', st.flap<=0.34, fmt(st.flap*30)+'° de flaps');
+    }
+  },
+  crit:[
+    { id:'cl', label:'Eje de pista', tol:'±8 m', need:.85, gate:st=>st.onGround&&st.throttle>0.5&&st.iasKt>8,
+      ok:st=>Math.abs(st.z)<=8, val:st=>fmt(st.z)+' m',
+      tip:'Mantén el eje con pedales suaves; anticipa la guiñada a la izquierda con la potencia.' },
+    { id:'rot', ev:true, label:'Rotación', tol:'55 kt ±7',
+      tip:'Rota a 55 kt: antes de tiempo la rueda de morro pesa y se prolonga la carrera; tarde, te comes pista.' },
+    { id:'flap', ev:true, label:'Flaps de despegue', tol:'0–10°',
+      tip:'Flaps 0–10° para el despegue normal; más flaps penalizan el ascenso.' },
+    { id:'cv', label:'Ascenso a Vy', tol:'74 ±7 kt', need:.7,
+      gate:(st,L)=>L.d.fl&&!st.onGround&&st.time-L.d.t0>4&&st.altFt<500, ok:st=>Math.abs(st.iasKt-74)<=7, val:st=>fmt(st.iasKt)+' kt',
+      tip:'Tras despegar, baja el morro para fijar Vy; más baja = más régimen de ascenso y menos distancia al obstáculo.' },
+    { id:'ch', label:'Rumbo de ascenso', tol:'±10°', need:.8,
+      gate:(st,L)=>L.d.fl&&!st.onGround&&st.time-L.d.t0>4&&st.altFt<500, ok:st=>Math.abs(dHdg(hdgOf(st),0))<=10, val:st=>fmt(dHdg(hdgOf(st),0))+'°',
+      tip:'Rumbo de ascenso: compensa el viento con el morro (cangrejo) y pedal derecho.' } ],
+  done:(st,L)=>st.altFt>=500 || L.te>=240 || (st.onGround && L.d.fl && st.time-L.d.t0>3) },
+
+{ id:'aprox', title:'7 · Aproximación estabilizada', scene:'approach', wind:[2,0], grace:5,
+  brief:'Final de 3°, <b>65 kt</b>, flaps 20°. Usa el <b>PAPI</b> (2 blancas + 2 rojas) y toca entre <b>umbral+75 m y 675 m</b>.',
+  steps:['Velocidad: morro; senda: potencia','PAPI: blanco = alto (reduce), rojo = bajo (añade)','Flare a ~10 ft: ralentí y tira suave'],
+  start:(L)=>{ L.d = { td:false, t0:0 }; },
+  tick:(st,L)=>{
+    tdEvents(st, L, -550, 50);
+    if(L.d.td){
+      if(st.touchCount > 1) L.set('bounce', false, 'rebote', true);
+      else if(st.time - L.d.t0 > 3) L.set('bounce', true, 'un solo contacto', true);
+    }
+  },
+  crit:[
+    cIas(65,5,.75,st=>!st.onGround&&st.altFt>40),
+    { id:'gp', label:'Senda de planeo 3°', tol:'±1°', need:.75, gate:st=>!st.onGround&&st.altFt>40&&glideAngle(st)!=null,
+      ok:st=>Math.abs(glideAngle(st)-3)<=1, val:st=>{ const g=glideAngle(st); return g==null?'--':fmt(g,1)+'°'; },
+      tip:'Senda: si el PAPI muestra blanco, reduce potencia/baja morro; si rojo, añade potencia. No corrijas con tirones.' },
+    { id:'cl2', label:'Alineación con la pista', tol:'±10 m', need:.8, gate:st=>!st.onGround&&st.altFt>40,
+      ok:st=>Math.abs(st.z)<=10, val:st=>fmt(st.z)+' m',
+      tip:'Alineación: corrige el viento cruzado con ángulo de deriva (cangrejo) y pedal para alinear antes de tocar.' },
+    evVs, evZone('umbral+75 … 675 m'), evAtt, evBnc ],
+  done:(st,L)=>(L.d.td && st.time-L.d.t0>3) || L.te>=300 },
+
+{ id:'toma', title:'8 · Toma y rodadura', scene:'flare', wind:[2,0], grace:0,
+  brief:'A 30 ft con flaps 30°. Haz el <b>flare</b>, toca con suavidad, mantén el eje y <b>frena hasta detenerte</b> en pista.',
+  steps:['Ralentí y tira suave para amortiguar la toma','Mantén el eje con pedales; corrige el cruzado con alerón','Frenos al final, sin bloquear'],
+  start:(L)=>{ L.d = { td:false, t0:0, stopped:false }; },
+  tick:(st,L)=>{
+    tdEvents(st, L, -300, 300);
+    if(L.d.td){
+      if(st.touchCount > 1) L.set('bounce', false, 'rebote', true);
+      else if(st.time - L.d.t0 > 3) L.set('bounce', true, 'un solo contacto', true);
+      if(st.onGround && st.gsKt < 2 && !L.d.stopped){
+        L.d.stopped = true;
+        L.set('stop', Math.abs(st.z)<=15 && st.x<RWY_HALF, 'detenido en x='+fmt(st.x+RWY_HALF)+' m');
+      }
+      if(st.x > RWY_HALF) L.set('stop', false, 'te sales de pista', true);
+    }
+  },
+  crit:[ evVs, evZone('±300 m del punto de toma'), evAtt, evBnc,
+    { id:'roll', label:'Eje en rodadura', tol:'±8 m', need:.8, gate:(st,L)=>st.onGround&&L.d.td&&st.gsKt>3,
+      ok:st=>Math.abs(st.z)<=8, val:st=>fmt(st.z)+' m',
+      tip:'Rodadura: pedal para mantener el eje; no frenes hasta controlar la dirección.' },
+    { id:'stop', ev:true, label:'Detención en pista', tol:'dentro de la pista',
+      tip:'Frena con suavidad y progresivamente; empieza pronto si vas rápido.' } ],
+  done:(st,L)=>L.d.stopped || (L.d.td && st.x>RWY_HALF) || L.te>=240 },
+
+{ id:'emerg', title:'9 · Fallo de motor en vuelo', scene:{ altFt:2500, ias:90, psi:20, x:-3000, z:600 }, wind:[0,0], grace:0,
+  brief:'Vuelo normal. En algún momento fallará el motor. <b>Pilota primero:</b> morro abajo a <b>68 kt</b> y mantén planeo.',
+  steps:['Aviar, navegar, comunicar: primero pilotar','Morro abajo: 68 kt','Elige campo y prepara el aterrizaje'],
+  start:(L)=>{ L.d = { tf:12+Math.random()*10, fail:false, t0:0, r12:false, stalledAfter:false }; },
+  tick:(st,L)=>{
+    const d = L.d;
+    if(!d.fail && L.te >= d.tf){ d.fail = true; ac.engineFail = true; d.t0 = L.te; }
+    if(d.fail){
+      if(st.stalled) d.stalledAfter = true;
+      if(!d.r12 && L.te - d.t0 >= 12){
+        d.r12 = true; L.set('react', Math.abs(st.iasKt-68)<=8, fmt(st.iasKt)+' kt a los 12 s');
+      }
+    }
+  },
+  end:(st,L)=>{ L.set('ns', !L.d.stalledAfter, L.d.stalledAfter?'entraste en pérdida':'sin pérdida'); },
+  crit:[
+    { id:'react', ev:true, label:'Reacción: velocidad de planeo', tol:'68 ±8 kt en 12 s',
+      tip:'Fallo de motor: lo primero es bajar el morro para conservar velocidad de planeo (68 kt).' },
+    { id:'hold', label:'Mantener planeo', tol:'68 ±8 kt', need:.75, gate:(st,L)=>L.d.fail&&L.te-L.d.t0>12,
+      ok:st=>Math.abs(st.iasKt-68)<=8, val:st=>fmt(st.iasKt)+' kt',
+      tip:'Mantén 68 kt con el morro y compensa; solo entonces diagnostica y elige campo.' },
+    { id:'ns', ev:true, label:'Sin entrar en pérdida', tol:'sin stall tras el fallo',
+      tip:'Nunca tires para alargar el planeo: entras en pérdida cerca del suelo.' } ],
+  done:(st,L)=>(L.d.fail && L.te-L.d.t0>=70) || (L.d.fail && st.onGround) }
+];
 
 let paused = false;
 function setPaused(p){
@@ -4336,7 +4301,7 @@ function togglePause(){
 const Lsn = {
   idx:-1, cur:null, state:'free', L:null, _ui:0, scores:{},
   init(){
-    try{ this.scores = JSON.parse(localStorage.getItem('l39v2_scores')||'{}'); }catch(e){ this.scores = {}; }
+    try{ this.scores = JSON.parse(localStorage.getItem('c172v3_scores')||'{}'); }catch(e){ this.scores = {}; }
     this.buildSelect();
     $('lsSel').addEventListener('change', e=> { this.select(+e.target.value); e.target.blur(); });
     $('lsGo').onclick = ()=> this.start();
@@ -4467,7 +4432,7 @@ const Lsn = {
     const score = Math.round(rows.reduce((s,r)=>s+r.pct,0)/rows.length * (crashed?0.5:1));
     const prev = this.scores[c.id] || { best:0, pass:false };
     this.scores[c.id] = { best:Math.max(prev.best, score), pass: prev.pass || pass };
-    try{ localStorage.setItem('l39v2_scores', JSON.stringify(this.scores)); }catch(e){}
+    try{ localStorage.setItem('c172v3_scores', JSON.stringify(this.scores)); }catch(e){}
     this.buildSelect();
     this.showDebrief(rows, score, pass, crashed, st);
   },
@@ -4493,18 +4458,18 @@ function closeDebrief(){ $('debrief').style.display = 'none'; }
 /* ==========================================================================
    AJUSTES PERSISTENTES, CALIBRACIÓN Y TOLERANCIAS
    ========================================================================== */
-const TOL = { s:1, tdFpm:300 };
-const P0 = { Tstat:P.Tstat, Pmax:P.Pmax, CD0:P.CD0 };
+const TOL = { s:1, tdFpm:250 };
+const P0 = { Tmax:P.Tmax, Pmax:P.Pmax, CD0:P.CD0 };
 const Settings = {
   d:{ sens:1, dead:0.035, sound:true, hud:true, turb:0, power:1, drag:1, warn:3.2,
-      tolScale:1, tdFpm:300, invRoll:false, invPitch:false, stick:true, ellipse:true },
-  load(){ try{ Object.assign(this.d, JSON.parse(localStorage.getItem('l39v2_settings')||'{}')); }catch(e){} },
-  save(){ try{ localStorage.setItem('l39v2_settings', JSON.stringify(this.d)); }catch(e){} },
+      tolScale:1, tdFpm:250, invRoll:false, invPitch:false, stick:true, ellipse:true },
+  load(){ try{ Object.assign(this.d, JSON.parse(localStorage.getItem('c172v3_settings')||'{}')); }catch(e){} },
+  save(){ try{ localStorage.setItem('c172v3_settings', JSON.stringify(this.d)); }catch(e){} },
   apply(){
     const d = this.d;
     feel.gain = d.sens; feel.dead = d.dead;
     if(typeof applyStickStyle === 'function') applyStickStyle();
-    P.Tstat = P0.Tstat*d.power; P.Pmax = P0.Pmax*d.power; P.CD0 = P0.CD0*d.drag;
+    P.Tmax = P0.Tmax*d.power; P.Pmax = P0.Pmax*d.power; P.CD0 = P0.CD0*d.drag;
     P.warnMargin = d.warn*DEG;
     TOL.s = d.tolScale; TOL.tdFpm = d.tdFpm;
     hudVisible = d.hud;
@@ -4535,7 +4500,7 @@ const Settings = {
     h('Mandos');
     slider('Sensibilidad','sens',0.5,1.6,0.05,'×');
     slider('Zona muerta','dead',0,0.12,0.005,'');
-    toggle('Mando elíptico (palanca dibujada)','ellipse');
+    toggle('Mando elíptico (volante dibujado)','ellipse');
     toggle('Mando circular (botón en aro)','stick');
     toggle('HUD en cabina','hud'); toggle('Sonido','sound');
     h('Giroscopio del móvil');
@@ -4548,9 +4513,9 @@ const Settings = {
     slider('Margen bocina de pérdida','warn',1.5,6,0.1,'°');
     h('Evaluación');
     slider('Escala de tolerancias','tolScale',0.7,1.6,0.05,'×');
-    slider('Velocidad vertical máx. en toma','tdFpm',150,600,10,' fpm');
+    slider('Velocidad vertical máx. en toma','tdFpm',120,500,10,' fpm');
   },
-  reset(){ try{ localStorage.removeItem('l39v2_settings'); }catch(e){} location.reload(); },
+  reset(){ try{ localStorage.removeItem('c172v3_settings'); }catch(e){} location.reload(); },
   json(){ return JSON.stringify(this.d, null, 2); }
 };
 
@@ -4568,15 +4533,10 @@ const Coach = {
   update(st, L, c, dt){
     this.tick();
     if(performance.now() < this.cool) return;
-    if(st.stallWarn && !st.onGround && !c.allowStall) return this.show('Bocina de pérdida: baja el morro y añade gas (el motor tarda en responder)','bad');
-    if(!st.onGround && st.altFt<150 && st.altFt>5 && st.vsFpm<-900 && !c.noSinkCoach) return this.show('Descenso alto cerca del suelo: tira suave y añade gas','bad');
+    if(st.stallWarn && !st.onGround && !c.allowStall) return this.show('Bocina de pérdida: baja el morro y añade gas','bad');
+    if(!st.onGround && st.altFt<150 && st.altFt>5 && st.vsFpm<-700 && !c.noSinkCoach) return this.show('Descenso alto cerca del suelo: tira suave y añade gas','bad');
     if(Math.abs(st.phi) > 45*DEG && !c.allowSteep && !st.onGround) return this.show('Banco excesivo: nivela las alas','bad');
-    if(st.gearWarn && !st.onGround && st.altFt < 400 && !c.noGearCoach) return this.show('Tren no abajo (bocina): lista de aterrizaje — baja el tren','bad');
-    if(st.gearOver && st.gearPos > 0.001 && st.gearPos < 0.999) return this.show('Velocidad excesiva con el tren en tránsito (límite 190 kt)','bad');
-    if(st.gearPos > 0.99 && st.iasKt > P.Vle && !st.onGround) return this.show('Tren abajo por encima de 190 kt: reduce','bad');
-    if(st.flap > 0.01 && st.iasKt > P.Vfe && !st.onGround) return this.show('Flaps por encima de 170 kt: reduce o sube flaps','warn');
     if(st.iasKt > P.Vno && !st.onGround) return this.show('Velocidad alta (arco amarillo): reduce gas','warn');
-    if(st.egt > 730 && st.sys.engineOn) return this.show('EGT alta: reduce gas' + (st.sys.startPhase ? ' o corta la llave (arranque caliente)' : ''),'bad');
     c.crit.forEach((k,i)=>{
       if(k.ev) return;
       const bad = k.gate(st, L) && !k.ok(st, L);
@@ -4596,7 +4556,7 @@ const Coach = {
 /* ==========================================================================
    RADIO / ATC BÁSICO (fraseología con respuesta correcta)
    ========================================================================== */
-const CALLSIGN = 'Albatros 39';
+const CALLSIGN = 'EC-ABC';
 function windPhrase(){
   const wn = ac.wind.x, we = ac.wind.z, sp = Math.hypot(wn, we)*KT;
   if(sp < 1.5) return 'viento en calma';
@@ -4677,54 +4637,41 @@ const radioSteps = {
    ========================================================================== */
 const CHECKLISTS = {
   arranque:{ title:'Antes de arrancar', items:[
-    { t:'Frenos puestos · cabina cerrada y asientos eyectables con seguros quitados', manual:true },
-    { t:'MASTER (batería) ON', auto:st=>st.sys.battery },
-    { t:'Bombas de combustible ON', auto:st=>st.sys.fuelPump },
-    { t:'Llave de combustible ABIERTA', auto:st=>st.sys.cock },
-    { t:'Palanca de gas en RALENTÍ', auto:st=>st.throttle < 0.12 },
-    { t:'Aerofrenos cerrados y trim neutro', auto:st=>st.ab < 0.05 },
-    { t:'Zona libre — «¡Libre!»', manual:true },
-    { t:'Pulsa ARRANQUE: giro, encendido hacia el 14 % y ralentí en ~30 s', auto:st=>st.sys.engineOn },
-    { t:'EGT máx. en arranque ≤ 700 °C (si se dispara, corta la llave)', manual:true },
-    { t:'Ralentí estable ≈ 52 %', auto:st=>st.sys.engineOn && !st.sys.startPhase && st.rpm > 48 },
-    { t:'Presiones, temperaturas y generador en verde', manual:true }
+    { t:'Frenos de estacionamiento puestos', manual:true },
+    { t:'Batería ON', auto:st=>st.sys.battery },
+    { t:'Mezcla RICA', auto:st=>ac.controls.mixture > 0.9 },
+    { t:'Gas abierto ≈ 1/4 de pulgada (10–30 %)', auto:st=>st.throttle > 0.05 && st.throttle < 0.3 },
+    { t:'Cebador (en frío 2–3 veces)', auto:st=>st.sys.primer >= 2 || !st.sys.cold },
+    { t:'Hélice libre — «¡Libre!»', manual:true },
+    { t:'Magnetos en BOTH', auto:st=>st.sys.mag === 'BOTH' },
+    { t:'Pulsa ARRANQUE (máx. 10 s)', auto:st=>st.sys.engineOn },
+    { t:'Presión de aceite en verde en 30 s', manual:true }
   ]},
-  despegue:{ title:'Antes del despegue', items:[
+  despegue:{ title:'Antes del despegue (rodaje)', items:[
     { t:'Mandos libres y correctos', manual:true },
-    { t:'Flaps 25° (posición de despegue)', auto:st=>st.flap > 0.5 && st.flap < 0.65 },
+    { t:'Mezcla RICA', auto:st=>ac.controls.mixture > 0.9 },
+    { t:'Prueba de calefacción de carburador (ON/OFF)', manual:true },
+    { t:'Prueba de magnetos a ~1800 rpm (caída ≤150, dif. ≤50)', manual:true },
+    { t:'Flaps 0–10°', auto:st=>st.flap <= 0.34 },
     { t:'Compensador en posición de despegue', auto:st=>Math.abs(feel.trim.elevator - ac.trimHint) < 0.08 },
-    { t:'Aerofrenos CERRADOS', auto:st=>st.ab < 0.05 },
-    { t:'Bombas de combustible ON · llave abierta', auto:st=>st.sys.fuelPump && st.sys.cock },
-    { t:'Tren: palanca ABAJO y 3 verdes', auto:st=>st.gearPos >= 0.999 },
-    { t:'Prueba de aceleración del motor (ralentí → 95 % en ≤ 10 s)', manual:true },
-    { t:'Instrumentos, EGT y combustible (≥ 300 kg)', auto:st=>st.fuel >= 300 },
-    { t:'Cabina cerrada y bloqueada · cinturones', manual:true },
+    { t:'Instrumentos y combustible', manual:true },
+    { t:'Puertas y cinturones', manual:true },
     { t:'Frenos libres', manual:true }
   ]},
   aterrizaje:{ title:'Antes de aterrizar', items:[
-    { t:'Combustible suficiente (≥ 150 kg) y bombas ON', auto:st=>st.fuel >= 150 && st.sys.fuelPump },
-    { t:'Tren ABAJO y 3 luces verdes', auto:st=>st.gearPos >= 0.999 },
-    { t:'Flaps 25° en la base y 44° en final', auto:st=>st.flap >= 0.5 },
-    { t:'Aerofrenos cerrados', auto:st=>st.ab < 0.1 },
-    { t:'Velocidad ≈ 120 kt en final (toma ≈ 105 kt)', auto:st=>st.iasKt > 114 && st.iasKt < 126 },
-    { t:'Cinturones y arneses ajustados', manual:true },
+    { t:'Mezcla RICA', auto:st=>ac.controls.mixture > 0.9 },
+    { t:'Calefacción de carburador ON si hay humedad', auto:st=>!st.sys.humid || st.sys.carbHeat || st.throttle > 0.65 },
+    { t:'Velocidad ≈ 65 kt en final', auto:st=>st.iasKt > 58 && st.iasKt < 72 },
+    { t:'Flaps según procedimiento (20–30°)', auto:st=>st.flap >= 0.6 },
+    { t:'Cinturones ajustados', manual:true },
     { t:'Pista libre y viento comprobado', manual:true }
-  ]},
-  emergencia:{ title:'Fallo o apagado de motor (en vuelo)', items:[
-    { t:'Morro abajo: 160 kt (mejor planeo)', auto:st=>st.iasKt > 148 && st.iasKt < 172 },
-    { t:'Palanca de gas en RALENTÍ', auto:st=>st.throttle < 0.2 },
-    { t:'Llave de combustible ABIERTA · bombas ON', auto:st=>st.sys.cock && st.sys.fuelPump },
-    { t:'Reencendido: ARRANQUE con ≥ 150 kt (vigila la EGT)', manual:true },
-    { t:'Si no enciende: campo elegido, Mayday (121.5)', manual:true },
-    { t:'Tren abajo y flaps solo con la pista asegurada', manual:true },
-    { t:'Altitud mínima para eyección: decide con margen (≥ 300 ft AGL y alas niveladas en el manual)', manual:true }
   ]}
 };
 const Checklist = {
-  cur:'arranque', ticks:{ arranque:{}, despegue:{}, aterrizaje:{}, emergencia:{} },
+  cur:'arranque', ticks:{ arranque:{}, despegue:{}, aterrizaje:{} },
   open(){ this.render(); $('checklist').style.display = 'flex'; },
   close(){ $('checklist').style.display = 'none'; },
-  reset(){ this.ticks = { arranque:{}, despegue:{}, aterrizaje:{}, emergencia:{} }; },
+  reset(){ this.ticks = { arranque:{}, despegue:{}, aterrizaje:{} }; },
   done(key, st){
     const L = CHECKLISTS[key].items; let n = 0;
     L.forEach((it,i)=>{ if(it.manual ? this.ticks[key][i] : it.auto(st)) n++; });
@@ -4864,42 +4811,25 @@ function sysUpdateUI(st){
   if(!$('sysBat')) return;
   const s = st.sys;
   $('sysBat').classList.toggle('on', s.battery);
-  $('sysPump').textContent = 'BOMBAS ' + (s.fuelPump ? 'ON' : 'OFF');
-  $('sysPump').classList.toggle('on', s.fuelPump);
-  $('sysSel').textContent = 'LLAVE ' + (s.cock ? 'ABIERTA' : 'CERR');
-  $('sysSel').classList.toggle('on', s.cock);
-  $('sysEmerg').classList.toggle('on', s.gearEmerg);
+  $('sysMag').textContent = 'MAG ' + s.mag;
+  $('sysMag').classList.toggle('on', s.mag === 'BOTH');
+  $('sysCarb').classList.toggle('on', s.carbHeat);
+  $('sysPrime').textContent = 'CEBAR ' + s.primer;
+  $('sysHum').classList.toggle('on', s.humid);
   $('sysStart').classList.toggle('on', s.starter);
-  if(s.starter && !s.engineOn && performance.now() - starterT0 > 22000){ ac.sys.starter = false; }
-  if(s.starter && s.engineOn && !s.startPhase){ ac.sys.starter = false; }
-  /* tren: botón y luces */
-  const gp = st.gearPos, gc = st.gearCmd > 0.5;
-  $('btnGear').textContent = gc ? 'TREN ▼ ABAJO' : 'TREN ▲ ARRIBA';
-  $('btnGear').classList.toggle('on', gc);
-  $('leverGear').classList.toggle('down', gc);
-  const down = gp >= 0.999;
-  ['glN','glL','glR'].forEach(id=> $(id).classList.toggle('on', down));
-  const unsafe = (gp > 0.001 && gp < 0.999) || (gc && gp < 0.999) || (!gc && gp > 0.001);
-  $('glU').classList.toggle('on', unsafe);
+  if(s.starter && (s.engineOn || performance.now() - starterT0 > 10000)){ ac.sys.starter = false; }
   let why = '';
   if(!s.engineOn && s.starter){
     const miss = [];
-    if(!s.battery) miss.push('master');
-    if(!s.cock) miss.push('llave de combustible');
-    if(!s.fuelPump) miss.push('bombas');
-    if(ac.controls.throttle > 0.15) miss.push('gas a ralentí (si no: arranque caliente)');
-    if(st.fuel < 1) miss.push('combustible');
-    why = miss.length ? ' · falta: ' + miss.join(', ') : (st.rpm < 14 ? ' · girando…' : ' · encendiendo…');
+    if(!s.battery) miss.push('batería');
+    if(s.mag !== 'BOTH') miss.push('magnetos en BOTH');
+    if(ac.controls.mixture <= 0.4) miss.push('mezcla rica');
+    if(ac.controls.throttle >= 0.5) miss.push('menos gas');
+    if(s.cold && s.primer < 2) miss.push('cebar 2+');
+    why = miss.length ? ' · falta: ' + miss.join(', ') : ' · girando…';
   }
-  const st1 = s.engineOn ? (s.startPhase ? 'ARRANCANDO · ' + st.rpm.toFixed(0) + '% · EGT ' + Math.round(st.egt) + (s.hot ? ' · ¡ARRANQUE CALIENTE!' : '') : 'MOTOR EN MARCHA · ' + st.rpm.toFixed(0) + '%') : (s.damaged ? 'MOTOR DAÑADO' : 'MOTOR PARADO');
-  $('sysState').textContent = st1 + why;
-  $('sysState').style.color = (s.engineOn && !s.hot) ? '#3ddc84' : '#ff8a8a';
-}
-function toggleGear(){
-  if(!ac || ac.sys.gearEmerg) return;
-  const c = ac.controls;
-  if(c.gear > 0.5 && (ac.y-(ac.gh||0)) < ac.contactH() + 0.03){ Coach.show('Seguro de tierra: el tren no se retrae con peso sobre las ruedas','warn'); return; }
-  c.gear = c.gear > 0.5 ? 0 : 1;
+  $('sysState').textContent = (s.engineOn ? 'MOTOR EN MARCHA' : 'MOTOR PARADO') + (s.ice > 0.15 ? ' · HIELO ' + Math.round(s.ice*100) + '%' : '') + why;
+  $('sysState').style.color = s.engineOn ? '#3ddc84' : '#ff8a8a';
 }
 
 /* ==========================================================================
@@ -4948,32 +4878,26 @@ function drawTrack(L, c, st){
    ========================================================================== */
 const mkClamp = (id, label, tolTxt, need, gate, ok, val, tip, coach)=>({ id, label, tol:tolTxt, need, gate, ok, val, tip, coach });
 
-/* criterio: el tren debe estar abajo y bloqueado en la toma */
-const evGear = { id:'gear', ev:true, label:'Tren abajo y bloqueado', tol:'3 luces verdes al tocar',
-  tip:'Lista de aterrizaje: tren abajo antes de la base y confirma 3 luces verdes. Si suena la bocina del tren, no se aterriza.' };
-
 function approachLesson(o){
   const crit = [
-    cIas(o.ias||120, o.iasTol||6, .75, st=>!st.onGround&&st.altFt>40),
+    cIas(o.ias||65, o.iasTol||5, .75, st=>!st.onGround&&st.altFt>40),
     { id:'gp', label:'Senda de planeo 3°', tol:'±1°', need:.75, gate:st=>!st.onGround&&st.altFt>40&&glideAngle(st)!=null,
       ok:st=>Math.abs(glideAngle(st)-3)<=1, val:st=>{ const g=glideAngle(st); return g==null?'--':fmt(g,1)+'°'; },
-      coach:st=>{ const g=glideAngle(st); return g>3 ? 'alto (PAPI blanco): reduce gas' : 'bajo (PAPI rojo): añade gas con antelación (el motor tarda en responder)'; },
-      tip:'Senda: si el PAPI muestra blanco, reduce gas/baja morro; si rojo, añade gas ya: el turbofán tarda ~6 s en pasar de ralentí a plena potencia, así que anticipa.' },
+      coach:st=>{ const g=glideAngle(st); return g>3 ? 'alto (PAPI blanco): reduce potencia' : 'bajo (PAPI rojo): añade potencia'; },
+      tip:'Senda: si el PAPI muestra blanco, reduce potencia/baja morro; si rojo, añade potencia. No corrijas con tirones.' },
     { id:'cl2', label:'Alineación con la pista', tol:'±'+(o.lat||10)+' m', need:.8, gate:st=>!st.onGround&&st.altFt>40,
       ok:st=>Math.abs(st.z)<=(o.lat||10), val:st=>fmt(st.z)+' m',
       coach:st=>st.z>0 ? 'estás a la derecha del eje: vira suave a la izquierda' : 'estás a la izquierda del eje: vira suave a la derecha',
       tip:'Alineación: corrige el viento cruzado con ángulo de deriva (cangrejo) y pedal para alinear antes de tocar.' },
-    evGear, evVs, evZone(o.zoneTxt), evAtt, evBnc ];
+    evVs, evZone(o.zoneTxt), evAtt, evBnc ];
   if(o.align) crit.push({ id:'al', ev:true, label:'Alineación al tocar', tol:'±'+o.align.z+' m · ±'+o.align.h+'°',
     tip:'Con viento cruzado: cangrejo en final y, antes de tocar, pedal para alinear el morro con la pista y alerón contra el viento.' });
   return { id:o.id, title:o.title, scene:o.scene||'approach', wind:o.wind, grace:5, profileX:true,
-    ideal:[[-3300,0],[-400,0]],
+    ideal:[[-1900,0],[-400,0]],
     brief:o.brief, steps:o.steps, radio:radioSteps.final,
     start:(L)=>{ L.d = { td:false, t0:0 }; },
     tick:(st,L)=>{
       tdEvents(st, L, o.zmin, o.zmax);
-      if(st.td && !L.d.gchk){ L.d.gchk = true; const gd = st.td.gear>=0.999;
-        L.set('gear', gd, gd ? '3 verdes' : 'tren NO bajado (aterrizaje sin tren)'); }
       if(o.align && st.td && !L.d.al){ L.d.al = true; const t = st.td, hd = dHdg(t.psi*RAD, 0);
         L.set('al', Math.abs(t.z)<=o.align.z && Math.abs(hd)<=o.align.h, 'desvío '+fmt(t.z)+' m · rumbo '+fmt(hd)+'°'); }
       if(L.d.td){
@@ -4985,75 +4909,31 @@ function approachLesson(o){
 }
 
 (function addLessons(){
-  const CR = { altFt:8000, ias:270, psi:20, x:-3000, z:600, gear:0 };   // crucero ≈ 85 % rpm
-  const sc = (o)=> Object.assign({}, CR, o);
+  /* radio en lecciones existentes */
+  const byId = id => LESSONS.find(l=>l.id===id);
+  byId('despegue').radio = radioSteps.takeoff;
+  byId('despegue').profileX = false;
+  byId('aprox').radio = radioSteps.final;
+  byId('aprox').profileX = true; byId('aprox').ideal = [[-1900,0],[-400,0]];
+  byId('toma').profileX = true;
+  byId('perdida').allowStall = true;
+  byId('perdida').start = (L)=>{ L.d = { stalled:false, alt0:0, minAlt:1e9, rec:false, recIas:56 }; };
+  byId('emerg').allowStall = true;
+  byId('planeo').noSinkCoach = true;
 
-  /* ---------- 1 · Arranque, pruebas y rodaje ---------- */
-  const start = { id:'arranque', title:'Arranque del turbofán y pruebas', scene:'cold', freeBrief:true, wind:[2,0], grace:0, allowStall:true, noSinkCoach:true, noGearCoach:true,
-    brief:'Motor parado. Completa la lista y <b>arranca</b> el AI-25TL: <b>MASTER ON</b>, <b>bombas ON</b>, <b>llave de combustible ABIERTA</b>, gas en <b>RALENTÍ</b> y pulsa <b>ARRANQUE</b>. Vigila la <b>EGT</b> (en arranque no debe pasar de ~700 °C: si se dispara, <b>corta la llave</b>). Con el motor en ralentí haz la <b>prueba de aceleración</b> (ralentí → 95 % en ≤ 10 s, con frenos) y empieza la carrera de despegue.',
-    steps:['Abre la lista (botón Listas): MASTER, bombas y llave de combustible','Gas SIEMPRE en ralentí al arrancar: con gas adelantado el arranque es «caliente» y la EGT se dispara','El arranque es automático: el motor gira, se enciende hacia el 14 % y tarda ~30 s en llegar al ralentí (≈ 52 %)','Prueba de aceleración con frenos puestos: gas a fondo, mide el tiempo hasta 95 % rpm; luego vuelve a ralentí'],
-    start:(L)=>{ L.d = { started:false, maxEgt:0, idleDone:false, acc0:null, acc:null }; },
-    tick:(st,L)=>{
-      const d = L.d, s = st.sys;
-      if(s.engineOn && !d.started){ d.started = true; L.set('start', true, 'en marcha a los '+fmt(L.te)+' s'); }
-      if(d.started && !d.idleDone){
-        d.maxEgt = Math.max(d.maxEgt, st.egt);
-        if(!s.startPhase && st.rpm >= 48){ d.idleDone = true;
-          const ok = !s.hot && d.maxEgt <= 700 && !s.damaged;
-          L.set('temp', ok, 'EGT máx. '+fmt(d.maxEgt)+' °C'+(s.hot ? ' · arranque caliente' : '')); }
-      }
-      if(d.idleDone && st.onGround && st.gsKt < 6){
-        if(d.acc0 == null && st.throttle > 0.85 && st.rpm < 62) d.acc0 = st.time;
-        if(d.acc0 != null && d.acc == null && st.rpm >= 95) d.acc = st.time - d.acc0;
-        if(d.acc0 != null && d.acc == null && st.throttle < 0.4) d.acc0 = null;
-      }
-    },
-    end:(st,L)=>{
-      const d = L.d;
-      L.set('acc', d.acc != null && d.acc <= 10, d.acc != null ? 'ralentí → 95 % en '+fmt(d.acc,1)+' s' : 'prueba no realizada', true);
-      const sc2 = (Checklist.done('arranque', st) + Checklist.done('despegue', st))/2;
-      L.set('chk', sc2 >= 0.85, fmt(sc2*100)+'% de las listas', true, sc2*100);
-    },
-    crit:[
-      { id:'start', ev:true, label:'Motor arrancado', tol:'master · bombas · llave · ralentí',
-        tip:'Arranque: MASTER ON, bombas de combustible ON, llave ABIERTA, gas en ralentí y ARRANQUE. Sin llave abierta o sin bombas no hay encendido.' },
-      { id:'temp', ev:true, label:'Arranque sin sobretemperatura', tol:'EGT ≤ 700 °C · sin arranque caliente',
-        tip:'Si adelantas el gas durante el arranque, la EGT se dispara (arranque caliente): corta la llave de combustible antes de dañar el motor. Con el gas en ralentí el pico es ~560 °C.' },
-      { id:'acc', ev:true, label:'Prueba de aceleración', tol:'ralentí → 95 % en ≤ 10 s',
-        tip:'Aceleración del motor: gas a fondo desde ralentí y cronometra hasta 95 %; un motor sano tarda unos 6–8 s. Con frenos puestos y la pista libre detrás.' },
-      { id:'chk', ev:true, label:'Listas de comprobación', tol:'≥ 85 %',
-        tip:'Revisa las listas de arranque y antes del despegue; los ítems manuales hay que marcarlos.' } ],
-    done:(st,L)=>(L.d.started && st.throttle>0.8 && st.gsKt>25) || L.te>=700 };
-
-  /* ---------- 2 · Vuelo recto y nivelado ---------- */
-  const recto = { id:'recto', title:'Vuelo recto y nivelado', scene:sc({}), wind:[0,0], grace:6, noGearCoach:true,
-    brief:'Tren y flaps arriba, <b>≈ 85 % rpm</b>. Mantén <b>8000 ft</b>, rumbo <b>020°</b> y <b>270 kt</b> (500 km/h) durante 2 minutos sin tocar el gas.',
-    steps:['Horizonte primero: la actitud fija la actuación','A esta velocidad el avión es muy sensible: movimientos pequeños del mando (1–2°)','Compensa hasta soltar presión; el gas fija la velocidad, el morro la altitud'],
-    crit:[cAlt(100,.8), cHdg(10,.8), cIas(270,15,.8)],
-    done:(st,L)=>L.te>=120 };
-
-  /* ---------- 3 · Viraje medio de 30° ---------- */
-  const viraje = { id:'viraje', title:'Viraje medio de 30°', scene:sc({}), wind:[0,0], grace:4,
-    brief:'Vira a la <b>derecha</b> hasta rumbo <b>110°</b> con ~30° de banco sin perder altitud. Sal 15–20° antes y estabiliza 8 s. El radio de giro a 270 kt es de ~2,5 km.',
-    steps:['Alerón para alabear, tira un poco para mantener la altitud','En viraje la sustentación vertical baja: añade morro arriba','A esta velocidad hay que anticipar la salida 15–20° y la inercia del giro es grande'],
-    start:(L)=>{ L.d.arr = 0; },
-    tick:(st,L,dt)=>{
-      if(Math.abs(dHdg(hdgOf(st),110))<=10 && Math.abs(st.phi)<8*DEG) L.d.arr += dt; else L.d.arr = 0;
-      if(L.d.arr >= 8) L.set('arr', true, 'rumbo 110° estabilizado');
-    },
-    crit:[ cAlt(120,.75),
-      { id:'bank', label:'Banco máximo', tol:'≤ 40°', need:.9, gate:()=>true, ok:st=>Math.abs(st.phi)<=40*DEG,
-        val:st=>fmt(st.phi*RAD)+'°', tip:'Banco excesivo: 30° es suficiente; más banco aumenta factor de carga y velocidad de pérdida.' },
-      cIas(270,18,.75),
-      { id:'arr', ev:true, label:'Rumbo final 110°', tol:'±10° durante 8 s',
-        tip:'Anticipa la salida: empieza a nivelar alas unos 15–20° antes del rumbo.' } ],
-    done:(st,L)=>L.d.arr>=8 || L.te>=200 };
-
-  /* ---------- 4 · Viraje de 45° ---------- */
-  const steep = { id:'steep', title:'Viraje de 45° (viraje cerrado)',
-    scene:sc({ altFt:9000, ias:250 }), wind:[0,0], grace:5, allowSteep:true,
-    brief:'Viraje de <b>360°</b> con <b>45° de banco</b> (±5°): altitud ±150 ft, 250 kt ±15 y sal con el rumbo inicial ±10°. Añade gas al entrar para no perder velocidad.',
-    steps:['Entra con alerón, tira y añade gas (≈ +8 % rpm)','En 45° el factor de carga es 1,4 g: horizonte y V/S en cero','Sal 25° antes del rumbo y nivela'],
+  /* pérdida con flaps (configuración de aterrizaje) */
+  const pf = Object.assign({}, byId('perdida'), {
+    id:'perdidaf', title:'Pérdida en configuración de aterrizaje',
+    scene:{ altFt:3500, ias:62, psi:20, x:-3000, z:600, flap:1 },
+    brief:'Flaps 30° y gas a ralentí. Mantén altitud tirando suave hasta la pérdida. Recupera: <b>morro abajo, gas a fondo</b>, retira flaps a 20° y perdiendo ≤ 300 ft.',
+    steps:['Con flaps la pérdida llega antes de lo que esperas: ~40 kt','Recupera igual: morro, gas, alas niveladas','Flaps a 20° con velocidad por encima de 48 kt'],
+    start:(L)=>{ L.d = { stalled:false, alt0:0, minAlt:1e9, rec:false, recIas:48 }; }
+  });
+  /* viraje de 45° */
+  const steep = { id:'steep', title:'Viraje de 45° (steep turn)',
+    scene:{ altFt:3500, ias:100, psi:20, x:-3000, z:600 }, wind:[0,0], grace:5, allowSteep:true,
+    brief:'Viraje de <b>360°</b> con <b>45° de banco</b> (±5°): altitud ±100 ft, 100 kt ±10 y sal con el rumbo inicial ±10°. Añade potencia al entrar.',
+    steps:['Entra con alerón, tira y añade gas (≈ +200 rpm)','En 45° el factor de carga es 1,4 g: horizonte y V/S en cero','Sal 20° antes del rumbo y nivela'],
     start:(L,st)=>{ L.d = { cum:0, last:hdgOf(st), entry:hdgOf(st), done:false }; },
     tick:(st,L)=>{
       const h = hdgOf(st); L.d.cum += Math.abs(dHdg(h, L.d.last)); L.d.last = h;
@@ -5061,388 +4941,127 @@ function approachLesson(o){
       if(L.d.cum >= 420 && !L.d.done){ L.d.done = true; L.set('exit', false, 'rumbo de salida pasado'); }
     },
     crit:[
-      { id:'alt', label:'Altitud en viraje', get tol(){ return '±'+Math.round(150*TOL.s)+' ft'; }, need:.75, gate:st=>Math.abs(st.phi)>25*DEG,
-        ok:(st,L)=>Math.abs(st.altFt-L.tgt.alt)<=150*TOL.s, val:(st,L)=>fmt(st.altFt-L.tgt.alt)+' ft',
+      { id:'alt', label:'Altitud en viraje', get tol(){ return '±'+Math.round(100*TOL.s)+' ft'; }, need:.75, gate:st=>Math.abs(st.phi)>25*DEG,
+        ok:(st,L)=>Math.abs(st.altFt-L.tgt.alt)<=100*TOL.s, val:(st,L)=>fmt(st.altFt-L.tgt.alt)+' ft',
         coach:(st,L)=>st.altFt>L.tgt.alt ? 'alto: relaja un poco la tracción' : 'bajo: más tracción y gas',
-        tip:'Altitud en viraje cerrado: tira para compensar la pérdida de sustentación vertical y añade gas; vigila el V/S.' },
+        tip:'Altitud en steep turn: tira para compensar la pérdida de sustentación vertical y añade gas; vigila el V/S.' },
       { id:'bank', label:'Banco', tol:'45° ±5°', need:.7, gate:st=>Math.abs(st.phi)>25*DEG,
         ok:st=>{ const b=Math.abs(st.phi)*RAD; return b>=40&&b<=50; }, val:st=>fmt(st.phi*RAD)+'°',
         tip:'Banco: usa el horizonte artificial y el HUD para fijar 45°; no lo persigas.' },
-      cIas(250,15,.7,st=>Math.abs(st.phi)>25*DEG),
+      cIas(100,10,.7,st=>Math.abs(st.phi)>25*DEG),
       { id:'exit', ev:true, label:'Salida en el rumbo inicial', tol:'±10°',
-        tip:'Anticipa la salida 20–25° antes y suelta tracción a medida que nivelas.' } ],
+        tip:'Anticipa la salida 15–20° antes y suelta tracción a medida que nivelas.' } ],
     done:(st,L)=>L.d.done || L.te>=240 };
-
-  /* ---------- 5 · Ascenso ---------- */
-  const ascenso = { id:'ascenso', title:'Ascenso a 215 kt', scene:{ altFt:2000, ias:215, psi:20, x:-3000, z:600, gear:0, thr:1 }, wind:[0,0], grace:6, noGearCoach:true,
-    brief:'Tren y flaps arriba. Gas a fondo. Asciende de <b>2000 a 8000 ft</b> a <b>215 kt</b> (400 km/h), rumbo 020°. Con ~4000 fpm tendrás poco tiempo: nivela con antelación.',
-    steps:['Potencia máxima (100 % rpm) y 215 kt con el morro','Compensa con frecuencia: el trim cambia con la velocidad','Empieza a nivelar ~300 ft antes: con 4000 fpm la inercia es grande'],
-    crit:[ cIas(215,10,.75), cHdg(10,.8),
-      { id:'pwr', label:'Potencia de ascenso', tol:'gas ≥ 90 % y ≥ 95 % rpm', need:.9, gate:(st,L)=>L.te>8, ok:st=>st.throttle>0.9 && st.rpm>95,
-        val:st=>fmt(st.throttle*100)+'% · '+fmt(st.rpm)+' % rpm', tip:'En ascenso se vuela con gas a fondo; con menos potencia no se obtiene el régimen de ascenso esperable.' } ],
-    done:(st,L)=>st.altFt>=8000 || L.te>=300 };
-
-  /* ---------- 6 · Descenso de crucero ---------- */
-  const descenso = { id:'descenso', title:'Descenso de crucero (1500 fpm)', scene:sc({ altFt:12000, ias:270 }), wind:[0,0], grace:8, noSinkCoach:true, noGearCoach:true,
-    brief:'De <b>12000 a 7000 ft</b> a <b>1500 fpm</b> y <b>270 kt</b>. Reduce el gas poco a poco; no bajes del <b>60 % rpm</b> (el motor tarda ~6 s en recuperar potencia si hace falta).',
-    steps:['Reduce ~15 % de rpm y baja el morro hasta 1500 fpm','Mantén 270 kt con el morro; el V/S con el gas','No cierres el gas del todo: ralentí = poca respuesta si hay que ir al aire'],
-    crit:[ mkClamp('vs','Régimen de descenso','−1500 ±500 fpm',.7,(st,L)=>L.te>10&&st.altFt>7400, st=>Math.abs(st.vsFpm+1500)<=500, st=>fmt(st.vsFpm)+' fpm',
-        'Descenso: gas para el régimen y morro para la velocidad; ajusta 3–5 % de rpm cada vez.'),
-      cIas(270,15,.75), cHdg(10,.8),
-      mkClamp('n','Régimen del motor','≥ 60 % rpm',.9,()=>true, st=>st.rpm>=60, st=>fmt(st.rpm)+' %',
-        'Con el motor casi al ralentí la aceleración es lenta; mantén ≥ 60 % para conservar respuesta.') ],
-    done:(st,L)=>st.altFt<=7000 || L.te>=300 };
-
-  /* ---------- 7 · Descenso rápido con aerofrenos ---------- */
-  const aerofr = { id:'aerofrenos', title:'Descenso rápido con aerofrenos', scene:sc({ altFt:14000, ias:250 }), wind:[0,0], grace:6, noSinkCoach:true, noGearCoach:true,
-    brief:'Gas a <b>ralentí</b> y <b>aerofrenos ABIERTOS</b> (palanca F.AERO) para bajar de <b>14000 a 9000 ft</b> sin pasar de <b>280 kt</b>, manteniendo ~250 kt. Al final <b>cierra los aerofrenos</b> y recupera el gas antes de nivelar.',
-    steps:['Ralentí y aerofrenos abiertos: la resistencia sube mucho y el morro tiende a subir un poco','Controla 250 kt con el morro: el descenso será fuerte (varios miles de fpm)','Antes de nivelar, aerofrenos cerrados y gas: el motor tarda en acelerar'],
-    start:(L)=>{ L.d = { abOpen:false, done:false }; },
-    tick:(st,L)=>{ if(st.abCmd > 0.5) L.d.abOpen = true;
-      if(!L.d.done && st.altFt <= 9000){ L.d.done = true;
-        L.set('ab', L.d.abOpen && st.abCmd < 0.2, L.d.abOpen ? (st.abCmd<0.2 ? 'cerrados al nivelar' : 'aerofrenos aún abiertos') : 'no los usaste'); } },
-    crit:[
-      mkClamp('vs','Régimen de descenso','≥ 3000 fpm',.7,(st,L)=>L.te>10&&st.altFt>9500, st=>st.vsFpm<=-3000, st=>fmt(st.vsFpm)+' fpm',
-        'Con ralentí y aerofrenos abiertos el avión baja deprisa: si no llegas a 3000 fpm, comprueba que la palanca F.AERO está arriba del todo.'),
-      mkClamp('ias','Velocidad','≤ 280 kt',.9,()=>true, st=>st.iasKt<=280, st=>fmt(st.iasKt)+' kt',
-        'Controla la velocidad con el morro: el descenso con aerofrenos acelera rápido.'),
-      cHdg(10,.8),
-      { id:'ab', ev:true, label:'Aerofrenos cerrados al nivelar', tol:'F.AERO cerrados a 9000 ft',
-        tip:'Los aerofrenos se cierran antes de nivelar y de aterrizar; abiertos y con poco gas, la velocidad se pierde muy deprisa.' } ],
-    done:(st,L)=>L.d.done || L.te>=240 };
-
-  /* ---------- 8 · Mejor planeo ---------- */
-  const planeo = { id:'planeo', title:'Descenso a ralentí y mejor planeo (160 kt)', scene:sc({ altFt:10000, ias:160, thr:0 }), wind:[0,0], grace:6, noSinkCoach:true, noGearCoach:true,
-    brief:'Gas a ralentí, tren, flaps y aerofrenos arriba. Mantén <b>160 kt</b> (mejor planeo, ~300 km/h) y rumbo 020° hasta <b>6000 ft</b>.',
-    steps:['Morro: fija 160 kt y compensa','Configuración limpia: tren, flaps y aerofrenos arriba (cada uno empeora el planeo)','Con el tren abajo el planeo cae de ~11:1 a ~8:1'],
-    crit:[ cIas(160,8,.75), cHdg(10,.8),
-      mkClamp('cfg','Configuración limpia','tren, flaps y aerofrenos arriba',.9,()=>true, st=>st.gearPos<0.05 && st.flap<0.05 && st.ab<0.1,
-        st=>(st.gearPos<0.05?'tren ▲':'tren ▼')+' · '+flapDeg(st.flap)+'° · F.AERO '+(st.ab<0.1?'cerr.':'abiertos'),
-        'Planeo: configuración limpia da la mejor relación de planeo; baja el tren y los flaps solo cuando la pista esté asegurada.') ],
-    done:(st,L)=>st.altFt<=6000 || L.te>=300 };
-
-  /* ---------- 9 · Vuelo lento ---------- */
-  const lento = { id:'lento', title:'Vuelo lento (configuración de aterrizaje)', scene:sc({ altFt:6000, ias:165 }), wind:[0,0], grace:30, allowStall:true, noGearCoach:true,
-    brief:'En 30 s reduce a <b>125 kt</b> con <b>tren abajo y flaps 25°</b>. Mantén altitud ±100 ft y rumbo ±10° durante <b>90 s</b> sin entrar en pérdida.',
-    steps:['Reduce gas; con ≤ 170 kt baja flaps a 25° y con ≤ 190 kt el tren: comprueba 3 verdes','A 125 kt hacen falta ~70 % rpm: el gas controla la altitud, el morro la velocidad','Si la velocidad cae por debajo de 110 kt, añade gas con antelación: el motor tarda en responder'],
+  /* vuelo lento */
+  const slow = { id:'lento', title:'Vuelo lento', scene:{ altFt:3500, ias:75, psi:20, x:-3000, z:600 }, wind:[0,0], grace:25, allowStall:true,
+    brief:'En 25 s reduce a <b>55 kt</b> con flaps 20°. Mantén altitud ±100 ft y rumbo ±10° durante <b>90 s</b> sin entrar en pérdida.',
+    steps:['Reduce gas, mantén altitud con el elevador','Flaps 10° → 20° bajo 85 kt','A baja velocidad el timón manda: coordina con pedales'],
     start:(L)=>{ L.d = { stalled:false }; },
     tick:(st,L)=>{ if(st.stalled) L.d.stalled = true; },
     end:(st,L)=>{ L.set('ns', !L.d.stalled, L.d.stalled ? 'entraste en pérdida' : 'sin pérdida'); },
-    crit:[ cAlt(100,.7), cHdg(10,.8), cIas(125,6,.7),
-      mkClamp('cfg','Configuración','tren abajo · flaps 25°',.85,()=>true, st=>st.gearPos>0.99 && st.flap>0.5 && st.flap<0.65,
-        st=>(st.gearPos>0.99?'tren ▼':'tren ?')+' · '+flapDeg(st.flap)+'°','Configura el avión con tiempo: tren abajo, flaps 25°.'),
+    crit:[ cAlt(100,.7), cHdg(10,.8), cIas(55,5,.7),
       { id:'ns', ev:true, label:'Sin entrar en pérdida', tol:'sin stall',
         tip:'Si suena la bocina, relaja un poco la tracción y añade gas: el avión debe seguir volando.' } ],
     done:(st,L)=>L.te>=90 };
-
-  /* ---------- 10 · Pérdida limpia ---------- */
-  const perdida = { id:'perdida', title:'Pérdida y recuperación (limpio)', scene:sc({ altFt:9000, ias:150 }), wind:[0,0], grace:0, allowStall:true, noGearCoach:true,
-    brief:'Tren y flaps arriba. Reduce a ralentí, mantén altitud tirando suave hasta la bocina y la pérdida (~97 kt). Recupera: <b>morro abajo, gas a fondo, alas niveladas</b>, perdiendo ≤ 600 ft. El motor tarda ~6 s en dar potencia: la recuperación es con el <b>morro</b>.',
-    steps:['Gas a ralentí, mantén altitud con el elevador','La bocina avisa antes: la pérdida es por ángulo de ataque, no por velocidad (≈ 97 kt limpio a 4200 kg)','Recupera: baja el morro, gas a fondo (tarda en llegar) y nivela con timón'],
-    start:(L)=>{ L.d = { stalled:false, alt0:0, minAlt:1e9, rec:false }; },
+  /* toma con viento cruzado */
+  const xw = approachLesson({ id:'cruzado', title:'Toma con viento cruzado', wind:[6,0], zmin:-550, zmax:50, zoneTxt:'umbral+75 … 675 m',
+    lat:8, align:{ z:6, h:8 },
+    brief:'Mismo ejercicio con <b>viento cruzado de 12 kt</b>. Cangrejo en final; antes de tocar, <b>pedal</b> para alinear el morro y alerón contra el viento.',
+    steps:['Final en cangrejo (morro hacia el viento)','Flare: pedal para alinear con la pista','Alerón contra el viento al tocar'] });
+  /* toma de precisión */
+  const pre = approachLesson({ id:'precision', title:'Toma de precisión (blanco)', wind:[2,0], zmin:-460, zmax:-340, zoneTxt:'±60 m del blanco', ias:65, iasTol:3, lat:6,
+    brief:'Toca en el <b>blanco</b> (marcas de punto de toma) con ±60 m, velocidad 65 ±3 kt y alineado ±6 m.',
+    steps:['Senda estable con PAPI 2 blancas + 2 rojas','Controla la senda con potencia, la velocidad con el morro','Flare corto y suave para no pasarte'] });
+  /* arranque y pruebas */
+  const start = { id:'arranque', title:'Arranque, pruebas y rodaje', scene:'cold', freeBrief:true, wind:[2,0], grace:0, allowStall:true, noSinkCoach:true,
+    brief:'Motor parado. Completa la lista, <b>arranca</b> (cebador 2–3, mezcla rica, magnetos BOTH, gas ~15 %), haz la <b>prueba de magnetos</b> a ~1800 rpm y la de <b>calefacción de carburador</b>. Termina al iniciar la carrera de despegue.',
+    steps:['Abre la lista de comprobación (botón Listas)','Magnetos: R → BOTH → L → BOTH (caída ≤ 150 rpm)','Carburador: ON → OFF con rpm estable'],
+    start:(L)=>{ L.d = { started:false, rpmBoth:0, dropL:null, dropR:null, magBack:false, carbOn:false, carbDone:false, cough0:0 }; },
     tick:(st,L)=>{
-      const d = L.d;
-      if(st.stalled && !d.stalled){ d.stalled = true; d.alt0 = st.altFt; d.minAlt = st.altFt; L.set('st', true, 'pérdida alcanzada'); }
-      if(d.stalled){
-        d.minAlt = Math.min(d.minAlt, st.altFt);
-        if(st.throttle > 0.9) L.set('pwr', true, 'potencia aplicada');
-        if(!st.stalled && st.iasKt > 115 && st.vsFpm > -300 && !d.rec){
-          d.rec = true; const lost = d.alt0 - d.minAlt;
-          L.set('loss', lost <= 600, fmt(lost)+' ft perdidos');
-        }
+      const d = L.d, s = st.sys;
+      if(s.engineOn && !d.started){ d.started = true; L.set('start', true, 'en marcha a los '+fmt(L.te)+' s'); L.set('clean', s.cough < 3.5, 'arranque '+(s.cough<3.5?'limpio':'con intentos fallidos')); }
+      if(st.rpm > 1500){
+        if(s.mag === 'BOTH') d.rpmBoth = st.rpm;
+        if(s.mag === 'L' && d.rpmBoth) d.dropL = d.rpmBoth - st.rpm;
+        if(s.mag === 'R' && d.rpmBoth) d.dropR = d.rpmBoth - st.rpm;
+        if(s.carbHeat) d.carbOn = true;
+        if(!s.carbHeat && d.carbOn) d.carbDone = true;
       }
+      if(d.dropL!=null && d.dropR!=null && s.mag==='BOTH') d.magBack = true;
+    },
+    end:(st,L)=>{
+      const d = L.d, okM = d.magBack && d.dropL>=40 && d.dropL<=175 && d.dropR>=40 && d.dropR<=175 && Math.abs(d.dropL-d.dropR)<=75;
+      L.set('mag', okM, d.dropL!=null&&d.dropR!=null ? 'caídas L '+fmt(d.dropL)+' · R '+fmt(d.dropR)+' rpm' : 'prueba no realizada', true);
+      L.set('carb', d.carbOn && d.carbDone, d.carbOn ? (d.carbDone ? 'ON y OFF probados' : 'no volviste a OFF') : 'no probada', true);
+      const sc = (Checklist.done('arranque', st) + Checklist.done('despegue', st))/2;
+      L.set('chk', sc >= 0.85, fmt(sc*100)+'% de las listas', true, sc*100);
     },
     crit:[
-      { id:'st', ev:true, label:'Pérdida provocada', tol:'bocina → pérdida',
-        tip:'Reduce gas a ralentí y sigue tirando suave del mando hasta que el morro caiga.' },
-      { id:'bank', label:'Alabeo en pérdida', tol:'≤ 20°', need:.8, gate:st=>st.stalled||st.stallWarn,
-        ok:st=>Math.abs(st.phi)<=20*DEG, val:st=>fmt(st.phi*RAD)+'°',
-        tip:'En pérdida usa timón (pedales) para mantener alas a nivel; los alerones empeoran la caída del ala.' },
-      { id:'pwr', ev:true, label:'Potencia de recuperación', tol:'gas ≥ 90 %',
-        tip:'Recuperar: baja el morro para reducir ángulo de ataque y aplica gas a fondo suave; el turbofán tarda unos segundos en responder.' },
-      { id:'loss', ev:true, label:'Pérdida de altitud', tol:'≤ 600 ft',
-        tip:'Recupera ya: el ángulo de ataque se corrige con el morro; luego potencia y nivela con suavidad.' } ],
-    done:(st,L)=>L.d.rec || L.te>=240 };
-
-  /* ---------- 11 · Pérdida en configuración de aterrizaje ---------- */
-  const perdidaf = Object.assign({}, perdida, {
-    id:'perdidaf', title:'Pérdida en configuración de aterrizaje',
-    scene:sc({ altFt:9000, ias:100, gear:1, flap:1 }), noGearCoach:true,
-    brief:'Tren abajo, flaps 44° y gas a ralentí. Mantén altitud tirando suave hasta la pérdida (~84 kt). Recupera: <b>morro abajo, gas a fondo</b>, flaps a 25° y perdiendo ≤ 400 ft. El tren puede quedarse abajo.',
-    steps:['Con flaps 44° y tren la pérdida llega a ~84 kt, pero la resistencia es muy alta','Recupera igual: morro, gas (tarda en llegar), alas niveladas','Flaps a 25° con velocidad por encima de 100 kt'],
-    start:(L)=>{ L.d = { stalled:false, alt0:0, minAlt:1e9, rec:false }; }
-  });
-  perdidaf.tick = (st,L)=>{
-    const d = L.d;
-    if(st.stalled && !d.stalled){ d.stalled = true; d.alt0 = st.altFt; d.minAlt = st.altFt; L.set('st', true, 'pérdida alcanzada'); }
-    if(d.stalled){
-      d.minAlt = Math.min(d.minAlt, st.altFt);
-      if(st.throttle > 0.9) L.set('pwr', true, 'potencia aplicada');
-      if(!st.stalled && st.iasKt > 95 && st.vsFpm > -300 && !d.rec){
-        d.rec = true; const lost = d.alt0 - d.minAlt;
-        L.set('loss', lost <= 400, fmt(lost)+' ft perdidos');
-      }
-    }
-  };
-  perdidaf.crit = perdida.crit.map(c=> c.id==='loss' ? Object.assign({}, c, { tol:'≤ 400 ft' }) : c);
-
-  /* ---------- 12 · Operación del tren y límites de velocidad ---------- */
-  const tren = { id:'tren', title:'Operación del tren y límites de velocidad', scene:{ altFt:3000, ias:165, psi:20, x:-3000, z:600, gear:1, flap:0, pump:true }, wind:[0,0], grace:4, noGearCoach:true, noSinkCoach:true,
-    brief:'Despegado y con pista a la vista. Con velocidad <b>≤ 190 kt</b> pon la palanca en <b>ARRIBA</b> y comprueba que las luces se apagan. Mantén altitud ±150 ft. Cuando el instructor avise («viento en cola»), baja el tren con <b>≤ 190 kt</b> y confirma <b>3 verdes</b>.',
-    steps:['Palanca de TREN: arriba (7 s). Luz roja = en tránsito; apagadas = arriba y bloqueado','Evita pasar de 190 kt con el tren en tránsito (daño a las puertas)','Al bajar: palanca ABAJO, 3 luces verdes encendidas y roja apagada'],
-    start:(L)=>{ L.d = { up:false, down:false, tUp:null, prompted:false, maxTrans:0 }; },
-    tick:(st,L)=>{
-      const d = L.d;
-      if(st.gearPos > 0.001 && st.gearPos < 0.999) d.maxTrans = Math.max(d.maxTrans, st.iasKt);
-      if(!d.up && st.gearPos <= 0.001){ d.up = true; d.tUp = L.te; L.set('up', d.maxTrans <= 194 && !st.gearOver, 'arriba · máx. '+fmt(d.maxTrans)+' kt en tránsito'); d.maxTrans = 0; }
-      if(d.up && !d.prompted && L.te - d.tUp > 30){ d.prompted = true; d.tPrompt = L.te; Coach.show('Viento en cola: lista de aterrizaje — baja el tren (≤ 190 kt) y comprueba 3 verdes','good'); }
-      if(d.prompted && !d.down && st.gearPos >= 0.999){ d.down = true; L.set('down', d.maxTrans <= 194 && !st.gearOver, 'abajo y bloqueado · máx. '+fmt(d.maxTrans)+' kt');
-        L.set('time', L.te - d.tPrompt <= 45, fmt(L.te - d.tPrompt)+' s tras el aviso'); }
-      if(d.prompted && !d.down && L.te - d.tPrompt > 45){ L.set('down', false, 'no bajaste el tren a tiempo'); L.set('time', false, 'más de 45 s', true); d.down = true; }
-    },
-    crit:[
-      { id:'up', ev:true, label:'Tren arriba sin exceder el límite', tol:'≤ 190 kt en tránsito',
-        tip:'Retrae el tren con velocidad por debajo de 190 kt y con ascenso positivo; el exceso de velocidad daña las puertas del tren.' },
-      { id:'down', ev:true, label:'Tren abajo sin exceder el límite', tol:'≤ 190 kt · 3 verdes',
-        tip:'Extiende el tren por debajo de 190 kt y confirma las 3 luces verdes antes de aterrizar.' },
-      { id:'time', ev:true, label:'Tren abajo a tiempo', tol:'≤ 45 s tras el aviso',
-        tip:'Tren abajo en viento en cola, antes del viraje a base.' },
-      cAlt(150,.7), cHdg(12,.7) ],
-    done:(st,L)=>L.d.down && L.te>0 || L.te>=240 };
-
-  /* ---------- 13 · Despegue normal ---------- */
-  const takeoffCrit = (xwTxt)=>[
-      { id:'pre', ev:true, label:'Comprobaciones antes de rodar', tol:'bombas · flaps 25° · motor en ralentí',
-        tip:'Antes de la carrera: bombas ON, flaps 25° (posición de despegue), compensador en posición y motor en ralentí estable.' },
-      { id:'cl', label:'Eje de pista', tol:'±8 m', need:.85, gate:st=>st.onGround&&st.throttle>0.5&&st.iasKt>8,
-        ok:st=>Math.abs(st.z)<=8, val:st=>fmt(st.z)+' m',
-        tip:'Mantén el eje con pedales suaves (dirección de la rueda de morro).'+xwTxt },
-      { id:'rot', ev:true, label:'Rotación', tol:'100 kt (93–114)',
-        tip:'Rota a ~100 kt (≈ 185 km/h): antes de tiempo la rueda de morro pesa y se prolonga la carrera; tarde, te comes pista.' },
-      { id:'gear', ev:true, label:'Tren arriba con ascenso positivo', tol:'≥ 15 ft · ≤ 190 kt',
-        tip:'Tren arriba cuando el ascenso es positivo y ya no queda pista para aterrizar. No lo retraigas antes de despegar.' },
-      { id:'cv', label:'Velocidad de ascenso inicial', tol:'160 ±15 kt', need:.7,
-        gate:(st,L)=>L.d.fl&&!st.onGround&&st.time-L.d.t0>12&&st.altFt<1200, ok:st=>Math.abs(st.iasKt-160)<=15, val:st=>fmt(st.iasKt)+' kt',
-        tip:'Tras despegar, acelera a ~160 kt con el morro (el avión acelera muy deprisa); flaps arriba por encima de 150 kt.' },
-      { id:'ch', label:'Rumbo de ascenso', tol:'±10°', need:.8,
-        gate:(st,L)=>L.d.fl&&!st.onGround&&st.time-L.d.t0>4&&st.altFt<1200, ok:st=>Math.abs(dHdg(hdgOf(st),0))<=10, val:st=>fmt(dHdg(hdgOf(st),0))+'°',
-        tip:'Rumbo de ascenso: compensa el viento con el morro (cangrejo) y pedal.' } ];
-  const takeoffTick = (st,L)=>{
-    if(!L.d.pre && st.gsKt > 8 && st.onGround){ L.d.pre = true;
-      const ok = st.sys.fuelPump && st.flap > 0.5 && st.flap < 0.65 && st.rpm > 48;
-      L.set('pre', ok, ok ? 'bombas ON · flaps 25°' : 'falta: '+[!st.sys.fuelPump&&'bombas',!(st.flap>0.5&&st.flap<0.65)&&'flaps 25°',st.rpm<=48&&'motor'].filter(Boolean).join(', ')); }
-    if(st.liftoff && !L.d.fl){
-      L.d.fl = true; L.d.t0 = st.time;
-      L.set('rot', st.liftoff.ias>=93 && st.liftoff.ias<=114, fmt(st.liftoff.ias)+' kt');
-    }
-    if(!L.d.gu && st.gearCmd < 0.5){ L.d.gu = true;
-      const ok = !st.onGround && st.altFt >= 15 && st.iasKt <= 190;
-      L.set('gear', ok, ok ? 'retraído a '+fmt(st.altFt)+' ft' : (st.onGround ? 'palanca arriba en tierra' : 'demasiado pronto o rápido')); }
-    if(!L.d.gu && L.d.fl && st.altFt > 600){ L.d.gu = true; L.set('gear', false, 'tren aún abajo a 600 ft'); }
-  };
-  const despegue = { id:'despegue', title:'Despegue normal', scene:Object.assign({}, SCENES.takeoff, { pump:false }), wind:[2,0], grace:0, noSinkCoach:true, noGearCoach:true,
-    brief:'En el umbral, motor al ralentí. <b>Bombas ON</b>, <b>flaps 25°</b>. Gas a fondo (el motor tarda ~6 s en llegar al 100 %), mantén el eje, rota a <b>100 kt</b>, <b>retrae el tren</b> con ascenso positivo y acelera a <b>160 kt</b> hasta 1500 ft. Viento cruzado 4 kt.',
-    steps:['Antes de rodar: bombas ON, flaps 25° (palanca de flaps), aerofrenos cerrados','Gas progresivo a fondo con frenos; suelta y mantén el eje con pedales','Rota a 100 kt; con ascenso positivo y sin pista delante, tren ARRIBA; acelera a 160 kt y flaps arriba'],
-    start:(L)=>{ L.d = { fl:false, t0:0, pre:false, gu:false }; },
-    tick:takeoffTick, crit:takeoffCrit(' Anticipa el viento cruzado con alerón en contra.'),
-    done:(st,L)=>st.altFt>=1500 || L.te>=240 || (st.onGround && L.d.fl && st.time-L.d.t0>3) };
-
-  /* ---------- 14 · Despegue con viento cruzado ---------- */
-  const despegueX = { id:'despegueX', title:'Despegue con viento cruzado', scene:Object.assign({}, SCENES.takeoff, { pump:false }), wind:[6,0], grace:0, noSinkCoach:true, noGearCoach:true,
-    brief:'Viento cruzado de <b>12 kt</b>. Mismos pasos que el despegue normal: <b>bombas ON, flaps 25°</b>, gas a fondo, <b>alerón hacia el viento</b> y pedal para el eje, rota a <b>100 kt</b>, tren arriba y 160 kt.',
-    steps:['Alerón hacia el viento al inicio y suéltalo según ganas velocidad','Pedal para mantener el eje; el viento tiende a girar el avión contra él','Tras despegar, cangrejo hacia el viento para mantener el rumbo de pista'],
-    start:(L)=>{ L.d = { fl:false, t0:0, pre:false, gu:false }; },
-    tick:takeoffTick, crit:takeoffCrit(''),
-    done:(st,L)=>st.altFt>=1500 || L.te>=240 || (st.onGround && L.d.fl && st.time-L.d.t0>3) };
-
-  /* ---------- 15 · Circuito de tráfico ---------- */
-  const circuit = { id:'circuito', title:'Circuito de tráfico (izquierdas, pista 36)', scene:{ altFt:1000, ias:170, psi:0, x:500, z:0, gear:0, flap:0, pump:true }, wind:[2,0], grace:5,
-    profileX:false, mapPattern:true, noGearCoach:true,
-    ideal:[[500,0],[2800,0],[2800,-2600],[-3300,-2600],[-3300,0],[-400,0]],
-    brief:'Circuito a la <b>izquierda</b> pista 36 a <b>1500 ft</b>: viento en cola a <b>160 kt</b> (separación ~2,5 km), <b>tren abajo y flaps 25°</b> antes de la base, base a 140 kt, final a <b>120 kt</b> con flaps 44° y toma. Usa la radio.',
-    steps:['Sube a 1500 ft y vira a cruzado; viento en cola a 160 kt, ~2,5 km de la pista','Antes de virar a base: lista de aterrizaje (tren ▼, flaps 25°, bombas ON, aerofrenos cerrados)','Base a 140 kt; final con flaps 44° a 120 kt y PAPI. Tren abajo = 3 verdes'],
+      { id:'start', ev:true, label:'Motor arrancado', tol:'cebador, mezcla, magnetos',
+        tip:'Arranque: cebador 2–3 veces en frío, mezcla rica, magnetos BOTH, gas ~15 % y pulsa ARRANQUE (máx. 10 s).' },
+      { id:'clean', ev:true, label:'Arranque limpio', tol:'sin ahogar el motor',
+        tip:'Si el motor no arranca con mezcla rica, gas bajo y cebador suficiente, revisa batería y magnetos antes de repetir.' },
+      { id:'mag', ev:true, label:'Prueba de magnetos', tol:'caída 40–175 rpm, dif ≤ 75',
+        tip:'Prueba de magnetos a ~1800 rpm: R, vuelta a BOTH, L, vuelta a BOTH; caída ≤ 150 rpm y diferencia ≤ 50 rpm.' },
+      { id:'carb', ev:true, label:'Calefacción de carburador', tol:'ON y OFF probados',
+        tip:'Prueba de carburador: ON unos segundos (la caída de rpm indica funcionamiento) y OFF.' },
+      { id:'chk', ev:true, label:'Listas de comprobación', tol:'≥ 85 %',
+        tip:'Revisa las listas de arranque y antes del despegue; los ítems manuales hay que marcarlos.' } ],
+    done:(st,L)=>(L.d.started && st.throttle>0.8 && st.gsKt>8) || L.te>=700 };
+  /* circuito de tráfico */
+  const circuit = { id:'circuito', title:'Circuito de tráfico', scene:{ altFt:600, ias:74, psi:0, x:900, z:0, thr:1 }, wind:[2,0], grace:5,
+    profileX:false, mapPattern:true,
+    ideal:[[900,0],[1100,0],[1100,-1000],[-1100,-1000],[-1100,0],[-400,0]],
+    brief:'Circuito a la <b>izquierda</b> pista 36 a <b>1000 ft</b>: viento en cola a 0,5–0,8 NM, <b>90 kt</b>, base a 45°, final a 65 kt y toma. Usa la radio.',
+    steps:['Cruzado a 700 ft; viento en cola a 1000 ft','Abeam del umbral: reduce y flaps 10°','Base: flaps 20°; final: 65 kt con el PAPI'],
     radio:radioSteps.circuit,
     start:(L)=>{ L.d = { phase:'upwind', tdw:0, td:false, t0:0 }; },
     tick:(st,L,dt)=>{
       const h = hdgOf(st), d = L.d, ph = d.phase;
       if(ph==='upwind' && h<315 && h>225) d.phase = 'crosswind';
       else if(ph==='crosswind' && h<225 && h>135){ d.phase = 'downwind'; d.tdw = 0; }
-      else if(ph==='downwind' && h<135 && h>45){ d.phase = 'base';
-        const ok = st.gearPos >= 0.999 && st.flap > 0.5 && st.sys.fuelPump && st.ab < 0.1;
-        L.set('gump', ok, ok ? 'lista completa' : 'falta: '+[st.gearPos<0.999&&'tren',st.flap<=0.5&&'flaps 25°',!st.sys.fuelPump&&'bombas',st.ab>=0.1&&'aerofrenos'].filter(Boolean).join(', ')); }
+      else if(ph==='downwind' && h<135 && h>45) d.phase = 'base';
       else if(ph==='base' && (h>315 || h<45)){ d.phase = 'final'; L.set('seq', true, 'circuito completo'); }
       if(d.phase==='downwind') d.tdw += dt;
-      tdEvents(st, L, -500, 100);
-      if(st.td && !d.gchk){ d.gchk = true; const gd = st.td.gear>=0.999; L.set('gear', gd, gd ? '3 verdes' : 'tren NO bajado'); }
+      tdEvents(st, L, -550, 50);
       if(d.td){
         if(st.touchCount > 1) L.set('bounce', false, 'rebote', true);
         else if(st.time - d.t0 > 3) L.set('bounce', true, 'un solo contacto', true);
       }
     },
     crit:[
-      { id:'dwa', label:'Altitud viento en cola', get tol(){ return '1500 ±'+Math.round(150*TOL.s)+' ft'; }, need:.75,
-        gate:(st,L)=>L.d.phase==='downwind'&&L.d.tdw>10, ok:st=>Math.abs(st.altFt-1500)<=150*TOL.s, val:st=>fmt(st.altFt-1500)+' ft',
-        coach:st=>st.altFt>1500 ? 'alto: baja el morro' : 'bajo: sube suave',
-        tip:'Altitud de circuito: 1500 ft sobre el terreno; nivela con tiempo y compensa.' },
+      { id:'dwa', label:'Altitud viento en cola', get tol(){ return '1000 ±'+Math.round(100*TOL.s)+' ft'; }, need:.75,
+        gate:(st,L)=>L.d.phase==='downwind'&&L.d.tdw>12, ok:st=>Math.abs(st.altFt-1000)<=100*TOL.s, val:st=>fmt(st.altFt-1000)+' ft',
+        coach:st=>st.altFt>1000 ? 'alto: baja el morro' : 'bajo: sube suave',
+        tip:'Altitud de circuito: 1000 ft sobre el terreno; nivela con tiempo y compensa.' },
       { id:'dwh', label:'Rumbo viento en cola', tol:'180° ±10°', need:.8,
-        gate:(st,L)=>L.d.phase==='downwind'&&L.d.tdw>10, ok:st=>Math.abs(dHdg(hdgOf(st),180))<=10, val:st=>fmt(dHdg(hdgOf(st),180))+'°',
+        gate:(st,L)=>L.d.phase==='downwind'&&L.d.tdw>12, ok:st=>Math.abs(dHdg(hdgOf(st),180))<=10, val:st=>fmt(dHdg(hdgOf(st),180))+'°',
         coach:st=>dHdg(hdgOf(st),180)>0 ? 'vira a la izquierda' : 'vira a la derecha',
         tip:'Viento en cola paralelo a la pista; corrige la deriva con el cangrejo.' },
-      { id:'dws', label:'Separación lateral', tol:'1800–3400 m', need:.75,
-        gate:(st,L)=>L.d.phase==='downwind'&&L.d.tdw>10, ok:st=>-st.z>=1800&&-st.z<=3400, val:st=>fmt(-st.z)+' m',
-        coach:st=>-st.z<1800 ? 'demasiado cerca de la pista: sepárate' : 'demasiado lejos: acércate',
-        tip:'Separación de circuito del jet: ~1–1,8 NM de la pista (radio de giro grande).' },
-      cIas(160,15,.7,(st,L)=>L.d.phase==='downwind'&&L.d.tdw>10),
-      { id:'gump', ev:true, label:'Lista de aterrizaje antes de la base', tol:'tren ▼ · flaps 25° · bombas · aerofrenos',
-        tip:'Antes de virar a base: tren abajo (3 verdes), flaps 25°, bombas ON y aerofrenos cerrados.' },
-      cIas(120,6,.75,(st,L)=>L.d.phase==='final'&&!st.onGround&&st.altFt>40),
+      { id:'dws', label:'Separación lateral', tol:'700–1500 m', need:.75,
+        gate:(st,L)=>L.d.phase==='downwind'&&L.d.tdw>12, ok:st=>-st.z>=700&&-st.z<=1500, val:st=>fmt(-st.z)+' m',
+        coach:st=>-st.z<700 ? 'demasiado cerca de la pista: sepárate' : 'demasiado lejos: acércate',
+        tip:'Separación de circuito: ~0,5–0,8 NM de la pista (900–1500 m).' },
+      cIas(90,10,.7,(st,L)=>L.d.phase==='downwind'&&L.d.tdw>12),
+      cIas(65,5,.75,(st,L)=>L.d.phase==='final'&&!st.onGround&&st.altFt>40),
       { id:'gp', label:'Senda de planeo 3°', tol:'±1°', need:.7, gate:(st,L)=>L.d.phase==='final'&&!st.onGround&&st.altFt>40&&glideAngle(st)!=null,
         ok:st=>Math.abs(glideAngle(st)-3)<=1, val:st=>{ const g=glideAngle(st); return g==null?'--':fmt(g,1)+'°'; },
-        coach:st=>glideAngle(st)>3 ? 'alto (PAPI blanco): reduce gas' : 'bajo (PAPI rojo): añade gas',
+        coach:st=>glideAngle(st)>3 ? 'alto (PAPI blanco): reduce potencia' : 'bajo (PAPI rojo): añade potencia',
         tip:'Senda: PAPI 2+2; potencia para la senda, morro para la velocidad.' },
       { id:'cl2', label:'Alineación en final', tol:'±10 m', need:.8, gate:(st,L)=>L.d.phase==='final'&&!st.onGround&&st.altFt>40,
         ok:st=>Math.abs(st.z)<=10, val:st=>fmt(st.z)+' m',
-        tip:'Alinea con el eje desde la base: gira a final con tiempo (radio grande) y corrige deriva.' },
+        tip:'Alinea con el eje desde la base: gira a final con tiempo y corrige deriva.' },
       { id:'seq', ev:true, label:'Secuencia del circuito', tol:'cruzado → viento en cola → base → final',
         tip:'Respeta la secuencia del circuito; gira a la izquierda en cada tramo.' },
-      evGear, evVs, evZone('umbral+125 … 725 m'), evAtt, evBnc,
+      evVs, evZone('umbral+75 … 675 m'), evAtt, evBnc,
       { id:'radio', ev:true, label:'Radio', tol:'frases correctas',
         tip:'Radio: indicativo, pista, intención. Repite siempre la autorización.' } ],
-    done:(st,L)=>(L.d.td && st.time-L.d.t0>3) || L.te>=900 };
-
-  /* ---------- 16-20 · Aproximaciones y tomas ---------- */
-  const aprox = approachLesson({ id:'aprox', title:'Aproximación estabilizada', wind:[2,0], zmin:-500, zmax:100, zoneTxt:'umbral+125 … 725 m',
-    brief:'Final de 3°, <b>120 kt</b> (222 km/h), <b>tren abajo (3 verdes)</b>, flaps 44°. Usa el <b>PAPI</b> (2 blancas + 2 rojas) y toca entre <b>umbral+125 m y 725 m</b>.',
-    steps:['Velocidad: morro; senda: potencia (≈ 75–80 % rpm)','PAPI: blanco = alto (reduce), rojo = bajo (añade, con antelación)','Flare a ~15 ft: ralentí y tira suave; toca a ~105 kt y frena'] });
-  const sinflaps = approachLesson({ id:'sinflaps', title:'Aproximación y toma sin flaps', wind:[2,0], zmin:-500, zmax:250, zoneTxt:'umbral+125 … 875 m',
-    scene:Object.assign({}, SCENES.approach, { flap:0, ias:140 }), ias:140, iasTol:6,
-    brief:'Fallo de flaps: final de 3° a <b>140 kt</b> sin flaps, tren abajo. El morro va más alto y el avión <b>flota más</b>; la toma será más rápida (~125 kt). Toca entre umbral+125 y 875 m.',
-    steps:['Sin flaps: más velocidad (140 kt) y más rodadura','Reduce gas antes: el avión flota en el flare','Tren abajo y 3 verdes antes de la final'] });
-  const toma = { id:'toma', title:'Toma y rodadura', scene:'flare', wind:[2,0], grace:0, noGearCoach:true,
-    brief:'A 30 ft con flaps 44° y 112 kt. Haz el <b>flare</b>, toca con suavidad, mantén el eje y <b>frena hasta detenerte</b> en pista.',
-    steps:['Ralentí y tira suave para amortiguar la toma','Mantén el eje con pedales; corrige el cruzado con alerón','Frenos al final, sin bloquear; aerofrenos abiertos ayudan a perder velocidad tras la toma'],
-    profileX:true,
-    start:(L)=>{ L.d = { td:false, t0:0, stopped:false }; },
-    tick:(st,L)=>{
-      tdEvents(st, L, -500, 100);
-      if(st.td && !L.d.gchk){ L.d.gchk = true; const gd = st.td.gear>=0.999; L.set('gear', gd, gd ? '3 verdes' : 'tren NO bajado'); }
-      if(L.d.td){
-        if(st.touchCount > 1) L.set('bounce', false, 'rebote', true);
-        else if(st.time - L.d.t0 > 3) L.set('bounce', true, 'un solo contacto', true);
-        if(st.onGround && st.gsKt < 2 && !L.d.stopped){
-          L.d.stopped = true;
-          L.set('stop', Math.abs(st.z)<=15 && st.x<RWY_HALF, 'detenido en x='+fmt(st.x+RWY_HALF)+' m');
-        }
-        if(st.x > RWY_HALF) L.set('stop', false, 'te sales de pista', true);
-      }
-    },
-    crit:[ evGear, evVs, evZone('umbral+125 … 725 m'), evAtt, evBnc,
-      { id:'roll', label:'Eje en rodadura', tol:'±8 m', need:.8, gate:(st,L)=>st.onGround&&L.d.td&&st.gsKt>3,
-        ok:st=>Math.abs(st.z)<=8, val:st=>fmt(st.z)+' m',
-        tip:'Rodadura: pedal para mantener el eje; no frenes hasta controlar la dirección.' },
-      { id:'stop', ev:true, label:'Detención en pista', tol:'dentro de la pista',
-        tip:'Frena con suavidad y progresivamente; empieza pronto: a ~105 kt la rodadura es larga (≈ 650 m con frenos).' } ],
-    done:(st,L)=>L.d.stopped || (L.d.td && st.x>RWY_HALF) || L.te>=240 };
-  const xw = approachLesson({ id:'cruzado', title:'Toma con viento cruzado', wind:[7,0], zmin:-500, zmax:100, zoneTxt:'umbral+125 … 725 m',
-    lat:8, align:{ z:6, h:8 },
-    brief:'Mismo ejercicio con <b>viento cruzado de 14 kt</b>. Cangrejo en final; antes de tocar, <b>pedal</b> para alinear el morro y alerón contra el viento.',
-    steps:['Final en cangrejo (morro hacia el viento)','Flare: pedal para alinear con la pista','Alerón contra el viento al tocar'] });
-  const pre = approachLesson({ id:'precision', title:'Toma de precisión (blanco)', wind:[2,0], zmin:-480, zmax:-320, zoneTxt:'±80 m del blanco', ias:120, iasTol:4, lat:6,
-    brief:'Toca en el <b>blanco</b> (marcas de punto de toma) con ±80 m, velocidad 120 ±4 kt y alineado ±6 m.',
-    steps:['Senda estable con PAPI 2 blancas + 2 rojas','Controla la senda con potencia, la velocidad con el morro','Flare corto y suave para no pasarte (el avión flota)'] });
-
-  /* ---------- 21 · Apagado de motor y reencendido en vuelo ---------- */
-  const relight = { id:'reencendido', title:'Apagado de motor y reencendido en vuelo', scene:sc({ altFt:12000, ias:230 }), wind:[0,0], grace:0, allowStall:true, noSinkCoach:true, noGearCoach:true,
-    brief:'Crucero normal. En algún momento el motor <b>se apagará</b> (flameout). <b>Pilota primero</b> (≥ 150 kt, el molinete mantiene el giro), <b>gas a ralentí</b>, comprueba <b>llave ABIERTA y bombas ON</b> y pulsa <b>ARRANQUE</b>: el motor debe volver a encenderse. Con el gas adelantado el reencendido es «caliente».',
-    steps:['Aviar: mantén ≥ 150 kt (mejor planeo ~160 kt); el molinete del compresor ayuda al reencendido','Gas a RALENTÍ, llave de combustible ABIERTA, bombas ON','ARRANQUE: tarda ~30 s en llegar a ralentí; vigila la EGT'],
-    start:(L)=>{ L.d = { tf:12+Math.random()*10, fail:false, t0:0, spd:false, idle:false, sys:false, relit:false, stalledAfter:false }; },
-    tick:(st,L)=>{
-      const d = L.d;
-      if(!d.fail && L.te >= d.tf){ d.fail = true; ac.sys.engineOn = false; ac.sys.flameout = true; ac.sys.startPhase = false; d.t0 = L.te; }
-      if(d.fail){
-        if(st.stalled) d.stalledAfter = true;
-        if(!d.spd && L.te - d.t0 >= 10){ d.spd = true; L.set('react', st.iasKt>=150 && st.iasKt<=260, fmt(st.iasKt)+' kt a los 10 s'); }
-        if(!d.idle && st.throttle <= 0.15){ d.idle = true; L.set('idle', true, 'gas a ralentí a los '+fmt(L.te-d.t0)+' s'); }
-        if(!d.sys && st.sys.fuelPump && st.sys.cock){ d.sys = true; L.set('sys', true, 'bombas ON · llave abierta a los '+fmt(L.te-d.t0)+' s'); }
-        if(!d.relit && st.sys.engineOn){ d.relit = true; d.tR = L.te;
-          L.set('rest', L.te-d.t0 <= 75, 'motor encendido a los '+fmt(L.te-d.t0)+' s');
-          L.set('hot', !st.sys.hot && !st.sys.damaged, st.sys.hot ? 'reencendido caliente (gas adelantado)' : 'EGT en límites'); }
-      }
-    },
-    end:(st,L)=>{ L.set('ns', !L.d.stalledAfter, L.d.stalledAfter?'entraste en pérdida':'sin pérdida');
-      if(!L.ev.idle) L.set('idle', false, 'gas no retrasado', true);
-      if(!L.ev.sys) L.set('sys', false, 'no comprobaste bombas y llave', true);
-      if(!L.ev.rest) L.set('rest', false, 'motor sin reencender', true);
-      if(!L.ev.hot) L.set('hot', false, 'sin reencendido', true); },
-    crit:[
-      { id:'react', ev:true, label:'Reacción: velocidad segura', tol:'150–260 kt a los 10 s',
-        tip:'Lo primero es pilotar: mantén la velocidad (≥ 150 kt) y compensa; el molinete ayuda al reencendido.' },
-      { id:'idle', ev:true, label:'Gas a ralentí', tol:'antes de reencender',
-        tip:'Reencendido: palanca de gas en ralentí; con el gas adelantado, el arranque es caliente y la EGT se dispara.' },
-      { id:'sys', ev:true, label:'Bombas ON y llave abierta', tol:'comprobadas',
-        tip:'Sin llave de combustible abierta ni bombas, no hay encendido.' },
-      { id:'rest', ev:true, label:'Motor reencendido', tol:'en ≤ 75 s',
-        tip:'Pulsa ARRANQUE con ≥ 150 kt; el motor tarda ~30 s en llegar a ralentí.' },
-      { id:'hot', ev:true, label:'Sin sobretemperatura', tol:'EGT ≤ 700 °C',
-        tip:'Si la EGT se dispara en el arranque, corta la llave de combustible antes de dañar el motor.' },
-      { id:'ns', ev:true, label:'Sin entrar en pérdida', tol:'sin stall tras el fallo',
-        tip:'Nunca tires para alargar el planeo: entras en pérdida cerca del suelo.' } ],
-    done:(st,L)=>(L.d.relit && L.te - L.d.tR > 10) || (L.d.fail && L.te - L.d.t0 >= 120) || (L.d.fail && st.onGround) };
-
-  /* ---------- 22 · Fallo de motor sin reencendido ---------- */
-  const emerg = { id:'emerg', title:'Fallo de motor sin reencendido', scene:sc({ altFt:10000, ias:230 }), wind:[0,0], grace:0, allowStall:true, noSinkCoach:true, noGearCoach:true,
-    brief:'Vuelo normal. En algún momento fallará el motor <b>sin posibilidad de reiniciarlo</b>. <b>Pilota primero:</b> morro a <b>160 kt</b> (mejor planeo), gas a ralentí, intenta el reencendido y elige un campo. Tren y flaps arriba hasta tener la pista asegurada.',
-    steps:['Morro abajo: 160 kt y compensa','Gas a ralentí, llave abierta, bombas ON','Prueba de reencendido (ARRANQUE) mientras eliges campo; si no, aterriza o considera la eyección según altitud'],
-    start:(L)=>{ L.d = { tf:12+Math.random()*10, fail:false, t0:0, r12:false, stalledAfter:false, tried:false }; },
-    tick:(st,L)=>{
-      const d = L.d;
-      if(!d.fail && L.te >= d.tf){ d.fail = true; ac.engineFail = true; d.t0 = L.te; }
-      if(d.fail){
-        if(st.stalled) d.stalledAfter = true;
-        if(!d.r12 && L.te - d.t0 >= 12){ d.r12 = true; L.set('react', Math.abs(st.iasKt-160)<=12, fmt(st.iasKt)+' kt a los 12 s'); }
-        if(!d.tried && st.sys.starter && st.sys.fuelPump && st.sys.cock){ d.tried = true; L.set('try', true, 'bombas + llave + arranque'); }
-      }
-    },
-    end:(st,L)=>{ L.set('ns', !L.d.stalledAfter, L.d.stalledAfter?'entraste en pérdida':'sin pérdida');
-      if(!L.ev.try) L.set('try', false, 'no intentaste el reencendido', true); },
-    crit:[
-      { id:'react', ev:true, label:'Reacción: velocidad de planeo', tol:'160 ±12 kt en 12 s',
-        tip:'Fallo de motor: lo primero es bajar el morro para conservar velocidad de planeo (160 kt).' },
-      { id:'hold', label:'Mantener planeo', tol:'160 ±12 kt', need:.75, gate:(st,L)=>L.d.fail&&L.te-L.d.t0>12,
-        ok:st=>Math.abs(st.iasKt-160)<=12, val:st=>fmt(st.iasKt)+' kt',
-        tip:'Mantén 160 kt con el morro y compensa; solo entonces diagnostica y elige campo.' },
-      { id:'try', ev:true, label:'Intento de reencendido', tol:'bombas · llave · arranque',
-        tip:'Lista de fallo: gas ralentí, llave abierta, bombas ON y ARRANQUE; si no hay encendido, prepara el aterrizaje o la eyección.' },
-      { id:'ns', ev:true, label:'Sin entrar en pérdida', tol:'sin stall tras el fallo',
-        tip:'Nunca tires para alargar el planeo: entras en pérdida cerca del suelo.' } ],
-    done:(st,L)=>(L.d.fail && L.te-L.d.t0>=80) || (L.d.fail && st.onGround) };
-
-  /* ---------- 23 · Tren que no baja: extensión de emergencia ---------- */
-  const trenemerg = { id:'trenemerg', title:'Tren que no baja: extensión de emergencia', scene:sc({ altFt:4000, ias:170, gearFail:true, pump:true }), wind:[0,0], grace:0, noGearCoach:true, noSinkCoach:true,
-    brief:'Fallo hidráulico. Pon la palanca en <b>ABAJO</b>: las luces no cambian (la roja queda encendida). Reduce a ~150 kt, mantén altitud ±200 ft y usa <b>EMERG TREN</b> para extender el tren con la neumática de emergencia. Confirma 3 verdes antes de aterrizar.',
-    steps:['Palanca de tren ABAJO: sin efecto (hidráulica inoperante)','Velocidad ≤ 180 kt y mantén el avión controlado','Emergencia: el tren cae con aire comprimido y se bloquea (≈ 9 s); 3 verdes'],
-    start:(L)=>{ L.d = { tried:false, emerg:false, down:false }; },
-    tick:(st,L)=>{
-      const d = L.d;
-      if(!d.tried && st.gearCmd > 0.5){ d.tried = true; L.set('try', true, 'palanca abajo sin efecto'); }
-      if(!d.emerg && st.sys.gearEmerg){ d.emerg = true; d.tE = L.te; L.set('emerg', st.iasKt <= 180, 'activada a '+fmt(st.iasKt)+' kt'); }
-      if(!d.down && st.gearPos >= 0.999){ d.down = true; d.tD = L.te; L.set('down', L.te <= 120 && !st.gearOver, 'abajo a los '+fmt(L.te)+' s · 3 verdes'); }
-    },
-    crit:[
-      { id:'try', ev:true, label:'Selector abajo y diagnóstico', tol:'palanca ABAJO primero',
-        tip:'Primero intenta la extensión normal; si no hay luces verdes, diagnostica y pasa a emergencia.' },
-      { id:'emerg', ev:true, label:'Extensión de emergencia', tol:'IAS ≤ 180 kt',
-        tip:'Reduce la velocidad antes de la extensión de emergencia y actívala; no esperes a la final.' },
-      { id:'down', ev:true, label:'Tren abajo y bloqueado', tol:'≤ 120 s · 3 verdes',
-        tip:'Tras la emergencia, espera ~9 s y confirma las 3 luces verdes; solo entonces aterriza.' },
-      cAlt(200,.7), cHdg(15,.7) ],
-    done:(st,L)=>(L.d.down && L.te - L.d.tD > 6) || L.te>=240 };
-
-  /* ---------- 24 · Radial VOR ---------- */
-  const vor = { id:'vor', title:'Interceptar y seguir un radial VOR', scene:{ altFt:6500, ias:250, psi:330, x:-6000, z:3000, gear:0 }, wind:[0,0], grace:0, noGearCoach:true,
+    done:(st,L)=>(L.d.td && st.time-L.d.t0>3) || L.te>=720 };
+  /* seguimiento de radial VOR */
+  const vor = { id:'vor', title:'Interceptar y seguir un radial VOR', scene:{ altFt:2500, ias:100, psi:330, x:-2800, z:1800 }, wind:[0,0], grace:0,
     mapVor:true,
     brief:'VOR <b>AST 113.30</b> al norte del aeródromo. Selecciona el curso <b>360°</b> (inbound radial 180), <b>intercepta</b> y síguelo con la aguja dentro de 1 punto.',
-    steps:['Mueve el OBS a 360° (botones OBS)','Empiezas al este del radial: la aguja está a la izquierda. Mantén 330° (intercepción a 30°) hasta que se centre y entonces vira a 360°','A 250 kt el radio de giro es grande: empieza el viraje de captura con 1–2 puntos de antelación'],
+    steps:['Mueve el OBS a 360° (botones OBS)','Empiezas al este del radial: la aguja está a la izquierda. Mantén 330° (intercepción a 30°) hasta que se centre y entonces vira a 360°','Intercepta a 30° y corrige con ángulos pequeños'],
     start:(L)=>{ L.d = { int:false, tInt:0 }; },
     tick:(st,L)=>{
       const n = navState(st);
@@ -5459,15 +5078,14 @@ function approachLesson(o){
         ok:st=>Math.abs(navState(st).dev)<=5, val:st=>fmt(navState(st).dev,1)+'°',
         coach:st=>navState(st).dev>0 ? 'aguja a la derecha: corrige a la derecha 10°' : 'aguja a la izquierda: corrige a la izquierda 10°',
         tip:'Siguiendo el radial: correcciones de 5–10° y espera a que la aguja se centre; después reduce la corrección a la mitad.' },
-      cAlt(150,.75), cIas(250,15,.75) ],
+      cAlt(100,.75), cIas(100,10,.75) ],
     done:(st,L)=>st.x>3700 || L.te>=300 };
 
-  LESSONS.push(start, recto, viraje, steep, ascenso, descenso, aerofr, planeo, lento, perdida, perdidaf, tren,
-               despegue, despegueX, circuit, aprox, sinflaps, toma, xw, pre, relight, emerg, trenemerg, vor);
+  LESSONS.push(pf, steep, slow, xw, pre, start, circuit, vor);
+
+  const ORDER = ['arranque','recto','viraje','steep','ascenso','planeo','lento','perdida','perdidaf','despegue','circuito','aprox','toma','cruzado','precision','emerg','vor'];
+  LESSONS.sort((a,b)=> ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
   LESSONS.forEach((l,i)=>{ l.title = (i+1) + ' · ' + l.title.replace(/^\d+ · /, ''); });
-  LESSONS.forEach(l=>{ if(!l.radio && (l.id==='despegue' || l.id==='despegueX')) l.radio = radioSteps.takeoff; });
-  const lc = (id)=> LESSONS.find(l=>l.id===id);
-  lc('despegue').profileX = false; lc('despegueX').profileX = false;
 })();
 
 /* radio: asegurar criterio en las lecciones con frases */
@@ -5487,15 +5105,15 @@ function boot(){
   leverThrottle = makeLever($('leverThrottle'), 0.35, v=>{
     feel.cmd.throttle = v;
   });
-  leverAB = makeLever($('leverAB'), 0, v=>{
-    ac.controls.ab = v;
-    $('valAB').textContent = v < 0.05 ? 'CERR' : Math.round(v*100)+'%';
+  leverMixture = makeLever($('leverMixture'), 1, v=>{
+    ac.controls.mixture = v;
+    $('valMixture').textContent = Math.round(v*100)+'%';
   });
   leverFlap = makeLever($('leverFlap'), 0, v=>{
-    // detentes del L-39: 0 / 25 / 44
-    const step = FLAPS[Math.round(v*2)];
+    // detentes reales: 0 / 10 / 20 / 30
+    const step = Math.round(v*3)/3;
     ac.controls.flap = step;
-    $('valFlap').textContent = flapDeg(step)+'°';
+    $('valFlap').textContent = Math.round(step*30)+'°';
   });
 
   /* viento */
@@ -5545,12 +5163,10 @@ function boot(){
 
   /* sistemas del motor */
   $('sysBat').onclick  = ()=>{ ac.sys.battery = !ac.sys.battery; };
-  $('sysPump').onclick = ()=>{ ac.sys.fuelPump = !ac.sys.fuelPump; };
-  $('sysSel').onclick  = ()=>{ ac.sys.cock = !ac.sys.cock; if(!ac.sys.cock && ac.sys.startPhase){ Coach.show('Llave cerrada: arranque abortado','good'); } };
-  $('sysEmerg').onclick= ()=>{ if(ac.gearPos < 1){ ac.sys.gearEmerg = true; ac.controls.gear = 1; Coach.show('Extensión de emergencia: el tren sale con aire comprimido (~9 s)','good'); } };
-  $('sysFill').onclick = ()=>{ ac.fuel = FUEL_MAX; Coach.show('Depósitos llenos (824 kg de queroseno)','good'); };
-  $('btnGear').onclick = ()=> toggleGear();
-  $('leverGear').addEventListener('pointerdown', e=>{ e.preventDefault(); toggleGear(); });
+  $('sysMag').onclick  = ()=>{ ac.sys.mag = MAGS[(MAGS.indexOf(ac.sys.mag)+1) % MAGS.length]; };
+  $('sysCarb').onclick = ()=>{ ac.sys.carbHeat = !ac.sys.carbHeat; };
+  $('sysPrime').onclick= ()=>{ ac.sys.primer = ac.sys.primer >= 5 ? 0 : ac.sys.primer + 1; };
+  $('sysHum').onclick  = ()=>{ ac.sys.humid = !ac.sys.humid; };
   const st0 = $('sysStart');
   st0.style.touchAction = 'manipulation';
   st0.addEventListener('click', ()=>{
