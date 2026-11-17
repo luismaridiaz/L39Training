@@ -55,6 +55,10 @@ body{
   font:800 10px var(--mono); letter-spacing:.8px; color:#e6eefc; background:rgba(8,13,22,.62); border:1px solid rgba(160,200,255,.45);
   backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); touch-action:manipulation}
 #btnViewFloat:active{background:rgba(60,120,200,.55)}
+#btnResetFloat{position:absolute; right:132px; top:200px; z-index:9; min-width:34px; height:28px; padding:0 8px; border-radius:14px;
+  font:800 15px var(--mono); line-height:1; color:#ffd9a0; background:rgba(8,13,22,.62); border:1px solid rgba(255,190,110,.5);
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); touch-action:manipulation}
+#btnResetFloat:active{background:rgba(200,120,40,.55)}
 #cockpitWrap{touch-action:manipulation}
 #mapBox{
   position:absolute; right:8px; top:8px; width:264px; height:186px;
@@ -470,6 +474,7 @@ button.warn.on{background:rgba(255,92,92,.2); color:var(--bad); border-color:var
   <div id="cockpitWrap">
     <canvas id="glCanvas"></canvas>
     <canvas id="hudCanvas"></canvas>
+    <button id="btnResetFloat" title="Reiniciar y volver a la presentación">↺</button>
     <button id="btnViewFloat" title="Cambiar vista (doble toque en la escena, o tecla C)">EXT</button>
 
     <div id="gaugePanel">
@@ -3756,7 +3761,6 @@ function setView(mode){
   $('btnViewFloat').textContent = (mode==='cockpit') ? 'EXT' : 'CAB';
   cockpitNose.visible = (mode==='cockpit');
   acModel.visible = (mode==='ext');
-  $('gaugePanel').style.display = (mode==='ext') ? 'none' : '';
 }
 
 /* ==========================================================================
@@ -4190,6 +4194,7 @@ function resizeAll(){
 
   $('mapToggle').style.top = ($('mapBox').offsetHeight + 12) + 'px';
   $('btnViewFloat').style.top = $('mapToggle').style.top;
+  $('btnResetFloat').style.top = $('mapToggle').style.top;
   hudCv.width  = Math.round(w*dpr);
   hudCv.height = Math.round(h*dpr);
 
@@ -5571,6 +5576,7 @@ function boot(){
   const wrap = $('cockpitWrap'), fb = $('btnViewFloat');
   const flip = ()=> setView(viewMode==='cockpit' ? 'ext' : 'cockpit');
   fb.addEventListener('click', e=>{ e.stopPropagation(); flip(); });
+  $('btnResetFloat').addEventListener('click', e=>{ e.stopPropagation(); try{ Crash.clear(); }catch(_){} resetCurrent(); Info.open(); });
   let lastT = 0, lx = 0, ly = 0;
   wrap.addEventListener('pointerup', e=>{
     if(e.target.closest && e.target.closest('#gaugePanel, #mapBox, #mapToggle, button, #radioBox, #crash, #coach')) return;
